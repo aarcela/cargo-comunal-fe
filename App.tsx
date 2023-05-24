@@ -1,72 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { Grid, Button, Typography, Hr } from './source/components';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Grid, Button, Typography, TextField, Icon } from './source/components';
 import { Image, StatusBar } from 'react-native';
 
+const SigninSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('correo electrónico no valido')
+    .required('correo electrónico'),
+    password: Yup.string()
+    .min(6, 'Minimo 6 caracteres')
+    .max(10, 'Maximo, 12 caracteres')
+    .required('Contraseña requerido')
+});
+
 export const App = () => {
+  const [securePass, setSecurePass] = useState(true);
+
   return (
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor="transparent" />
-      <Grid container bgColor='zircon' flexDirection='column' justifyContent='center' spacing={2}>
-        <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={150}>
-          <Image 
-            source={require('../AppCargoComunal/source/assets/images/icon-truck.png')}
-            style={{
-              maxWidth: 240,
-              resizeMode: 'contain',
-            }}
-          />
-        </Grid>
-        <Typography fontFamily='Poppins-Regular' size='md' color='abbey' styles={{textAlign: 'center'}}>
-          Consigue un viaje en unos minutos ó comienza a conducir con nosotros.
-        </Typography>
-        <Button
-          typeStyle='btn-primary'
-          size='sm'
-          style={{marginTop: 30}}
-        >
-          <Typography color='white' fontFamily='Poppins-Medium' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 25}}>
-            Iniciar Sesión
-          </Typography>
-        </Button>
-        <Grid display='flex' marginVertical={5} flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
-          <Hr width='30%' height={1.5} />
-          <Typography fontFamily='Poppins-Regular' color='silver' size={'md'} styles={{width: '40%', textAlign: 'center', marginTop: 1}}>
-            Ó
-          </Typography>
-          <Hr width='30%' height={1.5} /> 
-        </Grid>
-        <Button
-          typeStyle='btn-light'
-          borderWidth={1}
-          size='sm'
-        >
-          <Typography color='rollingStone' fontFamily='Poppins-Light' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 23}}>
-            Regístrate
-          </Typography>
-        </Button>
-        <Grid display='flex' marginTop={30} flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
-          <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={45} width={'45%'}>
+      <Grid container isKeyboardAvoidingView KeyboardAvoidingViewProps={{behavior: 'padding'}} bgColor='zircon' justifyContent='center'>
+        <Grid alignItems='center' justifyContent='center' marginBottom={40}>
+          <Grid height={120} marginBottom={20}>
             <Image 
-              source={require('../AppCargoComunal/source/assets/images/fondemi.png')}
+              source={require('./source/assets/images/box-location.png')}
               style={{
                 maxHeight: '100%',
                 maxWidth: '100%',
-                resizeMode: 'contain',
+                resizeMode: 'contain'
               }}
             />
           </Grid>
-          <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={45} width={'45%'}>
-            <Image 
-              source={require('../AppCargoComunal/source/assets/images/safonapp.png')}
-              style={{
-                maxHeight: '100%',
-                maxWidth: '100%',
-                resizeMode: 'contain',
-              }}
-            />
-          </Grid>
+          <Typography size='md' fontFamily='Poppins-Regular' color='tundora' styles={{marginBottom: 10, paddingHorizontal: 5, textAlign: 'center'}}>Para disfrutar de nuestros servicios, debe estar verificado.</Typography>
         </Grid>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={values => console.log('values login', values)}
+          validationSchema={SigninSchema}
+        >
+          {({ handleChange, handleSubmit, values, errors }) => (
+            <>
+              <TextField 
+                labelText='Correo electrónico'
+                value={values.email}
+                onChangeText={handleChange('email')}
+                inputProps={{
+                    keyboardType: 'email-address'
+                }}
+                isError={ errors.email ? true : false}
+                messageError={errors.email}
+                iconRight={<Icon name='mailOutline' size='lg' color='rollingStone' />} 
+              />
+              <TextField 
+                labelText='Contraseña'
+                value={values.password}
+                onChangeText={handleChange('password')}
+                isError={ errors.password ? true : false}
+                messageError={errors.password}
+                iconRight={<Icon name={(securePass == true) ? 'eyeOffOutline' : 'eyeOutline'} size={18} color='rollingStone' />}
+                onPressIconRight={() => setSecurePass((securePass) ? false: true)}
+                inputProps={{
+                  secureTextEntry: securePass
+                }} 
+              />
+               <Button
+                typeStyle='btn-primary'
+                size='sm'
+                style={{marginTop: 30}}
+              >
+                <Typography color='white' fontFamily='Poppins-Medium' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 25}}>
+                  Iniciar Sesión
+                </Typography>
+              </Button>
+              <Button
+                size='sm'
+                typeStyle='default'
+                style={{marginTop: 25}}
+              >
+                <Typography size='md' fontFamily='Poppins-Medium' color='rhino' styles={{textAlign: 'center', lineHeight: 25}}>Olvidé mi clave</Typography>
+              </Button>
+            </>
+          )}
+        </Formik>
       </Grid>
     </NavigationContainer>
   )

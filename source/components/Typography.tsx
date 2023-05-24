@@ -1,14 +1,15 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Text, TextStyle } from 'react-native';
+import { Text, TextStyle, TextProps } from 'react-native';
 import { Colors } from '../styles';
 
 
-type TypographyPros = {
+export type TypographyPros = {
     children: ReactNode;
     size?: 'sm' | 'md' | 'lg' | 'xl' | number;
     fontFamily?: 'Poppins-Light' | 'Poppins-Regular' | 'Poppins-Medium' | 'Poppins-SemiBold';
     color?: keyof typeof Colors;
     styles?: TextStyle;
+    textProps?: TextProps;
 }
 
 export const Typography = ({
@@ -16,7 +17,8 @@ export const Typography = ({
     size = 'md',
     fontFamily = 'Poppins-Regular',
     color,
-    styles
+    styles,
+    textProps
 }: TypographyPros) => {
     const [fs, setFs] = useState(0);
 
@@ -48,6 +50,7 @@ export const Typography = ({
 
     return (
         <Text
+            {...textProps}
             style={{
                 fontSize: fs,
                 fontFamily: fontFamily,

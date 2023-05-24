@@ -7,5 +7,11 @@ export const Colors = {
     gallery: "#EEEEEE",
     rollingStone: "#787F85",
     silver: "#C6C6C6",
-    abbey: "#4B4B4C"
+    abbey: "#4B4B4C",
+    error: "#FF0032",
+    warning: "#f59f00",
+    success: "#27BD7E",
+    treePoppy: "#FFA11E",
+    scorpion: "#5C5C5C",
+    rhino: "#313261",
 };
