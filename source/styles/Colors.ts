@@ -14,4 +14,10 @@ export const Colors = {
     treePoppy: "#FFA11E",
     scorpion: "#5C5C5C",
     rhino: "#313261",
+    cello: "#223362",
+    alabaster: "#FAFAFA",
+    iron: "#DFE1E3",
+    mineShaft: "#353434",
+    zumthor: "#E9EFFF",
+    gray: "#858585"
 };

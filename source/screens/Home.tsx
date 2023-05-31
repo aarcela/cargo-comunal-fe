@@ -1,6 +1,11 @@
 import React from 'react';
-import { Grid, Button, Typography, Hr } from '../components';
 import { Image } from 'react-native';
+import { 
+  Grid, 
+  Button, 
+  Typography, 
+  Hr 
+} from '../components';
 
 export const Home = () => {
   return (

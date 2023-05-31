@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Grid, Button, Typography, TextField, Icon } from '../components';
-import { Image } from 'react-native';
-
+import { 
+    Grid, 
+    Button, 
+    Typography, 
+    TextField, 
+    Icon 
+} from '../components';
 
 const SigninSchema = Yup.object().shape({
     email: Yup.string()
