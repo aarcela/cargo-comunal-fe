@@ -16,14 +16,14 @@ export const StepProfile = ({isAnalist, objUser, setObjUser, next}: StepProfileP
         <Grid container flexDirection='column' justifyContent='center' alignItems='center' position='relative' >
             <TitleParagraph title='Perfil de Usuario' paragraph='Selecciona un perfil de usuario, que más te identifique.' />
             <CardProfileButton 
-                onPress={() => setObjUser(values => ({...values, role: 'conductor'}))} 
+                onPress={() => setObjUser({role: 'conductor'})} 
                 title='Conductor' 
                 paragraph='Encargado de recibir solicitudes de viajes según la carga.' 
                 typeBtn='driver' 
                 isSelect={ objUser.role == 'conductor' ? true : false }
             />
             <CardProfileButton 
-                onPress={() => setObjUser(values => ({...values, role: 'solicitante'}))} 
+                onPress={() => setObjUser({role: 'solicitante'})} 
                 title='Solicitante' 
                 paragraph='Encargado de hacer solicitudes de viajes según la carga.' 
                 typeBtn='applicant'
@@ -31,7 +31,7 @@ export const StepProfile = ({isAnalist, objUser, setObjUser, next}: StepProfileP
             />
             { isAnalist && 
                 <CardProfileButton
-                    onPress={() => setObjUser(values => ({...values, role: 'analista'}))}  
+                    onPress={() => setObjUser({role: 'analista'})}  
                     title='Analista' 
                     paragraph='Encargado de ver reportes, asignar conductores en caso de que no se haya realizado.' 
                     typeBtn='analyst'

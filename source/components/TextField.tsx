@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, TextInputProps, ViewStyle, StyleProp, TouchableOpacity as Button } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Typography, TypographyPros, Grid, Icon } from './';
 import { Colors } from '../styles';
 
@@ -16,6 +17,7 @@ export interface TextFiedProps{
     onPressIconRight?: () => void;
     iconRight?: React.ReactNode;
     children?: React.ReactNode;
+    isDate?: boolean;
 }
 
 export const TextField = ({
@@ -30,14 +32,39 @@ export const TextField = ({
     messageError = '',
     onPressIconRight,
     iconRight,
-    children
+    children,
+    isDate = false
 }: TextFiedProps) => {
     const [isFocus, setisFocus] = useState(false);
+    const [isModalDate, setIsModalDate] = useState(false);
 
     return (
         <Grid marginTop={10} width='100%'>
             {labelText && <Typography size='sm' fontFamily='Poppins-Medium' color='scorpion' textProps={{numberOfLines:2}} styles={{...labelTextProps?.styles}}>{labelText}</Typography> }
             <Grid position='relative' marginBottom={8}>
+                {
+                    isDate && (
+                        <>
+                            <Button
+                                onPress={() => setIsModalDate(true)}
+                                activeOpacity={1}
+                                style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    height: 30,
+                                    backgroundColor: 'transparent',
+                                    width:'100%',
+                                    zIndex: 1024
+                                }}
+                            />
+                            <Date 
+                                visible={isModalDate}
+                                onCancel={() => setIsModalDate(false)}
+                                onChangeText={onChangeText}
+                            />
+                        </>
+                    )
+                }
                 <TextInput
                     onChangeText={onChangeText}
                     value={value}
@@ -47,7 +74,7 @@ export const TextField = ({
                     style={[ isTextField && {
                         height: 30,
                         backgroundColor: 'transparent',
-                        borderBottomColor: isFocus ? Colors.treePoppy : isError ? Colors.error : Colors.silver,
+                        borderBottomColor: isFocus || value !== '' ? Colors.treePoppy : isError ? Colors.error : Colors.silver,
                         borderBottomWidth: 1,
                         paddingBottom: 0,
                         paddingHorizontal: 0,
@@ -84,3 +111,31 @@ export const TextField = ({
         </Grid>
     )
 }
+
+type PropsDate = {
+    visible?: boolean;
+    onCancel: () => void;
+    onChangeText: (field : string) => void;
+}
+
+const Date = ( { visible = false, onCancel, onChangeText }: PropsDate ) => {
+    return(
+      <DateTimePickerModal 
+          testID='idDate'
+          mode='date'
+          isVisible={visible}
+          onConfirm={(date: Date) => {
+            const day = `${(date.getDate())}`.padStart(2,'0');
+            const month = `${(date.getMonth()+1)}`.padStart(2,'0');
+            const year = date.getFullYear();
+    
+            onChangeText(`${day}-${month}-${year}`);
+            onCancel();
+          }}
+          onCancel={onCancel}
+      />
+    )
+  }
+  
+  
+  

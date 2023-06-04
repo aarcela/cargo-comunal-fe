@@ -9,4 +9,5 @@ export interface UserEntity {
     email:              string;
     username:           string;
     role:               'conductor' | 'solicitante' | 'administrador' | 'analista' | '';
+    password?:          string;
 }

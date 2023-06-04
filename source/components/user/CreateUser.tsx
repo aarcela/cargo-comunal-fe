@@ -4,7 +4,7 @@ import { TabView, TabBarProps, SceneRendererProps, Route } from 'react-native-ta
 import { Grid } from '../Grid'
 import { UserEntity } from '../../interfaces';
 import { Sleep } from '../Sleep';
-import { StepProfile, StepPersonal } from './';
+import { StepProfile, StepPersonal, StepExtra } from './';
 
 
 type CreateUserProps = {
@@ -21,6 +21,7 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
     const [routes] = useState([
         { key: 'profile', title: 'Perfil de Usuario' },
         { key: 'personal', title: 'Datos Personales' },
+        { key: 'extra', title: 'Información adicional' },
     ]);
 
     const [objUser, setObjUser] = useState<UserEntity>({
@@ -33,16 +34,27 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
         fecha_nc: '',
         email: '',
         username: '',
-        role: ''
+        role: '',
+        password: ''
     });
 
+
+    const onSubmit = (val: any) => {
+        console.log('values extras', val)
+
+        console.log('aqui data user', objUser);
+
+        console.log('completed user data', {...objUser, ...val})
+    }
+
     const renderScene = ({route, jumpTo}: renderSceneProps) => {
-        console.log(jumpTo)
         switch (route.key) {
           case 'profile':
-            return <StepProfile objUser={objUser} setObjUser={setObjUser} prev={val => null} next={val => jumpTo(val)} isAnalist={activeAnalist} />;
+            return <StepProfile objUser={objUser} setObjUser={val => setObjUser(values => ({...values, ...val}))} prev={val => null} next={val => jumpTo(val)} isAnalist={activeAnalist} />;
           case 'personal':
-            return <StepPersonal objUser={objUser} setObjUser={setObjUser} prev={val => jumpTo(val)} next={val => jumpTo(val)} />;
+            return <StepPersonal objUser={objUser} setObjUser={val => setObjUser(values => ({...values, ...val}))}  prev={val => jumpTo(val)} next={val => jumpTo(val)} />;
+            case 'extra':
+                return <StepExtra objUser={objUser} setObjUser={val => setObjUser(values => ({...values, ...val}))} prev={val => jumpTo(val)} next={val => null} onSubmit={onSubmit} />;
           default:
             return null;
         }
