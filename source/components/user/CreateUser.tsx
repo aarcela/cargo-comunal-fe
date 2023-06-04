@@ -61,16 +61,18 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
     };
 
     return (
-        <TabView 
-            renderTabBar={(props) => <TabBar {...props} />}
-            navigationState={{ index, routes }}
-            renderScene={props => renderScene({...props})}
-            onIndexChange={setIndex}
-            initialLayout={{ width: layout.width }}
-            tabBarPosition='bottom'
-            swipeEnabled={false}
-            style={{position:'relative'}}
-        />
+        <Grid flex={1} bgColor='zircon'>
+            <TabView 
+                renderTabBar={(props) => <TabBar {...props} />}
+                navigationState={{ index, routes }}
+                renderScene={props => renderScene({...props})}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+                tabBarPosition='bottom'
+                swipeEnabled={false}
+                style={{position:'relative'}}
+            />
+        </Grid>
     )
 }
 
