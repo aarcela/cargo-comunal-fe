@@ -1,0 +1,266 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, StatusBar, TextStyle, Animated } from 'react-native';
+import { Colors } from '../styles';
+import { Icon } from './Icon';
+import { Typography } from './Typography';
+
+type AlertType = 'error' | 'warning' | 'info' | 'success';
+type AlertProps = {
+    position?: 'top' | 'bottom' | 'relative';
+    typeBg?: AlertType | 'default';
+    isTypeIcon?: AlertType | 'none';
+    isTypeTxt?: AlertType | 'default';
+    isShowTitle?: boolean;
+    textTitle?: React.ReactNode;
+    children: React.ReactNode | string;
+    styleChildren?: TextStyle;
+    isAnimated?: boolean;
+    isAnimatedAutomatic?: boolean;
+    useStateOpacity?: () => void;
+    isVisible?: boolean;
+    delayAutomatic?: number;
+    durationFadeIn?: number;
+    duartionFadeOut?: number;
+    translateYAnimate?: boolean;
+}
+
+
+const getColor = (type: AlertType) => {
+    switch (type) {
+        case 'error':
+            return Colors.alertbgError;
+        case 'warning':
+            return Colors.alertbgWarning;
+        case 'info':
+            return Colors.alertbgInfo;
+        case 'success':
+            return Colors.alertbgSuccess;
+    }
+}
+
+
+export const Alert = ({
+    position = 'top',
+    typeBg = 'default',
+    isTypeIcon = 'none',
+    isTypeTxt = 'default',
+    isShowTitle = false,
+    textTitle,
+    children,
+    styleChildren,
+    isAnimated = false,
+    useStateOpacity,
+    isVisible = true,
+    isAnimatedAutomatic = true,
+    delayAutomatic = 3000,
+    duartionFadeOut = 1000,
+    durationFadeIn = 1000,
+    translateYAnimate = true
+}: AlertProps) => {
+    const opacity = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if( isVisible ){
+
+            if( isAnimatedAutomatic ){
+                Animated.sequence([
+                    Animated.timing(opacity, {
+                        toValue: 1,
+                        duration: 1000,
+                        useNativeDriver: true,
+                }),
+                Animated.delay(delayAutomatic),
+                Animated.timing(opacity, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                ]).start(() => {
+                    if( useStateOpacity ) useStateOpacity()
+                });
+            }else{
+                Animated.timing(opacity, {
+                    toValue: 1,
+                    duration: durationFadeIn,
+                    useNativeDriver: true,
+                }).start();
+            }
+        }else if( !isVisible ){
+            Animated.timing(opacity, {
+                toValue: 0,
+                duration: duartionFadeOut,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [isVisible]);
+    
+    return(
+        <>
+            {
+                isAnimated ? (
+                    <Animated.View
+                        style={[
+                            {
+                                opacity: opacity
+                            },
+                            translateYAnimate && {
+                                transform: [
+                                    {
+                                        translateY: opacity.interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: [-20, 0],
+                                        }),
+                                    }
+                                ],
+                            },
+                            styleAlert.alert,
+                            {backgroundColor: typeBg == 'default' ? Colors.white : getColor(typeBg)},
+                            [position != 'relative' && styleAlert.isShadow],
+                            {
+                                position: position == 'relative' ? 'relative' : 'absolute',
+                                marginHorizontal: position != 'relative' ? 15 : 0,
+                                zIndex: 1
+                            },
+                            [position == 'top' && styleAlert.top],
+                            [position == 'bottom' && styleAlert.bottom],
+                        ]}
+                    >
+                        <Childrens 
+                            isTypeIcon = {isTypeIcon}
+                            isTypeTxt = {isTypeTxt}
+                            isShowTitle  = {isShowTitle}
+                            textTitle = {textTitle}
+                            children = {children}
+                            styleChildren = {styleChildren}
+                        />
+                    </Animated.View>
+                ): (
+                    <View
+                        style={[
+                            styleAlert.alert,
+                            {backgroundColor: typeBg == 'default' ? Colors.white : getColor(typeBg)},
+                            [position != 'relative' && { marginHorizontal: 15}],
+                            [position != 'relative' && styleAlert.isShadow]
+                        ]}
+                    >
+                        <Childrens 
+                            isTypeIcon = {isTypeIcon}
+                            isTypeTxt = {isTypeTxt}
+                            isShowTitle  = {isShowTitle}
+                            textTitle = {textTitle}
+                            children = {children}
+                            styleChildren = {styleChildren}
+                        />
+                    </View>
+                )
+            }
+        </>
+    );
+}
+
+
+const Childrens = ({
+    isTypeIcon = 'none',
+    isTypeTxt = 'default',
+    isShowTitle = false,
+    textTitle,
+    children,
+    styleChildren
+}: AlertProps) => (
+    <>
+        {
+            isTypeIcon != 'none' &&
+            <View 
+                style={[
+                    {
+                        height: 45,
+                        width: 45,
+                        borderRadius: 40,
+                        borderWidth: 6,
+                        borderColor: getColor(isTypeIcon),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    },
+                    [isTypeIcon == 'error' && styleAlert.bgIconError],
+                    [isTypeIcon == 'warning' && styleAlert.bgIconWarning],
+                    [isTypeIcon == 'info' && styleAlert.bgIconInfo],
+                    [isTypeIcon == 'success' && styleAlert.bgIconSuccess],
+                    {
+
+                    }
+                ]}
+            >
+                <Icon 
+                    name={isTypeIcon == 'error' ? 'alertCircleOutline' : isTypeIcon == 'warning' ? 'warningOutline' : isTypeIcon == 'info' ? 'informationCircleOutline': 'checkmarkDoneCircleOutline'} 
+                    color='white' 
+                    size='lg' 
+                />
+            </View>
+        }
+        <View
+            style={{
+                marginLeft: 15
+            }}
+        >
+            {
+            isShowTitle &&
+                <Typography 
+                    size='md' 
+                    fontFamily='Poppins-Medium' 
+                    color={isTypeTxt == 'error' ? 'error' : isTypeTxt == 'warning' ? 'warning': isTypeTxt == 'info' ? 'info' : isTypeTxt == 'success' ? 'success' : 'mineShaft'}
+                    styles={{textTransform: 'capitalize'}}
+                >
+                    { textTitle ? textTitle : isTypeTxt != 'default' ? isTypeTxt : '' }
+                </Typography>
+            }
+            <Typography
+                size='sm' 
+                fontFamily='Poppins-Regular'
+                color={isTypeTxt == 'error' ? 'error' : isTypeTxt == 'warning' ? 'warning': isTypeTxt == 'info' ? 'info' : isTypeTxt == 'success' ? 'success' : 'tundora'}
+                styles={{
+                    ...styleChildren,
+                    paddingTop: isShowTitle ? 0 : 5
+                }}
+            >
+                {children}
+            </Typography>
+        </View>
+    </>
+)
+
+const styleAlert = StyleSheet.create({
+    bottom: { bottom: 0 },
+    top: { top: StatusBar.currentHeight },
+    bgIconError: {
+        backgroundColor: "#FF5A5F"
+    },
+    bgIconWarning: {
+        backgroundColor: Colors.warning
+    },
+    bgIconInfo: {
+        backgroundColor: 'rgb(2, 136, 209)'
+    },
+    bgIconSuccess: {
+        backgroundColor: Colors.success
+    },
+    alert: {
+        width: '100%',
+        paddingVertical: 6,
+        paddingHorizontal: 8,
+        borderRadius: 4,
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 10
+    },
+    isShadow: {
+        shadowColor: 'rgb(0,0,0, 0.25)',
+        shadowOffset: {
+        width: 0,
+        height: 3,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        elevation: 8,
+    }
+})

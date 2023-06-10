@@ -19,5 +19,10 @@ export const Colors = {
     iron: "#DFE1E3",
     mineShaft: "#353434",
     zumthor: "#E9EFFF",
-    gray: "#858585"
+    gray: "#858585",
+    alertbgError: "rgb(253, 237, 237)",
+    alertbgWarning: "rgb(255, 244, 229)",
+    alertbgInfo: "rgb(229, 246, 253)",
+    alertbgSuccess: "rgb(237, 247, 237)",
+    info: "rgb(1, 67, 97)"
 };

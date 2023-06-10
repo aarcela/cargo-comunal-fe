@@ -2,8 +2,9 @@ import React, { useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthState, authReducer } from './AuthReducer';
 import { LoginResponse } from '../../interfaces/user';
-import { FetchApi } from '../../api';
 import { AuthContext } from './AuthContext';
+import { FetchApi } from '../../api';
+
 
 
 const authInicialState: AuthState = {

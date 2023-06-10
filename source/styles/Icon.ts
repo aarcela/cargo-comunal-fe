@@ -5,5 +5,10 @@ export const IoniconsName = {
     eyeOutline: "eye-outline",
     call: "call",
     phonePortrait: "phone-portrait",
-    calendar: "calendar"
+    calendar: "calendar",
+    warning: "warning",
+    warningOutline: "warning-outline",
+    informationCircleOutline: "information-circle-outline",
+    informationCircle: "information-circle",
+    checkmarkDoneCircleOutline: "checkmark-done-circle-outline"
 }
