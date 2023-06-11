@@ -10,5 +10,6 @@ export const IoniconsName = {
     warningOutline: "warning-outline",
     informationCircleOutline: "information-circle-outline",
     informationCircle: "information-circle",
-    checkmarkDoneCircleOutline: "checkmark-done-circle-outline"
+    checkmarkDoneCircleOutline: "checkmark-done-circle-outline",
+    arrowBackOutline: "arrow-back-outline"
 }

@@ -5,4 +5,5 @@ export * from './Hr';
 export * from './Icon';
 export * from './Sleep';
 export * from './TextField';
+export * from './ToolBar';
 export * from './Typography';

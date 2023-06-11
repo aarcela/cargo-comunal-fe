@@ -38,7 +38,7 @@ export const Icon = ({
             }
         }
 
-    }, [])
+    }, [size])
     return (
         <Ionicons 
             name={IoniconsName[name]}
