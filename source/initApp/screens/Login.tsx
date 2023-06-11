@@ -8,7 +8,7 @@ import {
     Typography, 
     TextField, 
     Icon 
-} from '../components';
+} from '../../components';
 
 const SigninSchema = Yup.object().shape({
     email: Yup.string()
@@ -28,7 +28,7 @@ export const Login = () => {
             <Grid alignItems='center' justifyContent='center' marginBottom={40}>
                 <Grid height={120} marginBottom={20}>
                     <Image 
-                    source={require('../assets/images/box-location.png')}
+                    source={require('../../assets/images/box-location.png')}
                     style={{
                         maxHeight: '100%',
                         maxWidth: '100%',

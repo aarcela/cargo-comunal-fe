@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ViewProps, ViewStyle, KeyboardAvoidingView, KeyboardAvoidingViewProps } from 'react-native';
 import { Colors, StylesGlobal } from '../styles';
 
@@ -45,25 +45,34 @@ export const Grid = (props: GridProps) => {
 }
 
 const ChildrenGrid = (children?: React.ReactNode , spacing?: number  ) => {
+  const [child, setChild] = useState<React.ReactNode>();
+  useEffect(() => {
+    let aux: React.ReactNode | React.ReactNode[] = children;
 
-  if( Array.isArray(children) ){
-    children.map((element, index) => {
+    if( Array.isArray(children) ){
       if( spacing ){
-        return(
-          <View
-            key={index}
-            style={{
-              marginVertical: spacing * 5
-            }}
-          >
-            { element }
-          </View>
-        )
+        let childArray: React.ReactNode[] = [];
+
+        children.map((element, index) => {
+          childArray.push(
+            <View
+              key={index}
+              style={{
+                paddingVertical: spacing * 5
+              }}
+            >
+              { element }
+            </View>
+          )
+        });
+
+        aux = childArray;
       }
+    }
+
+    setChild(aux);
+  }, [children])
+
   
-      return element
-    })
-  }
-  
-  return children
+  return child
 };

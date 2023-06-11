@@ -1,18 +1,19 @@
 import React from 'react';
 import { Image } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { 
   Grid, 
   Button, 
   Typography, 
   Hr 
-} from '../components';
+} from '../../components';
 
-export const Home = () => {
+export const Home = ({navigation}: StackScreenProps<any, any>) => {
   return (
-    <Grid container bgColor='zircon' flexDirection='column' justifyContent='center' spacing={2}>
+    <Grid container bgColor='zircon' flexDirection='column' justifyContent='center' spacing={2} >
         <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={150}>
           <Image 
-            source={require('../assets/images/icon-truck.png')}
+            source={require('../../assets/images/icon-truck.png')}
             style={{
               maxWidth: 240,
               resizeMode: 'contain',
@@ -25,13 +26,14 @@ export const Home = () => {
         <Button
           typeStyle='btn-primary'
           size='sm'
-          style={{marginTop: 30}}
+          style={{marginTop: 20}}
+          onPress={()=> navigation.navigate('Login')}
         >
           <Typography color='white' fontFamily='Poppins-Medium' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 25}}>
             Iniciar Sesión
           </Typography>
         </Button>
-        <Grid display='flex' marginVertical={5} flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
+        <Grid display='flex'  flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
           <Hr width='30%' height={1.5} />
           <Typography fontFamily='Poppins-Regular' color='silver' size={'md'} styles={{width: '40%', textAlign: 'center', marginTop: 1}}>
             Ó
@@ -42,15 +44,16 @@ export const Home = () => {
           typeStyle='btn-light'
           borderWidth={1}
           size='sm'
+          onPress={()=> navigation.navigate('Register')}
         >
           <Typography color='rollingStone' fontFamily='Poppins-Light' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 23}}>
             Regístrate
           </Typography>
         </Button>
-        <Grid display='flex' marginTop={30} flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
+        <Grid display='flex' marginTop={40} flexDirection='row' width='100%' justifyContent='space-between' alignItems='center'>
           <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={45} width={'45%'}>
             <Image 
-              source={require('../assets/images/fondemi.png')}
+              source={require('../../assets/images/fondemi.png')}
               style={{
                 maxHeight: '100%',
                 maxWidth: '100%',
@@ -60,7 +63,7 @@ export const Home = () => {
           </Grid>
           <Grid display='flex' position='relative' alignItems='center' justifyContent='center' height={45} width={'45%'}>
             <Image 
-              source={require('../assets/images/safonapp.png')}
+              source={require('../../assets/images/safonapp.png')}
               style={{
                 maxHeight: '100%',
                 maxWidth: '100%',
