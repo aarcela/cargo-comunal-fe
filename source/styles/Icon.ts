@@ -11,5 +11,6 @@ export const IoniconsName = {
     informationCircleOutline: "information-circle-outline",
     informationCircle: "information-circle",
     checkmarkDoneCircleOutline: "checkmark-done-circle-outline",
-    arrowBackOutline: "arrow-back-outline"
+    arrowBackOutline: "arrow-back-outline",
+    menuOutline: "menu-outline"
 }

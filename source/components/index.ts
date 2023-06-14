@@ -1,5 +1,6 @@
 export * from './Alert';
 export * from './Button';
+export * from './Drawer';
 export * from './Grid';
 export * from './Hr';
 export * from './Icon';

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthState, authReducer } from './AuthReducer';
 import { LoginResponse } from '../../interfaces/user';
 import { AuthContext } from './AuthContext';
-import { FetchApi } from '../../api';
+import { FetchApi } from '../../utils/fetch';
 
 
 

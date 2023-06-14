@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { View, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { DrawerHeaderProps } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
 import { StackHeaderProps } from '@react-navigation/stack';
+import { DrawerActions } from '@react-navigation/native';
 import { Button } from './Button';
 import { Typography } from './Typography';
 import { Icon } from './Icon';
 
 
+
 const heigthStatusBar = StatusBar.currentHeight;
 const width = Dimensions.get('window').width;
 
-type ToolBarProps = StackHeaderProps;
+interface ToolBarProps {
+    props: StackHeaderProps | DrawerHeaderProps;
+    showMenu?: boolean;
+};
 
-export const ToolBar = (props: ToolBarProps) => {
+export const ToolBar = ({ props, showMenu = false }: ToolBarProps) => {
     const [title, setTitle] = useState('');
     const [isBottomBack, setIsBottomBack] = useState(false);
 
     useEffect(() => {
-        let title: string = '';
+        let title: string = getHeaderTitle(props.options, props.route.name);
 
-        if( props as StackHeaderProps ){
-            title = getHeaderTitle(props.options, props.route.name);
+        if( 'back' in props ){
             setIsBottomBack(true);
         }
 
@@ -49,12 +54,23 @@ export const ToolBar = (props: ToolBarProps) => {
                     }} 
                     color='mineShaft'
                     styles={{
-                        width: '100%',
+                        width: showMenu ? 'auto' : '100%' ,
                         lineHeight: 22
                     }}
                 >
                     {title}
                 </Typography>
+                {
+                    showMenu &&
+                    <Button
+                        typeStyle='default'
+                        size='default'
+                        onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())}
+                        style={[styleToolBar.contentIcon, {justifyContent: 'flex-end'}]}
+                    >
+                        <Icon name='menuOutline' size={26} color='mineShaft' />
+                    </Button>
+                }
             </View>
         </View>
     )

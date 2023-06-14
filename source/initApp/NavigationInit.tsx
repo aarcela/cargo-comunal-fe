@@ -9,7 +9,7 @@ export const NavigationInit = ( ) => {
   return (
     <Stack.Navigator
       initialRouteName='InitApp'
-      screenOptions={{header: (props) => <ToolBar {...props} />}}
+      screenOptions={{header: (props) => <ToolBar props={props} />}}
     >
       <Stack.Screen name="InitApp" options={{headerShown: false}} component={Home} />
       <Stack.Screen name="Login" options={{title: 'Iniciar sesión'}} component={Login} />

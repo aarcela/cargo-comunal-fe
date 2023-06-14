@@ -1,8 +1,9 @@
-import React from 'react'
-import { NavigationInit } from '../initApp'
+import React from 'react';
+import { NavigationInit } from '../initApp';
+import { NavigationAdmin } from '../admin';
 
 export const MainRoutes = () => {
   return (
-    <NavigationInit/> 
+    <NavigationAdmin /> 
   )
 }
