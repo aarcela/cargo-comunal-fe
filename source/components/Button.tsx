@@ -56,7 +56,7 @@ export const Button = ({
           break;
       }
     }
-  }, []);
+  }, [size || typeStyle]);
   
 
   return (

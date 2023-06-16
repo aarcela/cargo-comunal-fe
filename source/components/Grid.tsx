@@ -36,7 +36,8 @@ export const Grid = (props: GridProps) => {
         {...props.propsExtras}
         style={[
             props.container && StylesGlobal.container,
-            {...props}
+            {...props},
+            props.bgColor && { backgroundColor: Colors[props.bgColor] }
         ]}
     >
      { ChildrenGrid(props.children, props.spacing) }

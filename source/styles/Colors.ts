@@ -18,11 +18,15 @@ export const Colors = {
     alabaster: "#FAFAFA",
     iron: "#DFE1E3",
     mineShaft: "#353434",
-    zumthor: "#E9EFFF",
+    zumthor: "#EFF6FF",
     gray: "#858585",
     alertbgError: "rgb(253, 237, 237)",
     alertbgWarning: "rgb(255, 244, 229)",
     alertbgInfo: "rgb(229, 246, 253)",
     alertbgSuccess: "rgb(237, 247, 237)",
-    info: "rgb(1, 67, 97)"
+    info: "rgb(1, 67, 97)",
+    radicalRed: "#FF3161",
+    lynch: "#71839B",
+    transparent: "transparent",
+    dodgerBlue: "#2D68FE"
 };

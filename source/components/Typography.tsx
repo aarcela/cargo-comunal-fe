@@ -4,12 +4,15 @@ import { Colors } from '../styles';
 
 
 export type TypographyPros = {
-    children: ReactNode;
     size?: 'sm' | 'md' | 'lg' | 'xl' | number;
     fontFamily?: 'Poppins-Light' | 'Poppins-Regular' | 'Poppins-Medium' | 'Poppins-SemiBold';
     color?: keyof typeof Colors;
     styles?: TextStyle;
     textProps?: TextProps;
+}
+
+interface Typography extends TypographyPros{
+    children: ReactNode;
 }
 
 export const Typography = ({
@@ -19,7 +22,7 @@ export const Typography = ({
     color,
     styles,
     textProps
-}: TypographyPros) => {
+}: Typography) => {
     const [fs, setFs] = useState(0);
 
     useEffect(() => {

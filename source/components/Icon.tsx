@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { StyleProp, TextStyle } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors, IoniconsName } from '../styles';
+
 
 type IconProps = {
     size?: 'sm' | 'md' | 'lg' | 'xl' | number;
     color?: keyof typeof Colors;
     name: keyof typeof IoniconsName;
-}
+    style?: StyleProp<TextStyle>
+}   
 
 export const Icon = ({
     size = 'sm',
     color,
-    name
+    name,
+    style
 }: IconProps) => {
     const [fs, setFs] = useState(0);
 
@@ -44,6 +48,7 @@ export const Icon = ({
             name={IoniconsName[name]}
             size={fs}
             color={color && Colors[color]}
+            style={style}
         />
     )
 }
