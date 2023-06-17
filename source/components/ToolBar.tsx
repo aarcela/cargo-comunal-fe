@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { DrawerHeaderProps } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
 import { StackHeaderProps } from '@react-navigation/stack';
@@ -14,7 +15,7 @@ const heigthStatusBar = StatusBar.currentHeight;
 const width = Dimensions.get('window').width;
 
 interface ToolBarProps {
-    props: StackHeaderProps | DrawerHeaderProps;
+    props: StackHeaderProps | DrawerHeaderProps | BottomTabHeaderProps;
     showMenu?: boolean;
 };
 
