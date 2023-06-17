@@ -1,10 +1,15 @@
 import React from 'react';
+import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { RouteNavigation } from "../../interfaces/navigation";
-import { Home, Travel } from "../screens";
 import { BottomTab } from '../../components/navigation';
 import { ToolBar } from '../../components/ToolBar';
+import { Home, Travel } from "../screens";
 
-export const routes : RouteNavigation[] = [
+// nav Drawer
+import { NavDrawer } from './NavDrawer';
+
+
+export const routes : RouteNavigation<BottomTabNavigationOptions>[] = [
     {
         name: 'Home',
         icon: {
@@ -24,6 +29,17 @@ export const routes : RouteNavigation[] = [
             title: 'Viajes'
         },
         component: Travel
+    },
+    {
+        name: 'Profile',
+        options:{
+            headerShown: false,
+            title: 'Perfil'
+        },
+        icon:{
+            name: 'personOutline'
+        },
+        component: NavDrawer
     }
 ];
 

@@ -2,8 +2,10 @@ import React, { ReactNode } from 'react';
 import { Image, StatusBar } from 'react-native';
 import { 
   DrawerContentComponentProps, 
-  DrawerContentScrollView 
+  DrawerContentScrollView, 
+  DrawerNavigationOptions
 } from '@react-navigation/drawer';
+import { RouteNavigation } from '../interfaces/navigation';
 import { Grid } from './Grid';
 import { Button } from './Button';
 import { Icon } from './Icon';
@@ -13,17 +15,19 @@ import { Hr } from './Hr';
 import { Colors, IoniconsName } from '../styles';
 
 
-export interface DrawerProps{
+
+export interface SideNavProps{
   drawerContent: DrawerContentComponentProps;
-  routes: RouteProps[];
+  routes: RouteNavigation<DrawerNavigationOptions>[];
   splitSection?: boolean;
   showSection?: number;
+  showHrDivOnLogout?: boolean;
   onLogout?: () => void; 
 }
 
 const heigthStatusBar = StatusBar.currentHeight;
 
-export const Drawer = ({ drawerContent: { navigation, state }, routes, showSection, splitSection = false, onLogout }: DrawerProps) => {
+export const SideNav = ({ drawerContent: { navigation, state }, routes, showSection, splitSection = false, onLogout, showHrDivOnLogout = false }: SideNavProps) => {
   return (
     <Grid container paddingTop={heigthStatusBar}>
       <Grid display='flex' alignItems='center' flexDirection='row' justifyContent='space-between' height={50}>
@@ -68,22 +72,27 @@ export const Drawer = ({ drawerContent: { navigation, state }, routes, showSecti
       <Hr mt={15} />
       <DrawerContentScrollView>
         {
-          routes.map((item, index) => {
+          routes.map(({name, icon, options, labelStyle}, index) => {
             const showHr = showSection && routes.length - showSection === index + 1 ? true : false;
-
             return (
               <>
                 <DrawerItem
-                  onPress={() => navigation.navigate(item.name)}
+                  onPress={() => navigation.navigate(name)}
                   key={index}
-                  focused={item.index === state.index} 
-                  label={item.label}
-                  icon={item.icon}
+                  focused={index === state.index} 
+                  label={{
+                    title: options?.title ? options.title : name,
+                    color: labelStyle?.color
+                  }}
+                  icon={icon}
+                  showHr={splitSection && showHr}
                 />
-                { splitSection && showHr && <Hr key={Math.random()} mt={15} mb={15} /> }
               </>
             )
           })
+        }
+        {
+          onLogout && showHrDivOnLogout && <Hr  mt={15} mb={15} />
         }
         {
           onLogout && 
@@ -129,46 +138,52 @@ interface RouteDrawerItem {
 interface DrawerItemProps extends RouteDrawerItem{
   focused: boolean;
   onPress?: () => void;
+  showHr?: boolean;
 }
 
-const DrawerItem = ({ focused, label, icon, onPress }: DrawerItemProps) => (
-  <Button
-    onPress={onPress}
-    activeOpacity={0.60}
-    size='default'
-    bgColor={focused ? 'zumthor' : 'transparent'}
-    style={{
-      flexDirection: "row",
-      flexWrap: "wrap",
-      alignItems: 'center',
-      display: 'flex',
-      width: '100%',
-      marginBottom: focused ? 6 : 2,
-      paddingHorizontal: 10,
-      paddingTop: 10,
-      paddingBottom: focused ? 10 : 5
-    }}
-  >
-    { icon?.name && 
-      <Icon 
-        name={icon.name} 
-        size={icon.size ? icon.size : 'lg'} 
-        color={ icon.color ? icon.color : focused ? 'dodgerBlue' : 'lynch' }
-      /> 
-    }
-    <Grid marginLeft={icon ? 15 : 0} >
-      <Typography 
-        fontFamily={ focused ? 'Poppins-Medium': 'Poppins-Regular'}
-        color={ label.color ? label.color : focused ? 'dodgerBlue' : 'lynch' }
-        size='md'
-        styles={{
-          textAlignVertical: 'center',
-          marginTop: 3,
-          lineHeight: 22,
-        }}
-      >
-        {label.title}
-      </Typography>
-    </Grid>
-  </Button>
+const DrawerItem = ({ focused, label, icon, onPress, showHr = false }: DrawerItemProps) => (
+  <>
+    <Button
+      onPress={onPress}
+      activeOpacity={0.60}
+      size='default'
+      bgColor={focused ? 'zumthor' : 'transparent'}
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: 'center',
+        display: 'flex',
+        width: '100%',
+        marginBottom: focused ? 6 : 2,
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: focused ? 10 : 5
+      }}
+    >
+      { icon?.name && 
+        <Icon 
+          name={icon.name} 
+          size={icon.size ? icon.size : 'lg'} 
+          color={ icon.color ? icon.color : focused ? 'dodgerBlue' : 'lynch' }
+        /> 
+      }
+      <Grid marginLeft={icon ? 15 : 0} >
+        <Typography 
+          fontFamily={ focused ? 'Poppins-Medium': 'Poppins-Regular'}
+          color={ label.color ? label.color : focused ? 'dodgerBlue' : 'lynch' }
+          size='md'
+          styles={{
+            textAlignVertical: 'center',
+            marginTop: 3,
+            lineHeight: 22,
+          }}
+        >
+          {label.title}
+        </Typography>
+      </Grid>
+    </Button>
+    { showHr && <Hr  mt={15} mb={15} /> }
+  </>
+  
+  
 );

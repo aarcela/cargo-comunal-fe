@@ -21,5 +21,6 @@ export const IoniconsName = {
     navigateCircleOutline: "navigate-circle-outline",
     personOutline: "person-outline",
     logOutOutline: "log-out-outline",
-    compassOutline: "compass-outline"
+    compassOutline: "compass-outline",
+    walletOutline: "wallet-outline"
 }

@@ -15,7 +15,7 @@ interface BottomTabProps {
     initialRouteName?: string;
     sceneContainerStyle?: StyleProp<ViewStyle>
     screenOptions?: BottomTabNavigationOptions;
-    routes: RouteNavigation[]
+    routes: RouteNavigation<BottomTabNavigationOptions>[]
 }
 
 export const BottomTab = ({ initialRouteName, sceneContainerStyle, screenOptions, routes }: BottomTabProps) => {
@@ -24,7 +24,7 @@ export const BottomTab = ({ initialRouteName, sceneContainerStyle, screenOptions
         initialRouteName={initialRouteName}
         sceneContainerStyle={sceneContainerStyle}
         screenOptions={({route}) => ({
-                ...[screenOptions?.header && screenOptions.header],
+                ...screenOptions,
                 tabBarIcon: ({ focused }) => {
                     const { icon } = routes.filter(item => item.name === route.name)[0];
 

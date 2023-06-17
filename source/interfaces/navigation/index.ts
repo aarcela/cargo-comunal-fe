@@ -1,5 +1,4 @@
 import { ComponentType } from "react";
-import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { Colors, IoniconsName } from "../../styles";
 
 export type IconItem = {
@@ -12,10 +11,10 @@ export type LabelItemStyle = {
     color?: keyof typeof Colors;
 }
 
-export interface RouteNavigation{
+export interface RouteNavigation<T extends any>{
     name: string;
     icon?: IconItem;
     labelStyle?: LabelItemStyle;
-    options?: BottomTabNavigationOptions;
+    options?: T;
     component: ComponentType<{}>;
 }
