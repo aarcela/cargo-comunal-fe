@@ -36,11 +36,11 @@ const routes: RouteNavigation<DrawerNavigationOptions>[] = [
 export const NavDrawer = () => {
   return (
     <Drawer 
-        screenOptions={{
-            header: (props) => <ToolBar props={props} showMenu={true} />,
-        }}
-        routes={routes}
-        drawerContent={(props) => <SideNav drawerContent={props} routes={routes} onLogout={()=> null} showHrDivOnLogout />}
+      screenOptions={{
+          header: (props) => <ToolBar props={props} showMenu={true} />,
+      }}
+      routes={routes}
+      drawerContent={(props) => <SideNav drawerContent={props} routes={routes} onLogout={()=> null} showHrDivOnLogout />}
     />
   )
 }

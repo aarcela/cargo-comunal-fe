@@ -28,5 +28,6 @@ export const Colors = {
     radicalRed: "#FF3161",
     lynch: "#71839B",
     transparent: "transparent",
-    dodgerBlue: "#2D68FE"
+    dodgerBlue: "#2D68FE",
+    nobel: "#B4B1B1"
 };

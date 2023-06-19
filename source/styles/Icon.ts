@@ -22,5 +22,9 @@ export const IoniconsName = {
     personOutline: "person-outline",
     logOutOutline: "log-out-outline",
     compassOutline: "compass-outline",
-    walletOutline: "wallet-outline"
+    walletOutline: "wallet-outline",
+    chevronDownOutline: "chevron-down-outline",
+    chevronUpOutline: "chevron-up-outline",
+    locate: "locate",
+    logoGoogle: "logo-google"
 }

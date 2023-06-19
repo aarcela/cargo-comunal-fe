@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewStyle } from 'react-native';
 import { Grid } from './Grid';
-import { Typography, TypographyPros } from './Typography';
+import { Typography, TypographyProps } from './Typography';
 
 interface AvatarProps {
   width: number;
@@ -9,7 +9,7 @@ interface AvatarProps {
   radius: number;
   typeAvatar?: 'txt' | 'img';
   labelAvatar: string;
-  labelProps?: TypographyPros;
+  labelProps?: TypographyProps;
   stylesAvatar?: ViewStyle;
 }
 

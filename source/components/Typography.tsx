@@ -3,7 +3,7 @@ import { Text, TextStyle, TextProps } from 'react-native';
 import { Colors } from '../styles';
 
 
-export type TypographyPros = {
+export type TypographyProps = {
     size?: 'sm' | 'md' | 'lg' | 'xl' | number;
     fontFamily?: 'Poppins-Light' | 'Poppins-Regular' | 'Poppins-Medium' | 'Poppins-SemiBold';
     color?: keyof typeof Colors;
@@ -11,7 +11,7 @@ export type TypographyPros = {
     textProps?: TextProps;
 }
 
-interface Typography extends TypographyPros{
+interface Typography extends TypographyProps{
     children: ReactNode;
 }
 

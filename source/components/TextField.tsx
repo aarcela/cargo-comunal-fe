@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { TextInput, TextInputProps, ViewStyle, StyleProp, TouchableOpacity as Button } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Typography, TypographyPros, Grid, Icon } from './';
+import { Typography, TypographyProps, Grid, Icon } from './';
 import { Colors } from '../styles';
 
 export interface TextFiedProps{
     labelText?: string;
-    labelTextProps?: TypographyPros;
+    labelTextProps?: TypographyProps;
     value: any;
     onChangeText: (field : string) => void;
     inputProps?: TextInputProps;

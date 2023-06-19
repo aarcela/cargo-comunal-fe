@@ -3,6 +3,8 @@ import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { RouteNavigation } from "../../interfaces/navigation";
 import { BottomTab } from '../../components/navigation';
 import { ToolBar } from '../../components/ToolBar';
+
+// import screens
 import { Home, Travel } from "../screens";
 
 // nav Drawer

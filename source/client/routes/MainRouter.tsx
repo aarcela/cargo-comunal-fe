@@ -7,17 +7,17 @@ import { createStackNavigator } from '@react-navigation/stack';
  * ToolBar
 */
 
-import { ToolBar } from '../components/ToolBar';
+import { ToolBar } from '../../components/ToolBar';
 
 /**
  * Import Routes 
 */
-import { NavBottomTab } from './routes/NavBottomTab';
+import { NavBottomTab } from './NavBottomTab';
 
 const Stack = createStackNavigator();
 
 
-export const NavigationClient = () => {
+export const MainRouter = () => {
   return (
     <Stack.Navigator
       initialRouteName='NavBottomTab'
