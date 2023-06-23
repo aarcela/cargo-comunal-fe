@@ -26,5 +26,7 @@ export const IoniconsName = {
     chevronDownOutline: "chevron-down-outline",
     chevronUpOutline: "chevron-up-outline",
     locate: "locate",
-    logoGoogle: "logo-google"
+    logoGoogle: "logo-google",
+    locationOutline: "location-outline",
+    pinOutline: "pin-outline"
 }

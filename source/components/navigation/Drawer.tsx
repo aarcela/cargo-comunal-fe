@@ -15,7 +15,7 @@ interface DrawerProps{
   initialRouteName?: string;
   screenOptions?: DrawerNavigationOptions;
   drawerContent?: (props: DrawerContentComponentProps) => React.ReactNode;
-  routes: RouteNavigation<DrawerNavigationOptions>[];
+  routes: RouteNavigation<DrawerNavigationOptions, any, any>[];
 }
 
 export const Drawer = ({ initialRouteName, screenOptions, drawerContent, routes }: DrawerProps) => {

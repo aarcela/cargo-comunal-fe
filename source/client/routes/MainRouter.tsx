@@ -10,9 +10,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ToolBar } from '../../components/ToolBar';
 
 /**
- * Import Routes 
+ * Import nav bottom tab
 */
 import { NavBottomTab } from './NavBottomTab';
+
+/**
+ * Imports screns stack 
+ * 
+*/
+import { CreateShipment, Shipment } from '../screens/shipment';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +30,8 @@ export const MainRouter = () => {
       screenOptions={{header: (props) => <ToolBar props={props} />}}
     >
       <Stack.Screen name="NavBottomTab" options={{headerShown: false}} component={NavBottomTab} />
+      <Stack.Screen name="CreateShipment" options={{title: 'Solicitar transporte'}} component={CreateShipment} />
+      <Stack.Screen name="Shipment" options={{headerShown: false}} component={Shipment} />
     </Stack.Navigator>
   )
 }

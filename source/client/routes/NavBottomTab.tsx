@@ -11,7 +11,7 @@ import { Home, Travel } from "../screens";
 import { NavDrawer } from './NavDrawer';
 
 
-export const routes : RouteNavigation<BottomTabNavigationOptions>[] = [
+export const routes : RouteNavigation<BottomTabNavigationOptions, any, any>[] = [
     {
         name: 'Home',
         icon: {

@@ -13,7 +13,7 @@ import { EditProfile, Wallet } from '../screens';
 
 
 // import toolbar, drawer y sidenav component
-const routes: RouteNavigation<DrawerNavigationOptions>[] = [
+const routes: RouteNavigation<DrawerNavigationOptions, any, any>[] = [
   {
     name: 'Wallet',
     icon: {

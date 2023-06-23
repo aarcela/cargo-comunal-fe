@@ -1,18 +1,57 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { GPSPermissionsContext } from '../../context/gps';
-import { Grid, Typography, PermissionLocation } from '../../components';
+import { 
+  Grid, 
+  Typography,
+  Button, 
+  PermissionLocation,
+  Map
+} from '../../components';
 
-export const Home = () => {
-  const { permissions, askLocationPermission, changeAttempt } = useContext( GPSPermissionsContext );
-    
+
+
+interface HomeProps extends BottomTabScreenProps<any, any>{};
+
+export const Home = ({ navigation }: HomeProps) => {
+  const { permissions, askLocationPermission, changeAttempt, geolocation } = useContext( GPSPermissionsContext );
+
+
+  
+ 
   return (
-    <Grid container bgColor='zircon' flexDirection='column' justifyContent='center' spacing={2} >
+    <Grid flex={1} >
       <PermissionLocation 
         visible={permissions.attempt} 
         onCancel={() => changeAttempt(false)} 
         onAccept={() => askLocationPermission()}
       />
-      <Typography size='md' >Hola Inicio</Typography>
+      <Grid position='absolute' width='100%' zIndex={1024} paddingHorizontal={15} bottom={40} right={0}>
+        <Button
+          typeStyle='btn-primary'
+          size='sm'
+          onPress={() => navigation.navigate('CreateShipment')}
+          activeOpacity={0.90}
+        >
+          <Typography
+            color='white' 
+            fontFamily='Poppins-Medium' 
+            size='md' 
+            styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 25}}
+          >
+            Solicitar Transporte
+          </Typography>
+        </Button>
+      </Grid>
+      <Map 
+        region={{
+          latitude: geolocation?.coords ? geolocation.coords.latitude : 10.48801,
+          longitude: geolocation?.coords ? geolocation.coords.longitude : -66.87919,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}
+      />
+  
     </Grid>
   )
 }

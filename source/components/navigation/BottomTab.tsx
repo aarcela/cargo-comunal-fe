@@ -15,7 +15,7 @@ interface BottomTabProps {
     initialRouteName?: string;
     sceneContainerStyle?: StyleProp<ViewStyle>
     screenOptions?: BottomTabNavigationOptions;
-    routes: RouteNavigation<BottomTabNavigationOptions>[]
+    routes: RouteNavigation<BottomTabNavigationOptions, any, any>[]
 }
 
 export const BottomTab = ({ initialRouteName, sceneContainerStyle, screenOptions, routes }: BottomTabProps) => {

@@ -29,5 +29,6 @@ export const Colors = {
     lynch: "#71839B",
     transparent: "transparent",
     dodgerBlue: "#2D68FE",
-    nobel: "#B4B1B1"
+    nobel: "#B4B1B1",
+    royalBlue: "#5356DC"
 };
