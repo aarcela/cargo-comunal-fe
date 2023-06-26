@@ -1,46 +1,14 @@
-import React, { useState } from 'react';
-import { 
-  Grid, 
-  OutlinedInput,
-  Icon,
-  Button,
-  Typography
-} from '../../../components';
+import React, { useState, useEffect } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
+import {
+  GenerateShipment,
+  ConfirmShipment
+} from '../../components/createshipment';
 
-import { OriginAndDestination } from '../../components/OriginAndDestination';
 
-export const CreateShipment = () => {
+export const CreateShipment = ({navigation}: StackScreenProps<any, any>) => {
   
   return (
-    <Grid container justifyContent='space-between' paddingVertical={20} flexDirection='column' bgColor='white'>
-      <Grid spacing={3}>
-        <OriginAndDestination />
-        <OutlinedInput
-          value={''}
-          onChangeText={(value) => console.log(value)}
-          mb={0}
-          bgInput='zumthor'
-          labelText='Selección de ruta'
-          iconRight={<Icon name='chevronDownOutline' size='lg' color='scorpion' />}
-        />
-        <OutlinedInput
-          value={''}
-          onChangeText={(value) => console.log(value)}
-          mb={0}
-          bgInput='zumthor'
-          labelText='Ingresa el peso de la carga'
-        />
-      </Grid>
-      <Button
-        typeStyle='btn-primary'
-        size='sm'
-        style={{marginBottom: 20}}
-        onPress={()=> null}
-      >
-        <Typography color='white' fontFamily='Poppins-Medium' size={16} styles={{textTransform:'uppercase', textAlign: 'center', lineHeight: 25}}>
-          Continuar
-        </Typography>
-      </Button>
-    </Grid>
+    <ConfirmShipment />
   )
 }

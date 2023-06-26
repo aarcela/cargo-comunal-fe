@@ -28,5 +28,8 @@ export const IoniconsName = {
     locate: "locate",
     logoGoogle: "logo-google",
     locationOutline: "location-outline",
-    pinOutline: "pin-outline"
+    pinOutline: "pin-outline",
+    radioButtonOffOutline: "radio-button-off-outline",
+    radioButtonOnOutline: "radio-button-on-outline",
+    chevronForwardOutline: "chevron-forward-outline"
 }

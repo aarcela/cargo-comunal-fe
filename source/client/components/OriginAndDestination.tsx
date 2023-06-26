@@ -1,17 +1,29 @@
 import React, { useState } from 'react'
-import { Grid, Icon, OutlinedInput } from '../../components'
+import { Grid, Icon, OutlinedInput } from '../../components';
 
-export const OriginAndDestination = () => {
+interface OriginAndDestinationProps {
+    bg?: 'default' | 'white'
+}
+
+export const OriginAndDestination = ({
+    bg = 'default'
+}: OriginAndDestinationProps) => {
     const [widthContainer, setWidthContainer] = useState(0);
     return (
         <Grid 
-            bgColor='zumthor' 
+            bgColor={bg == 'default' ? 'zumthor' : 'white'} 
             display='flex' 
             flexDirection='row' 
             position='relative' 
             paddingVertical={15} 
             borderRadius={5} 
             propsExtras={{onLayout: (event) => setWidthContainer(event.nativeEvent.layout.width)}}
+            shadowColor='rgb(0,0,0, 0.80)'
+            shadowOffset={{
+                width: 15,
+                height: 10,
+            }}
+            elevation={bg == 'white' ? 14 : 0}
         >
             <Grid paddingHorizontal={10} alignItems='center' justifyContent='center'>
                 <Grid height={20} width={20} marginBottom={-1} display='flex' alignItems='center' justifyContent='center' bgColor='royalBlue' borderRadius={15}>
@@ -23,6 +35,7 @@ export const OriginAndDestination = () => {
                 </Grid>
             </Grid>
             <Grid width={ widthContainer > 0 ? widthContainer - 40 : 'auto' }>
+                
                 <OutlinedInput 
                 value={''}
                 onChangeText={(value) => console.log(value)}

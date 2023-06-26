@@ -30,7 +30,7 @@ export const MainRouter = () => {
       screenOptions={{header: (props) => <ToolBar props={props} />}}
     >
       <Stack.Screen name="NavBottomTab" options={{headerShown: false}} component={NavBottomTab} />
-      <Stack.Screen name="CreateShipment" options={{title: 'Solicitar transporte'}} component={CreateShipment} />
+      <Stack.Screen name="CreateShipment"  options={{headerShown: false}} component={CreateShipment} />
       <Stack.Screen name="Shipment" options={{headerShown: false}} component={Shipment} />
     </Stack.Navigator>
   )
