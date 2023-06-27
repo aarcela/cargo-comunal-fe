@@ -21,7 +21,7 @@ export const CardTruck = ({
     iconRadio = false,
     checked
 }: CardTruckProps) => {
-  const memoizedValue = useMemo(() => { console.log('checked.che', checked?.check); return checked?.check }, [checked?.check])
+  const memoizedValue = useMemo(() => checked?.check,[checked?.check])
     
   return (
     <Button

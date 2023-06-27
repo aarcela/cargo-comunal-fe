@@ -12,6 +12,7 @@ interface ButtonProps  {
   style?: StyleProp<ViewStyle>;
   touchableOpacityProps?: TouchableOpacityProps;
   activeOpacity?: number;
+  disable?: boolean;
 }
 
 export const Button = ({
@@ -23,7 +24,8 @@ export const Button = ({
   bgColor,
   style,
   touchableOpacityProps,
-  activeOpacity = 0.75
+  activeOpacity = 0.75,
+  disable = false
 }: ButtonProps) => {
   const [styles, setStyles] = useState({})
 
@@ -61,10 +63,15 @@ export const Button = ({
 
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={onPress && !disable ? onPress : onPress && disable ? undefined : onPress}
       {...touchableOpacityProps}
       activeOpacity={activeOpacity}
-      style={[style,{...styles}, bgColor && { backgroundColor: Colors[bgColor] }, { borderWidth: borderWidth} ]}
+      style={[
+        style,
+        {...styles}, 
+        bgColor && { backgroundColor: Colors[bgColor] }, { borderWidth: borderWidth},
+        disable && { backgroundColor: Colors['gallery'] }
+      ]}
     >
       { children }
     </TouchableOpacity>

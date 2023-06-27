@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, StatusBar, TextStyle, Animated } from 'react-native';
+import { View, StyleSheet, StatusBar, TextStyle, Animated, useWindowDimensions } from 'react-native';
 import { Colors } from '../styles';
 import { Icon } from './Icon';
 import { Typography } from './Typography';
@@ -58,6 +58,7 @@ export const Alert = ({
     translateYAnimate = true
 }: AlertProps) => {
     const opacity = useRef(new Animated.Value(0)).current;
+    const { width } = useWindowDimensions()
 
     useEffect(() => {
         if( isVisible ){
@@ -92,6 +93,7 @@ export const Alert = ({
                 useNativeDriver: true,
             }).start();
         }
+
     }, [isVisible]);
     
     return(
@@ -108,18 +110,20 @@ export const Alert = ({
                                     {
                                         translateY: opacity.interpolate({
                                             inputRange: [0, 1],
-                                            outputRange: [-20, 0],
+                                            outputRange: [ position == 'bottom' ? 0 : -20, position == 'top' ? 0 : -20 ],
                                         }),
                                     }
                                 ],
                             },
-                            styleAlert.alert,
                             {backgroundColor: typeBg == 'default' ? Colors.white : getColor(typeBg)},
                             [position != 'relative' && styleAlert.isShadow],
                             {
                                 position: position == 'relative' ? 'relative' : 'absolute',
                                 marginHorizontal: position != 'relative' ? 15 : 0,
-                                zIndex: 1
+                                zIndex: 1,
+                                left: 0,
+                                bottom: 0,
+                                width: position != 'relative' ? width - 30 : '100%'
                             },
                             [position == 'top' && styleAlert.top],
                             [position == 'bottom' && styleAlert.bottom],
@@ -166,8 +170,19 @@ const Childrens = ({
     textTitle,
     children,
     styleChildren
-}: AlertProps) => (
-    <>
+}: AlertProps) => {
+    const [w, setW] = useState(0);
+
+    return(
+    <View
+        onLayout={(e) => setW(e.nativeEvent.layout.width)}
+        style={[
+            styleAlert.alert,
+            {
+                alignItems: 'center'
+            }
+        ]}
+    >
         {
             isTypeIcon != 'none' &&
             <View 
@@ -200,7 +215,8 @@ const Childrens = ({
         }
         <View
             style={{
-                marginLeft: 15
+                marginLeft: 10,
+                width: w !== 0 ? w - 71 : undefined
             }}
         >
             {
@@ -226,8 +242,9 @@ const Childrens = ({
                 {children}
             </Typography>
         </View>
-    </>
-)
+    </View>
+    )
+}
 
 const styleAlert = StyleSheet.create({
     bottom: { bottom: 0 },
@@ -244,14 +261,15 @@ const styleAlert = StyleSheet.create({
     bgIconSuccess: {
         backgroundColor: Colors.success
     },
+    alertContainer: {
+        
+    },
     alert: {
-        width: '100%',
         paddingVertical: 6,
         paddingHorizontal: 8,
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'row',
-        marginBottom: 10
     },
     isShadow: {
         shadowColor: 'rgb(0,0,0, 0.25)',

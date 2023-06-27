@@ -9,6 +9,8 @@ import {
 export const CreateShipment = ({navigation}: StackScreenProps<any, any>) => {
   
   return (
-    <ConfirmShipment />
+    <GenerateShipment 
+      goBack={navigation.goBack}
+    />
   )
 }

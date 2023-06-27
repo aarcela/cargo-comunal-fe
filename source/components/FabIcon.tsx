@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import { Button } from './Button';
 import { Icon, IconProps } from './Icon';
 import { Colors, IoniconsName } from '../styles';
@@ -14,8 +15,10 @@ interface FabIconProps{
     right?: number;
     top?: number;
     bottom?: number;
+    postion?: 'absolute' | 'relative'
   },
   shadow?: boolean;
+  style?: StyleProp<ViewStyle>
 }
 
 export const FabIcon = ({
@@ -25,7 +28,8 @@ export const FabIcon = ({
   size = 'default',
   onPress,
   position,
-  shadow = true
+  shadow = true,
+  style
 }: FabIconProps) => {
   const [sizeBtn, setSizeBtn] = useState(40);
 
@@ -57,7 +61,7 @@ export const FabIcon = ({
           height: sizeBtn,
           width: sizeBtn,
           borderRadius: sizeBtn,
-          position: 'absolute',
+          position: position?.postion ? position.postion : 'absolute',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -73,7 +77,8 @@ export const FabIcon = ({
           shadowOpacity: 1,
           shadowRadius: 4,
           elevation: 15,
-        }
+        },
+        style
       ]}
     >
       <Icon name={nameIcon} color={icon?.color} size={icon?.size} style={icon?.style} />

@@ -31,5 +31,7 @@ export const IoniconsName = {
     pinOutline: "pin-outline",
     radioButtonOffOutline: "radio-button-off-outline",
     radioButtonOnOutline: "radio-button-on-outline",
-    chevronForwardOutline: "chevron-forward-outline"
+    chevronForwardOutline: "chevron-forward-outline",
+    closeOutline: "close-outline",
+    globeOutline: "globe-outline"
 }

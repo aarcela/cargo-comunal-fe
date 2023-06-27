@@ -1,16 +1,28 @@
 import React from 'react';
-import { TextInput, TextInputProps, ViewStyle, StyleProp, TouchableOpacity as Button, StyleSheet } from 'react-native';
+import { 
+  TextInput, 
+  TextInputProps, 
+  ViewStyle, 
+  StyleProp, 
+  TouchableOpacity as Button, 
+  StyleSheet 
+} from 'react-native';
+import RNPickerSelect, { Item, PickerStyle } from 'react-native-picker-select';
 import { Typography } from './Typography';
 import { Grid } from './Grid';
 import { Colors } from '../styles';
 import { Icon } from './Icon';
 
+export interface ItemValue {
+  label: string;
+  value: any;
+}
 
-type OutlinedInputProps = {
+export type OutlinedInputProps = {
   labelText?: string;
   labelColorText?:  keyof typeof Colors;
   value: any;
-  onChangeText: (field : string) => void;
+  onChangeText: (val : any) => void;
   inputStyle?: StyleProp<ViewStyle>;
   inputProps?: TextInputProps;
   isError?: boolean;
@@ -19,6 +31,13 @@ type OutlinedInputProps = {
   iconRight?: React.ReactNode;
   mb?: number;
   bgInput?: keyof typeof Colors;
+  inputOnButton?: () => void
+  select?: {
+    value: any;
+    items: Item[];
+    placeholder?: Item;
+    style?: PickerStyle;
+  }
 }
 
 export const OutlinedInput = ({
@@ -33,11 +52,55 @@ export const OutlinedInput = ({
   onPressIconRight,
   iconRight,
   mb = 8,
-  bgInput
+  bgInput,
+  inputOnButton
 }:OutlinedInputProps) => {
+  
+  /*return select ? 
+    <RNPickerSelect
+      onValueChange={(value) => {
+        const items = select.items;
+        const item = items.filter(val => value === val.value)[0];
+        
+        onChangeText({label: item.label, value: item.value});
+      }}
+      value={select.value}
+      placeholder={{
+        label: select.placeholder?.label,
+        value: select.placeholder?.value,
+        color: select.placeholder?.color || '#C6C6C6',
+        inputLabel: select.placeholder?.inputLabel,
+        key: select.placeholder?.key
+      }}
+      style={{
+        
+      }}
+      items={select.items}
+    >
+      <Input />
+    </RNPickerSelect>
+  : <Input />*/
   return (
     <Grid>
       <Grid position='relative' marginBottom={mb}>
+        {
+          inputOnButton && 
+            <Button 
+            onPress={inputOnButton}
+            activeOpacity={1}
+            style={[
+              {
+                position: 'absolute',
+                bottom: 0,
+                height: styles.defaultStyle.height,
+                backgroundColor: 'transparent',
+                width:'100%',
+                zIndex: 1024,
+              },
+              inputStyle
+            ]}
+          />
+        }
         <TextInput 
           onChangeText={onChangeText}
           value={value}

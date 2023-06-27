@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Grid, Icon, OutlinedInput } from '../../components';
+// import { GoogleAutocomplete } from '../../components/GoogleAutocomplete';
+import { 
+    Grid, 
+    Icon, 
+    OutlinedInput,
+    GoogleAutocomplete,
+    GoogleAutocompleteModal 
+} from '../../components';
 
 interface OriginAndDestinationProps {
     bg?: 'default' | 'white'
@@ -9,6 +16,12 @@ export const OriginAndDestination = ({
     bg = 'default'
 }: OriginAndDestinationProps) => {
     const [widthContainer, setWidthContainer] = useState(0);
+
+    const [googleAutocomple, setGoogleAutocomple] = useState<GoogleAutocompleteModal>({
+        show: false,
+        type: 'origin'
+    });
+
     return (
         <Grid 
             bgColor={bg == 'default' ? 'zumthor' : 'white'} 
@@ -40,6 +53,7 @@ export const OriginAndDestination = ({
                 value={''}
                 onChangeText={(value) => console.log(value)}
                 labelText='Ubicación origen'
+                inputOnButton={() => setGoogleAutocomple({show: true, type: 'origin'})}
                 inputStyle={{
                     borderRadius:0,
                     borderBottomWidth: 1,
@@ -53,6 +67,7 @@ export const OriginAndDestination = ({
                 <OutlinedInput 
                     value={''}
                     onChangeText={(value) => console.log(value)}
+                    inputOnButton={() => setGoogleAutocomple({show: true, type: 'destination'})}
                     mb={0}
                     labelText='Ubicación destino'
                     iconRight={<Icon name='locationOutline' size='lg' color='scorpion' />}
@@ -63,6 +78,15 @@ export const OriginAndDestination = ({
                     }}
                 />
             </Grid>
+            <GoogleAutocomplete
+                show={googleAutocomple.show}
+                type={googleAutocomple.type}
+                onClose={() => setGoogleAutocomple(val => ({...val, show: false}))}
+                placeholder={ googleAutocomple.type == 'origin' ? 'Ingrese la ubicación origen' : 'Ingrese la ubicación destino' }
+                onSendData={(type, data) => {
+                    console.log(type, data);
+                }}
+            />
         </Grid>
     )
 }
