@@ -8,6 +8,7 @@ import {
 } from 'react-native-permissions';
 import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 import { GPSPermissionsContext, GPSPersmissions } from './PermissionsContext';
+import { Location } from '../../interfaces/location';
 
 
 export const gpsPermissionInitState: GPSPersmissions = {
@@ -18,7 +19,7 @@ export const gpsPermissionInitState: GPSPersmissions = {
 
 export const GPSPermissionsProvider = ({ children }: any ) => {
     const [gpsPermissions, setGpsPermissions] = useState( gpsPermissionInitState );
-    const [gelocation, setGelocation] = useState<GeolocationResponse>();
+    const [gelocation, setGelocation] = useState<Location>();
 
     useEffect(() => {
         
@@ -44,7 +45,8 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
             const geo = await getCurrentLocation();
 
             if( 'coords' in geo ){
-                setGelocation(values => ({...values, ...geo}));
+                const { coords: {latitude, longitude} } = geo;
+                setGelocation({latitude, longitude});
             }
             
         }

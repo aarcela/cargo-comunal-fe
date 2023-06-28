@@ -45,8 +45,8 @@ export const Home = ({ navigation }: HomeProps) => {
       </Grid>
       <Map 
         region={{
-          latitude: geolocation?.coords ? geolocation.coords.latitude : 10.48801,
-          longitude: geolocation?.coords ? geolocation.coords.longitude : -66.87919,
+          latitude: geolocation ? geolocation.latitude : 10.48801,
+          longitude: geolocation ? geolocation.longitude : -66.87919,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-// import { GoogleAutocomplete } from '../../components/GoogleAutocomplete';
 import { 
     Grid, 
     Icon, 
     OutlinedInput,
     GoogleAutocomplete,
-    GoogleAutocompleteModal 
+    GoogleAutocompleteModal
 } from '../../components';
 
 interface OriginAndDestinationProps {

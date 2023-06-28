@@ -97,5 +97,5 @@ export const PlaceDetails = async(place_id: string) : Promise<PlaceDetailsResp> 
 export const GetPostalPlace = (data: AddressComponent[]) => {
     const filter = data.filter(item => item.types.includes('postal_code'));
 
-    return filter.length >= 0 ? filter[0].long_name : null;
+    return filter.length > 0 ? filter[0].long_name : null;
 }

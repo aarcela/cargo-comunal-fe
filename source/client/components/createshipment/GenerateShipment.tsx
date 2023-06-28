@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { 
   Button, 
   FabIcon, 
@@ -9,6 +9,7 @@ import {
   ItemValue 
 } from '../../../components';
 import { OriginAndDestination } from '../OriginAndDestination';
+import { ShipmentContext } from '../../context/shipment';
 
 interface GenerateShipmentProps{
   goBack: () => void;
@@ -21,6 +22,8 @@ export const GenerateShipment = ({
     label: '',
     value: ''
   });
+
+  const { status, shipment, createShipment  } = useContext(ShipmentContext);
 
   return (
     <Grid container paddingTop={40} bgColor='white'>

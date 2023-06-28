@@ -21,6 +21,7 @@ import {
   PlaceDetails,
   GetPostalPlace 
 } from '../utils/googlePlaceApi';
+import { DataLocationGooglePlace, ResultSearchGoogleAutocomplete } from '../interfaces/googleMap';
 
 type GoogleAutocompleteModalType = 'origin' | 'destination'
 
@@ -29,27 +30,14 @@ export interface GoogleAutocompleteModal{
   show: boolean;
 }
 
-export interface DataLocationGoogle extends ResultSearch{
-  postal: string | null;
-  location: {
-    lat: number;
-    lng: number;
-  }
-}
 
 interface GoogleAutocompleteProps extends GoogleAutocompleteModal{
   onClose: () => void;
   placeholder: string;
-  onSendData: (type: GoogleAutocompleteModalType, data: DataLocationGoogle | null) => void;
+  onSendData: (type: GoogleAutocompleteModalType, data: DataLocationGooglePlace | null) => void;
 }
 
 
-interface ResultSearch{
-  place_id:              string;
-  main_text:                    string;
-  secondary_text:               string;
-  description: string;
-}
 
 export const GoogleAutocomplete = ({
   show,
@@ -61,7 +49,7 @@ export const GoogleAutocomplete = ({
   const { width } = useWindowDimensions();
 
   const [valueInput, setValueInput] = useState('');
-  const [resultSearch, setResultSearch] = useState<ResultSearch[]>([]);
+  const [resultSearch, setResultSearch] = useState<ResultSearchGoogleAutocomplete[]>([]);
   const [placeId, setPlaceId] = useState('');
   const [loanding, setLoanding] = useState(true);
   const [msgError, setMsgError] = useState<string | undefined>();
@@ -118,7 +106,7 @@ export const GoogleAutocomplete = ({
     setLoandingLocation(true);
     setMsgError(undefined);
 
-    let dataSend:DataLocationGoogle | null = null;
+    let dataSend:DataLocationGooglePlace | null = null;
 
     const { ok, data, message } = await PlaceDetails(place_id);
 
