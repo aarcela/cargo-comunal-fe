@@ -7,7 +7,6 @@ import {
   TouchableOpacity as Button, 
   StyleSheet 
 } from 'react-native';
-import RNPickerSelect, { Item, PickerStyle } from 'react-native-picker-select';
 import { Typography } from './Typography';
 import { Grid } from './Grid';
 import { Colors } from '../styles';
@@ -31,13 +30,7 @@ export type OutlinedInputProps = {
   iconRight?: React.ReactNode;
   mb?: number;
   bgInput?: keyof typeof Colors;
-  inputOnButton?: () => void
-  select?: {
-    value: any;
-    items: Item[];
-    placeholder?: Item;
-    style?: PickerStyle;
-  }
+  inputOnButton?: () => void;
 }
 
 export const OutlinedInput = ({
@@ -56,30 +49,6 @@ export const OutlinedInput = ({
   inputOnButton
 }:OutlinedInputProps) => {
   
-  /*return select ? 
-    <RNPickerSelect
-      onValueChange={(value) => {
-        const items = select.items;
-        const item = items.filter(val => value === val.value)[0];
-        
-        onChangeText({label: item.label, value: item.value});
-      }}
-      value={select.value}
-      placeholder={{
-        label: select.placeholder?.label,
-        value: select.placeholder?.value,
-        color: select.placeholder?.color || '#C6C6C6',
-        inputLabel: select.placeholder?.inputLabel,
-        key: select.placeholder?.key
-      }}
-      style={{
-        
-      }}
-      items={select.items}
-    >
-      <Input />
-    </RNPickerSelect>
-  : <Input />*/
   return (
     <Grid>
       <Grid position='relative' marginBottom={mb}>

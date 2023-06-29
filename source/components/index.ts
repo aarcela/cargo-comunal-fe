@@ -6,6 +6,7 @@ export * from './Collapse';
 export * from './FabIcon';
 export * from './GoogleAutocomplete';
 export * from './PermissionLocation';
+export * from './SelectInput';
 export * from './SideNav';
 export * from './Grid';
 export * from './Hr';

@@ -5,18 +5,7 @@ import { RouteUser, UserApplicant, UserDriver } from '../user';
 
 
 export interface Shipment extends CreatedShipment{
-    ubication: {
-        origin: DataLocationGooglePlace & {
-            dateTimeInput: string | null;
-            dateTimeOuput: string | null;
-        };
-        destination: DataLocationGooglePlace & {
-            dateInput: string | null;
-            timeInput: string | null;
-        };
-
-        kmOriginToDestination: string | null; 
-    };
+    ubication: UbicationShipment;
 
     route: RouteUser;
 
@@ -37,6 +26,24 @@ export interface CreatedShipment{
     id: string | number;
 }
 
+export interface UbicationShipment{
+    ubication: { 
+        origin: UbicationOrigin;
+        destination: UbicationDestination;
+
+        kmOriginToDestination: string | null; 
+    };
+}
+
+export interface UbicationOrigin extends DataLocationGooglePlace{
+    dateTimeInput?: string | null;
+    dateTimeOuput?: string | null;
+}
+
+export interface UbicationDestination extends DataLocationGooglePlace{
+    dateInput?: string | null;
+    timeInput?: string | null;
+}
 
 export interface Driver extends UserDriver{
     location: Location;

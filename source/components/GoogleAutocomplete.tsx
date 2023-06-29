@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Modal, 
   useWindowDimensions, 
@@ -23,7 +23,7 @@ import {
 } from '../utils/googlePlaceApi';
 import { DataLocationGooglePlace, ResultSearchGoogleAutocomplete } from '../interfaces/googleMap';
 
-type GoogleAutocompleteModalType = 'origin' | 'destination'
+export type GoogleAutocompleteModalType = 'origin' | 'destination'
 
 export interface GoogleAutocompleteModal{
   type: GoogleAutocompleteModalType;
@@ -35,6 +35,7 @@ interface GoogleAutocompleteProps extends GoogleAutocompleteModal{
   onClose: () => void;
   placeholder: string;
   onSendData: (type: GoogleAutocompleteModalType, data: DataLocationGooglePlace | null) => void;
+  value: string;
 }
 
 
@@ -44,14 +45,15 @@ export const GoogleAutocomplete = ({
   type,
   onClose,
   onSendData,
-  placeholder
+  placeholder,
+  value
 }: GoogleAutocompleteProps) => {
   const { width } = useWindowDimensions();
 
   const [valueInput, setValueInput] = useState('');
   const [resultSearch, setResultSearch] = useState<ResultSearchGoogleAutocomplete[]>([]);
   const [placeId, setPlaceId] = useState('');
-  const [loanding, setLoanding] = useState(true);
+  const [loanding, setLoanding] = useState(false);
   const [msgError, setMsgError] = useState<string | undefined>();
 
 
@@ -59,30 +61,31 @@ export const GoogleAutocomplete = ({
   
 
   useEffect(() => {
-    setLoanding(true);
-    setTimeout(() => {
-      setResultSearch([]);
-      setLoanding(false);
-    }, 1000);
-  }, [type || show])
+    setValueInput(value)
+  }, [value])
   
   const searchPlaceAutocomplete  = async(text: string) => {
+    let results: ResultSearchGoogleAutocomplete[] = [];
+    
     setLoanding(true);
     setMsgError(undefined);
-    setResultSearch([]);
     setPlaceId(''); 
 
     if( text == '' ){
       setTimeout(() => {
-        setLoanding(false)
+        setLoanding(false);
+        setResultSearch([])
       }, 500);
       return;
     } 
 
 
     const { ok, data, message } = await PlaceAutocomplete(text);
+  
    
     if( ok ){
+      
+
       data.map(item => {
         const {  
           structured_formatting: { main_text, secondary_text }, 
@@ -90,12 +93,14 @@ export const GoogleAutocomplete = ({
           description 
         } = item;
 
-        setResultSearch(value => ([...value, {main_text, secondary_text, place_id, description}]));
+      
+        results.push({main_text, secondary_text, place_id, description});
       })
 
     }
 
     setMsgError(message!);
+    setResultSearch(results);
     setLoanding(false);
   }
 
@@ -229,7 +234,8 @@ export const GoogleAutocomplete = ({
                       <Typography size={13} color='abbey'>{main_text}</Typography>
                       <Typography size={11} >{secondary_text}</Typography>
                     </Grid>
-                  </Button>
+                </Button>
+
                 ))
               }
             </ScrollView>

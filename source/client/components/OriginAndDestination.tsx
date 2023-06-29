@@ -4,15 +4,24 @@ import {
     Icon, 
     OutlinedInput,
     GoogleAutocomplete,
-    GoogleAutocompleteModal
+    GoogleAutocompleteModal,
+    GoogleAutocompleteModalType
 } from '../../components';
+import { DataLocationGooglePlace } from '../../interfaces/googleMap';
+import { UbicationDestination, UbicationOrigin } from '../../interfaces/shipment';
 
 interface OriginAndDestinationProps {
-    bg?: 'default' | 'white'
+    bg?: 'default' | 'white';
+    origin: UbicationOrigin | null;
+    destination: UbicationDestination | null;
+    onChangeMap: (type: 'origin' | 'destination', data: DataLocationGooglePlace | null) => void;
 }
 
 export const OriginAndDestination = ({
-    bg = 'default'
+    bg = 'default',
+    onChangeMap,
+    destination,
+    origin
 }: OriginAndDestinationProps) => {
     const [widthContainer, setWidthContainer] = useState(0);
 
@@ -20,6 +29,9 @@ export const OriginAndDestination = ({
         show: false,
         type: 'origin'
     });
+
+    const [type, setType] = useState<GoogleAutocompleteModalType>('origin');
+    const [show, setShow] = useState<boolean>(false);
 
     return (
         <Grid 
@@ -49,10 +61,13 @@ export const OriginAndDestination = ({
             <Grid width={ widthContainer > 0 ? widthContainer - 40 : 'auto' }>
                 
                 <OutlinedInput 
-                value={''}
-                onChangeText={(value) => console.log(value)}
+                value={origin != null ? origin.description : ''}
+                onChangeText={(value) => null}
                 labelText='Ubicación origen'
-                inputOnButton={() => setGoogleAutocomple({show: true, type: 'origin'})}
+                inputOnButton={() => {
+                    setShow(true)
+                    setType('origin');
+                }}
                 inputStyle={{
                     borderRadius:0,
                     borderBottomWidth: 1,
@@ -64,9 +79,12 @@ export const OriginAndDestination = ({
                 iconRight={<Icon name='locationOutline' size='lg' color='scorpion' />}
                 />
                 <OutlinedInput 
-                    value={''}
-                    onChangeText={(value) => console.log(value)}
-                    inputOnButton={() => setGoogleAutocomple({show: true, type: 'destination'})}
+                    value={destination != null ? destination.description : ''}
+                    onChangeText={(value) => null}
+                    inputOnButton={() => {
+                        setShow(true)
+                        setType('destination');
+                    }}
                     mb={0}
                     labelText='Ubicación destino'
                     iconRight={<Icon name='locationOutline' size='lg' color='scorpion' />}
@@ -78,12 +96,22 @@ export const OriginAndDestination = ({
                 />
             </Grid>
             <GoogleAutocomplete
-                show={googleAutocomple.show}
-                type={googleAutocomple.type}
-                onClose={() => setGoogleAutocomple(val => ({...val, show: false}))}
-                placeholder={ googleAutocomple.type == 'origin' ? 'Ingrese la ubicación origen' : 'Ingrese la ubicación destino' }
+                show={show}
+                type={type}
+                value={
+                    type == 'origin' && origin != null ? origin.description :
+                    type == 'origin' && origin == null ? '' :
+                    type == 'destination' && destination != null ? destination.description :
+                    type == 'destination' && destination == null ? '' : ''
+                }
+                onClose={() => setShow(false)}
+                placeholder={ 
+                    type == 'origin' ? 
+                    'Ingrese la ubicación origen' : 
+                    'Ingrese la ubicación destino' 
+                }
                 onSendData={(type, data) => {
-                    console.log(type, data);
+                    onChangeMap(type, data);
                 }}
             />
         </Grid>
