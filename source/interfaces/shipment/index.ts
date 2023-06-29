@@ -4,35 +4,49 @@ import { MethodPayment } from "../methodPayment";
 import { RouteUser, UserApplicant, UserDriver } from '../user';
 
 
-export interface Shipment extends CreatedShipment{
+export interface Shipment{
+    id?: string | number | null;
+
     ubication: UbicationShipment;
 
-    route: RouteUser;
+    route: RouteShipment;
 
-    weightLoad: number | string;
+    weightLoad: WeightLoadShipment;
 
-    applicant: UserApplicant;
+    applicant: CreateByShipment;
 
-    driver: Driver;
+    driver: DriverShipment;
 
-    methodPayment: MethodPayment;
+    methodPayment: MethodPaymentShipment;
 
-    total: string | number;
+    total: TotalShipment;
 
     
 }
 
-export interface CreatedShipment{
-    id: string | number;
+export type RouteShipment = RouteUser;
+
+export type WeightLoadShipment = number | string;
+
+export type CreateByShipment = UserApplicant;
+
+export type DriverShipment = UserDriver & {
+    location: Location;
+};
+
+export type MethodPaymentShipment = MethodPayment;
+
+export type TotalShipment = string | number;
+
+export interface CreatedShipment extends Shipment{
+    
 }
 
 export interface UbicationShipment{
-    ubication: { 
-        origin: UbicationOrigin;
-        destination: UbicationDestination;
+    origin: UbicationOrigin;
+    destination: UbicationDestination;
 
-        kmOriginToDestination: string | null; 
-    };
+    kmOriginToDestination: string | null; 
 }
 
 export interface UbicationOrigin extends DataLocationGooglePlace{
@@ -45,6 +59,19 @@ export interface UbicationDestination extends DataLocationGooglePlace{
     timeInput?: string | null;
 }
 
-export interface Driver extends UserDriver{
-    location: Location;
+export interface ShipmentCreate {
+    ubication: UbicationShipment;
+
+    route: RouteShipment | null;
+
+    weightLoad: WeightLoadShipment | null;
+
+    applicant: CreateByShipment | null;
+
+    driver: DriverShipment | null;
+
+    methodPayment: MethodPaymentShipment | null;
+
+    total: TotalShipment | null;
 }
+

@@ -22,6 +22,7 @@ type AlertProps = {
     durationFadeIn?: number;
     duartionFadeOut?: number;
     translateYAnimate?: boolean;
+    mh?: number;
 }
 
 
@@ -55,7 +56,8 @@ export const Alert = ({
     delayAutomatic = 3000,
     duartionFadeOut = 1000,
     durationFadeIn = 1000,
-    translateYAnimate = true
+    translateYAnimate = true,
+    mh = 0
 }: AlertProps) => {
     const opacity = useRef(new Animated.Value(0)).current;
     const { width } = useWindowDimensions()
@@ -119,10 +121,9 @@ export const Alert = ({
                             [position != 'relative' && styleAlert.isShadow],
                             {
                                 position: position == 'relative' ? 'relative' : 'absolute',
-                                marginHorizontal: position != 'relative' ? 15 : 0,
+                                marginHorizontal: mh,
                                 zIndex: 1,
                                 left: 0,
-                                bottom: 0,
                                 width: position != 'relative' ? width - 30 : '100%'
                             },
                             [position == 'top' && styleAlert.top],
@@ -248,7 +249,7 @@ const Childrens = ({
 
 const styleAlert = StyleSheet.create({
     bottom: { bottom: 0 },
-    top: { top: StatusBar.currentHeight },
+    top: { top: 0 },
     bgIconError: {
         backgroundColor: "#FF5A5F"
     },

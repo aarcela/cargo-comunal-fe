@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   TextInput, 
   TextInputProps, 
   ViewStyle, 
   StyleProp, 
   TouchableOpacity as Button, 
-  StyleSheet 
+  StyleSheet,
+  SafeAreaView
 } from 'react-native';
 import { Typography } from './Typography';
 import { Grid } from './Grid';
@@ -32,7 +33,9 @@ export type OutlinedInputProps = {
   bgInput?: keyof typeof Colors;
   inputOnButton?: () => void;
 }
-
+const selection = {
+  start: 1
+}
 export const OutlinedInput = ({
   labelText, 
   labelColorText = 'scorpion', 
@@ -48,10 +51,11 @@ export const OutlinedInput = ({
   bgInput,
   inputOnButton
 }:OutlinedInputProps) => {
-  
+  const [isToque, setisToque] = useState(false);
+
   return (
-    <Grid>
-      <Grid position='relative' marginBottom={mb}>
+    <SafeAreaView>
+      <Grid position='relative' width='100%' marginBottom={mb}>
         {
           inputOnButton && 
             <Button 
@@ -78,6 +82,13 @@ export const OutlinedInput = ({
           placeholder={labelText}
           placeholderTextColor={Colors[labelColorText]}
           {...inputProps}
+          onPressIn={() => {
+            setisToque(true)
+          }}
+          onEndEditing={() => {
+            setisToque(false)
+          }}
+          selection={isToque ? undefined : selection}
         />
         { iconRight &&
           <Button
@@ -102,8 +113,8 @@ export const OutlinedInput = ({
           </Button>
         }
       </Grid>
-      { isError && <Typography size={11} fontFamily='Poppins-Medium' color='error'>{messageError}</Typography> }
-    </Grid>
+      { isError && <Typography styles={{marginTop: 6}} size={11} fontFamily='Poppins-Medium' color='error'>{messageError}</Typography> }
+    </SafeAreaView>
   )
 }
 
@@ -114,10 +125,11 @@ const styles = StyleSheet.create({
     paddingTop: 12,    
     fontFamily: 'Poppins-Regular',
     fontSize: 13,
-    alignItems: 'center',
-    display: 'flex',
     textAlignVertical: 'center',
     paddingBottom: 8,
-    borderRadius: 5
+    borderRadius: 5,
+    textAlign: 'left',
+    width: '100%',
+    justifyContent: 'flex-start',
   }
 })

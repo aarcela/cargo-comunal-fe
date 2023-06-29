@@ -7,9 +7,8 @@ export type StatusShipment = boolean;
 
 type ShipmentContextProps = {
     status: StatusShipment;
-    shipment?: Shipment;
-    createShipment: (shipment: Shipment) => void;
-    confirmShipment: () => void;
+    shipment: Shipment | null;
+    onCreateShipment: (shipment: Shipment) => Promise<void>;
 }
 
 export const ShipmentContext = createContext({} as ShipmentContextProps);

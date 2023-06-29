@@ -6,26 +6,25 @@ import { Shipment } from "../../../interfaces"
 
 const ShipmentInitState: ShipmentState = {
     status: false,
+    shipment: null
 }
 
 export const ShipmentsProvider = ( { children }: any ) => {
     const [ state, dispatch ] = useReducer(ShipmentReducer, ShipmentInitState);
 
-    const createShipment = (shipment: Shipment) => {
-            
-    }
+    const onCreateShipment = async(shipment: Shipment) => {
+        console.log(shipment, 'ss')
+        //dispatch({ type: 'creating', payload: shipment})
+    };
 
-    const confirmShipment = () => {
-        
-    }
+
 
 
     return (
         <ShipmentContext.Provider
             value={{
                 ...state,
-                createShipment,
-                confirmShipment
+                onCreateShipment,
             }}
         >
             { children }

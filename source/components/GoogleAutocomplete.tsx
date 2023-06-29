@@ -53,6 +53,8 @@ export const GoogleAutocomplete = ({
   const [valueInput, setValueInput] = useState('');
   const [resultSearch, setResultSearch] = useState<ResultSearchGoogleAutocomplete[]>([]);
   const [placeId, setPlaceId] = useState('');
+  const [dataSend, setDataSend] = useState<DataLocationGooglePlace | null>(null);
+
   const [loanding, setLoanding] = useState(false);
   const [msgError, setMsgError] = useState<string | undefined>();
 
@@ -61,7 +63,7 @@ export const GoogleAutocomplete = ({
   
 
   useEffect(() => {
-    setValueInput(value)
+    setValueInput(value);
   }, [value])
   
   const searchPlaceAutocomplete  = async(text: string) => {
@@ -69,12 +71,14 @@ export const GoogleAutocomplete = ({
     
     setLoanding(true);
     setMsgError(undefined);
-    setPlaceId(''); 
+    setPlaceId('');
+    setDataSend(null); 
 
     if( text == '' ){
       setTimeout(() => {
         setLoanding(false);
-        setResultSearch([])
+        setResultSearch([]);
+        
       }, 500);
       return;
     } 
@@ -137,6 +141,7 @@ export const GoogleAutocomplete = ({
     setLoandingLocation(false);
     setMsgError(message!);
     onSendData(type, dataSend);
+    setDataSend(dataSend)
    }, 1000);
   }
 
@@ -164,7 +169,13 @@ export const GoogleAutocomplete = ({
           alignItems='center'
         >
           <FabIcon
-            onPress={onClose}
+            onPress={() => {
+              const data = valueInput != '' ? dataSend : null;
+              onSendData(type, data);
+              setResultSearch([]);
+              onClose();
+
+            }}
             nameIcon='arrowBackOutline'
             shadow={false}
             icon={{
@@ -182,6 +193,7 @@ export const GoogleAutocomplete = ({
           />
           <Grid width={width - 60} display='flex' paddingLeft={8} paddingTop={8}>
             <OutlinedInput 
+              bgInput='white'
               value={valueInput}
               onChangeText={(value) => {
                 setValueInput(value)
@@ -203,6 +215,9 @@ export const GoogleAutocomplete = ({
                   <Icon name='closeOutline' size='lg' color='scorpion' />
                 </Button>
               }
+              inputProps={{
+                inputMode: 'text',
+              }}
             />
           </Grid>
         </Grid>
@@ -272,6 +287,7 @@ export const GoogleAutocomplete = ({
           typeBg='error'
           isTypeIcon='error'
           delayAutomatic={6000}
+          mh={15}
         />
         <LoadIndicatorModal 
           visible={loandingLocation}

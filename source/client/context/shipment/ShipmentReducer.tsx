@@ -12,12 +12,11 @@ type StateShipment<Bstate = true> = Bstate extends true ? {
 
 export interface ShipmentState {
     status: StatusShipment;
-    shipment?: Shipment;
+    shipment: Shipment | null;
 };
 
 type ShipmentAction = 
     | { type: 'creating', payload: Shipment }
-    | { type: 'save',  payload: Shipment }
 
     // generaEstado
 export const ShipmentReducer = ( state: ShipmentState, action: ShipmentAction ): ShipmentState => {
@@ -25,15 +24,10 @@ export const ShipmentReducer = ( state: ShipmentState, action: ShipmentAction ):
         case 'creating':
             return {
                 ...state,
-                shipment: action.payload
-            }
-
-        case 'save':
-            return {
-                ...state,
                 status: true,
                 shipment: action.payload
             }
+
 
         default:
             return state;
