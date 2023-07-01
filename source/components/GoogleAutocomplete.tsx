@@ -5,7 +5,8 @@ import {
   KeyboardAvoidingView, 
   Platform,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
 } from 'react-native';
 import { Grid } from './Grid';
 import { FabIcon } from './FabIcon';
@@ -39,6 +40,7 @@ interface GoogleAutocompleteProps extends GoogleAutocompleteModal{
 }
 
 
+const heigthStatusBar = StatusBar.currentHeight;
 
 export const GoogleAutocomplete = ({
   show,
@@ -149,14 +151,15 @@ export const GoogleAutocomplete = ({
     <Modal
       visible={show} 
       animationType='fade'
-      
+      statusBarTranslucent
       style={{
         flex: 1,
       }}
     >
       <KeyboardAvoidingView
         style={{
-          flex: 1
+          flex: 1,
+          paddingTop: heigthStatusBar,
         }}
         behavior={ Platform.OS == 'ios' ? 'padding' : 'height' }
       >

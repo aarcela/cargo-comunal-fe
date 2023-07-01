@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, lazy } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { 
+  Alert,
   Button,
   Grid,
   Map,
@@ -10,10 +11,12 @@ import {
   CardTruck,
   Icon,
   Hr,
+  LoadIndicatorModal,
 } from '../../../components';
-import { OriginAndDestination } from '../OriginAndDestination';
+import { OriginAndDestination, UbicationOriginAndDestination } from '../OriginAndDestination';
 import { PaymentMethods } from '../PaymentMethods';
 import { GPSPermissionsContext } from '../../../context/gps';
+import { UbicationDestination, UbicationOrigin, UbicationShipment } from '../../../interfaces/shipment';
 
 
 
@@ -67,10 +70,41 @@ const Trucks : ItemData[] = [
   },
 ];
 
-export const ConfirmShipment = () => {
+interface ConfirmShipmentprops{
+  active: boolean;
+  goBack: () => void;
+  onChangeUbication: (data: UbicationShipment) => void;
+  origin?: UbicationOrigin;
+  destination?: UbicationDestination;
+}
+
+export const ConfirmShipment = ({ 
+  active = false,
+  goBack,
+  origin,
+  destination,
+  onChangeUbication
+}:ConfirmShipmentprops) => {
   const { geolocation } = useContext( GPSPermissionsContext );
+  const [msgError, setMsgError] = useState<string | undefined>();
   const [truckSelect, setTruckSelect] = useState<number>();
   const [methodPaymentModal, setMethodPaymentModal] = useState(false);
+
+  const [isLazy, setIsLazy] = useState(active);
+
+  useEffect(() => { 
+    
+    if( active ){
+      setIsLazy(true);
+      setTimeout(() => {
+        setIsLazy(false);
+      }, 1000);
+    }else{
+      setIsLazy(false);
+    }
+  
+  }, [active])
+  
 
 
   const renderItem = (item: ItemData) => {
@@ -92,16 +126,39 @@ export const ConfirmShipment = () => {
 
   return (
     <Grid flex={1} bgColor='white'>
-      <Modalize 
+      <LoadIndicatorModal 
+        visible={isLazy}
+        bgColorModal='white'
+        isText={false}
+        loadIndicatorProps={{
+          color: "#3292E1"
+        }}
+      />
+      {
+        !isLazy && active &&
+        <Modalize 
         positionInitial='static'
         heightModalize='60%'
-        active={true}
+        active={active}
         transparent
         radius={false}
         onClose={() => null}
         childrenUp={
           <>
+            <Alert 
+              isVisible={msgError !== undefined}
+              isAnimated
+              position='top'
+              top={35}
+              children={msgError}
+              typeBg='error'
+              isTypeIcon='error'
+              delayAutomatic={6000}
+              useStateOpacity={() => setMsgError(undefined)}
+              mh={15}
+            />
             <FabIcon 
+              onPress={goBack}
               nameIcon='arrowBackOutline'
               bgColor='white'
               size='md'
@@ -114,11 +171,29 @@ export const ConfirmShipment = () => {
               }}
             />
             <Grid position='absolute' width='100%' top={'22%'} >
-              <Grid paddingHorizontal={15}>
-                <OriginAndDestination
-                  bg='white'
-                />
-              </Grid>
+              {
+                origin && destination && 
+                <Grid paddingHorizontal={15}>
+                  <OriginAndDestination
+                    bg='white'
+                    origin={origin!}
+                    destination={destination!}
+                    
+                    onChangeMap={(type, data) => {
+                      if( data == null ){
+                        setMsgError(`La ${type == 'origin' ? 'ubicación origen' : 'ubicación destino'} es obligatorio`)
+                        return;
+                      }
+
+                      if( type == 'origin' ){
+                        onChangeUbication({ origin: data, destination: destination!, kmOriginToDestination: null })
+                      }else{
+                        onChangeUbication({ origin: data, destination: destination!, kmOriginToDestination: null })
+                      }
+                    }}
+                  />
+                </Grid>
+              }
             </Grid>
           </>
         }
@@ -205,16 +280,20 @@ export const ConfirmShipment = () => {
         </Grid>
         
       </Modalize>
-      <Grid height={'45%'}>
-        <Map
-          region={{
-            latitude: geolocation?.coords ? geolocation.coords.latitude : 10.48801,
-            longitude: geolocation?.coords ? geolocation.coords.longitude : -66.87919,
-            latitudeDelta: 0.010,
-            longitudeDelta: 0.015,
-          }}
-        />
-      </Grid>
+      }
+      {
+        !isLazy && active && 
+        <Grid height={'45%'}>
+          <Map
+            region={{
+              latitude: geolocation?.latitude ? geolocation.latitude : 10.48801,
+              longitude: geolocation?.longitude ? geolocation.longitude : -66.87919,
+              latitudeDelta: 0.010,
+              longitudeDelta: 0.015,
+            }}
+          />
+        </Grid>
+      }
     </Grid>
   )
 }

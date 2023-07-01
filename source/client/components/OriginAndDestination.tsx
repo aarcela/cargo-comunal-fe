@@ -10,10 +10,13 @@ import {
 import { DataLocationGooglePlace } from '../../interfaces/googleMap';
 import { UbicationDestination, UbicationOrigin } from '../../interfaces/shipment';
 
-interface OriginAndDestinationProps {
-    bg?: 'default' | 'white';
+export interface UbicationOriginAndDestination {
     origin: UbicationOrigin | null;
     destination: UbicationDestination | null;
+}
+
+interface OriginAndDestinationProps extends UbicationOriginAndDestination {
+    bg?: 'default' | 'white';
     onChangeMap: (type: 'origin' | 'destination', data: DataLocationGooglePlace | null) => void;
 }
 
@@ -74,7 +77,6 @@ export const OriginAndDestination = ({
                             inputProps={{
                                 inputMode: 'text',
                             }}
-                            bgInput='zumthor'
                         />
                         <OutlinedInput 
                             value={destination != null ? destination.description : ''}

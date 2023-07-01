@@ -9,7 +9,7 @@ const ShipmentInitState: ShipmentState = {
     shipment: null
 }
 
-export const ShipmentsProvider = ( { children }: any ) => {
+export const ShipmentProvider = ( { children }: any ) => {
     const [ state, dispatch ] = useReducer(ShipmentReducer, ShipmentInitState);
 
     const onCreateShipment = async(shipment: Shipment) => {

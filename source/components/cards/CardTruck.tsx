@@ -59,7 +59,7 @@ export const CardTruck = ({
             display='flex'
             flexDirection='row'
             justifyContent='space-between'
-            paddingLeft={0}
+            paddingLeft={8}
             paddingVertical={15}
         >
             <Grid width='70%' spacing={0} paddingRight={0}>

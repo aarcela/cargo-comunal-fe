@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { 
   RouteShipment, 
   UbicationDestination, 
   UbicationOrigin,  
-  UbicationShipment
+  UbicationShipment,
+  WeightLoadShipment
 } from '../../../interfaces/shipment';
 import { 
   Button, 
@@ -15,7 +16,8 @@ import {
   OutlinedInput, 
   Typography,
   SelectInput,
-  Alert
+  Alert, 
+  LoadIndicatorModal
 } from '../../../components';
 import { OriginAndDestination } from '../OriginAndDestination';
 
@@ -30,18 +32,47 @@ const ShipmentSchema = Yup.object().shape({
 
 
 interface GenerateShipmentProps{
+  active: boolean;
   goBack: () => void;
+  next: (data: GenerateShipmentData) => void;
+}
+
+export interface GenerateShipmentData{
+  ubication: UbicationShipment;
+
+  routeS: RouteShipment;
+
+  weightLoad: WeightLoadShipment;
 }
 
 export const GenerateShipment = ({
-    goBack
+    goBack,
+    next,
+    active = true
 }: GenerateShipmentProps) => {
   const [msgError, setMsgError] = useState<string | undefined>();
   const [ubiOrigin, setUbiOrigin] = useState<UbicationOrigin | null>(null);
   const [ubiDestination,setUbiDestination] = useState<UbicationDestination | null>(null);
+  const [routeShipment, setRouteShipment] = useState<RouteShipment>({ name: '', value: '' });
+  const [weightLoadShipment, setWeightLoadShipment] = useState<WeightLoadShipment>('');
   
+  const [isLazy, setIsLazy] = useState(true);
+
+  useEffect(() => { 
+    
+    if( active ){
+      setIsLazy(true);
+      setTimeout(() => {
+        setIsLazy(false);
+      }, 500);
+    }else{
+      setIsLazy(false);
+    }
   
-  const onNext = ({route, weightLoad}: { route: RouteShipment, weightLoad: string }) => {
+  }, [active])
+  
+
+  const onNext = ({route, weightLoad}: { route: RouteShipment, weightLoad: WeightLoadShipment }) => {
     if( ubiOrigin == null || ubiDestination == null   ){
       setMsgError(`Debe ingresar la ${ubiOrigin == null ? 'ubicación origen' : 'ubicación destino'} para continuar`);
       return;
@@ -53,26 +84,44 @@ export const GenerateShipment = ({
       kmOriginToDestination: null
     }
 
-    const shipment = {
-      route,
+    setRouteShipment(route);
+    setWeightLoadShipment(weightLoad);
+
+    const data = {
+      routeS: route,
       weightLoad,
       ubication: ubication
     }; 
+
+    next(data);
   }
 
   return (
     <Grid container paddingTop={40} bgColor='white'>
-      <FabIcon 
-        onPress={goBack}
-        nameIcon='arrowBackOutline'
-        icon={{
-          size: 'lg'
-        }}
-        position={{
-          postion: 'relative'
+      <LoadIndicatorModal 
+        visible={isLazy}
+        bgColorModal='white'
+        isText={false}
+        loadIndicatorProps={{
+          color: "#3292E1"
         }}
       />
-      <Grid display='flex' flex={1} justifyContent='space-between' paddingVertical={20} flexDirection='column'>
+      {
+        !isLazy && active &&
+        <FabIcon 
+          onPress={goBack}
+          nameIcon='arrowBackOutline'
+          icon={{
+            size: 'lg'
+          }}
+          position={{
+            postion: 'relative'
+          }}
+        />
+      }
+      {
+        !isLazy && active &&
+        <Grid display='flex' flex={1} justifyContent='space-between' paddingVertical={20} flexDirection='column'>
         <Alert 
           isVisible={msgError !== undefined}
           isAnimated
@@ -84,7 +133,7 @@ export const GenerateShipment = ({
           useStateOpacity={() => setMsgError(undefined)}
         />
         <Formik
-          initialValues={{ route: { name: '', value: '' }, weightLoad: '' }}
+          initialValues={{ route: routeShipment, weightLoad: weightLoadShipment }}
           onSubmit={values => onNext(values)}
           validationSchema={ShipmentSchema}
         >
@@ -146,6 +195,7 @@ export const GenerateShipment = ({
         </Formik>
        
       </Grid>
+      }
     </Grid>
   )
 }
