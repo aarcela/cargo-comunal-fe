@@ -1,17 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TabView, SceneRendererProps, Route } from 'react-native-tab-view';
+import { ShipmentContext } from '../../context/shipment';
 import {
   GenerateShipment,
   GenerateShipmentData,
-  ConfirmShipment
+  ConfirmShipment,
+  OnCreateShipment,
+  DataConfirmShipment
 } from '../../components/createshipment';
 import { 
   RouteShipment, 
+  Shipment, 
   UbicationShipment, 
   WeightLoadShipment
 } from '../../../interfaces/shipment';
+import { userAplicant } from '../../../utils/testshipment';
+
 
 
 interface renderSceneProps extends SceneRendererProps{
@@ -22,6 +28,8 @@ interface renderSceneProps extends SceneRendererProps{
 
 export const CreateShipment = ({ navigation }: StackScreenProps<any, any>) => {
   const { width } = useWindowDimensions();
+  const { onCreateShipment } = useContext(ShipmentContext)
+
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'first' },
@@ -35,6 +43,31 @@ export const CreateShipment = ({ navigation }: StackScreenProps<any, any>) => {
   const [ubicationShipment, setUbicationShipment] = useState<UbicationShipment>();
   const [routeShipment, setRouteShipment] = useState<RouteShipment | null>(null);
   const [weightLoadShipment, setWeightLoadShipment] = useState<WeightLoadShipment>();
+
+  const saveShipment: OnCreateShipment = async(data: DataConfirmShipment) => {
+    const shipment: Shipment = {
+      ubication: ubicationShipment!,
+      route: routeShipment!,
+      weightLoad: weightLoadShipment!,
+      applicant: userAplicant,
+      driver: data.driver,
+      methodPayment: data.methodPayment,
+      total: data.total
+    }
+
+    const { ok, msg  } = await onCreateShipment(shipment);
+
+    if( ok ){
+      setTimeout(() => {
+        navigation.navigate('Shipment')
+      }, 3000);
+    }
+
+    return {
+      ok,
+      msg
+    }
+  } 
 
 
   const renderScene = ({route, jumpTo}: renderSceneProps) => {
@@ -58,6 +91,7 @@ export const CreateShipment = ({ navigation }: StackScreenProps<any, any>) => {
           origin={ ubicationShipment?.origin ? ubicationShipment.origin : undefined} 
           destination={ ubicationShipment?.destination ? ubicationShipment?.destination : undefined}
           onChangeUbication={(ubication) => setUbicationShipment(ubication)}
+          createShipment={saveShipment}
         />
       default:
         return null;

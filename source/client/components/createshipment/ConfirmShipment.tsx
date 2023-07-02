@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect, lazy } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { 
   Alert,
+  AlertType,
   Button,
   Grid,
   Map,
@@ -13,12 +14,18 @@ import {
   Hr,
   LoadIndicatorModal,
 } from '../../../components';
-import { OriginAndDestination, UbicationOriginAndDestination } from '../OriginAndDestination';
+import { OriginAndDestination } from '../OriginAndDestination';
 import { PaymentMethods } from '../PaymentMethods';
 import { GPSPermissionsContext } from '../../../context/gps';
-import { UbicationDestination, UbicationOrigin, UbicationShipment } from '../../../interfaces/shipment';
-
-
+import { 
+  DriverShipment,
+  MethodPaymentShipment, 
+  TotalShipment, 
+  UbicationDestination, 
+  UbicationOrigin, 
+  UbicationShipment 
+} from '../../../interfaces/shipment';
+import { userDriver } from '../../../utils/testshipment';
 
 
 type ItemData = {
@@ -70,12 +77,23 @@ const Trucks : ItemData[] = [
   },
 ];
 
+export interface DataConfirmShipment{
+  driver: DriverShipment;
+
+  methodPayment: MethodPaymentShipment;
+
+  total: TotalShipment;
+}
+
+export type OnCreateShipment = (data: DataConfirmShipment) => Promise<{ok: boolean, msg?: string}>;
+
 interface ConfirmShipmentprops{
   active: boolean;
   goBack: () => void;
   onChangeUbication: (data: UbicationShipment) => void;
   origin?: UbicationOrigin;
   destination?: UbicationDestination;
+  createShipment: OnCreateShipment;
 }
 
 export const ConfirmShipment = ({ 
@@ -83,12 +101,16 @@ export const ConfirmShipment = ({
   goBack,
   origin,
   destination,
-  onChangeUbication
+  onChangeUbication,
+  createShipment
 }:ConfirmShipmentprops) => {
   const { geolocation } = useContext( GPSPermissionsContext );
   const [msgError, setMsgError] = useState<string | undefined>();
-  const [truckSelect, setTruckSelect] = useState<number>();
+  const [typeAlert, setTypeAlert] = useState<AlertType>('error')
+  const [truckSelect, setTruckSelect] = useState<number>(0);
   const [methodPaymentModal, setMethodPaymentModal] = useState(false);
+  const [methodPayment, setMethodPayment] = useState<MethodPaymentShipment | null>(null);
+  const [loadSendShipment, setLoadSendShipment] = useState(false);
 
   const [isLazy, setIsLazy] = useState(active);
 
@@ -124,6 +146,30 @@ export const ConfirmShipment = ({
     );
   };
 
+  const onCreateShipment = async() => {
+    setTypeAlert('error');
+    
+    if( methodPayment == null ){
+      setMsgError('Debe seleccionar un método de pago')
+      return;
+    }
+
+    const data: DataConfirmShipment = {
+      driver: { ...userDriver, location: null },
+      methodPayment: methodPayment,
+      total: '120.00'
+    }
+
+    const { ok, msg } = await createShipment(data);
+
+    if( ok ){
+      setTypeAlert('success');
+    }
+
+    setMsgError(msg);
+    
+  }
+
   return (
     <Grid flex={1} bgColor='white'>
       <LoadIndicatorModal 
@@ -151,8 +197,8 @@ export const ConfirmShipment = ({
               position='top'
               top={35}
               children={msgError}
-              typeBg='error'
-              isTypeIcon='error'
+              typeBg={typeAlert}
+              isTypeIcon={typeAlert}
               delayAutomatic={6000}
               useStateOpacity={() => setMsgError(undefined)}
               mh={15}
@@ -199,9 +245,18 @@ export const ConfirmShipment = ({
         }
       >
         <Grid position='relative'>
+          <LoadIndicatorModal 
+            visible={loadSendShipment}
+            text='Buscando conductor...'
+          />
           <PaymentMethods 
+            amount={120.00}
             active={methodPaymentModal}
-            onConfirm={() => setMethodPaymentModal(false)}
+            methodPayment={methodPayment}
+            onConfirm={(method) => {
+              setMethodPaymentModal(false);
+              setMethodPayment(val => ({...val, ...method}));
+            }}
           />
           <ScrollView style={{marginBottom: 140}}>
           {
@@ -247,7 +302,7 @@ export const ConfirmShipment = ({
             <Button
               typeStyle='btn-primary'
               size='sm'
-              onPress={()=> null}
+              onPress={onCreateShipment}
               style={{
                 display:'flex',
                 flexDirection: 'row',

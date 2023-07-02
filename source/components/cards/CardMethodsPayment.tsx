@@ -4,6 +4,7 @@ import { Button } from '../Button'
 import { Grid } from '../Grid'
 import { Typography } from '../Typography';
 import { Icon } from '../Icon';
+import { MethodPayment } from '../../interfaces/methodPayment';
 
 interface CardMethodsPaymentProps{
     image?: ImageProps;
@@ -11,12 +12,12 @@ interface CardMethodsPaymentProps{
     checked?: {
         check: boolean,
         val: any,
-        onChangeValue: (val:any) => void;
+        onChangeValue: (val:MethodPayment) => void;
     }
     text:{
         titleUp: string;
-        subTitleDown?: string;
-        subTitleDownVal?: string;
+        subTitleDown?: string | number;
+        subTitleDownVal?: string | number;
     }
     children?: React.ReactNode;
 }
@@ -43,7 +44,11 @@ export const CardMethodsPayment = ({
                 width: '100%',
                 borderColor: '#DADADA'
             }}
-            onPress={() => checked?.onChangeValue ? checked.onChangeValue(checked.val) : null}
+            onPress={() => checked?.onChangeValue ? checked.onChangeValue({
+                id: checked.val,
+                name: text.titleUp,
+                img: ''
+            }) : null}
         >
             <Grid 
                 width={'25%'}

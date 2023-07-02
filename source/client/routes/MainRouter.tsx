@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -20,13 +20,51 @@ import { NavBottomTab } from './NavBottomTab';
 */
 import { CreateShipment, Shipment } from '../screens/shipment';
 
+/**
+ * Import state global shipment 
+*/
+import { ShipmentContext } from '../context/shipment';
+import { LoadIndicatorModal } from '../../components';
+
 const Stack = createStackNavigator();
 
+type InitScreendMainRouter = 'NavBottomTab' | 'CreateShipment' | 'Shipment';
 
 export const MainRouter = () => {
+  const [init, setInit] = useState<InitScreendMainRouter>('NavBottomTab');
+  const [loading, setLoading] = useState(true);
+  const { availableShipping } = useContext(ShipmentContext);
+  
+  useEffect(() => {
+    checkShipment();
+  }, []);
+
+  const checkShipment = async() => {
+    const shipment = await availableShipping();
+
+    if( shipment ){
+      setInit('Shipment');
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }
+  
+
+  if( loading ){
+    return <LoadIndicatorModal 
+      visible={loading}
+      bgColorModal='white'
+      isText={false}
+      loadIndicatorProps={{
+        color: "#3292E1"
+      }}
+    />
+  }
+
   return (
     <Stack.Navigator
-      initialRouteName='NavBottomTab'
+      initialRouteName={init}
       screenOptions={{header: (props) => <ToolBar props={props} />}}
     >
       <Stack.Screen name="NavBottomTab" options={{headerShown: false}} component={NavBottomTab} />

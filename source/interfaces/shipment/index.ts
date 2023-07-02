@@ -5,8 +5,6 @@ import { RouteUser, UserApplicant, UserDriver } from '../user';
 
 
 export interface Shipment{
-    id?: string | number | null;
-
     ubication: UbicationShipment;
 
     route: RouteShipment;
@@ -31,15 +29,19 @@ export type WeightLoadShipment = number | string;
 export type CreateByShipment = UserApplicant;
 
 export type DriverShipment = UserDriver & {
-    location: Location;
+    location: Location | null;
 };
 
-export type MethodPaymentShipment = MethodPayment;
+export type MethodPaymentShipment = MethodPayment & {
+    wallet?: {
+        amount: number;
+    }
+};
 
 export type TotalShipment = string | number;
 
 export interface CreatedShipment extends Shipment{
-    
+    id?: string | number | null;
 }
 
 export interface UbicationShipment{

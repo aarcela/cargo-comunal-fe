@@ -1,14 +1,15 @@
 import { createContext } from 'react';
 import { CreatedShipment, Shipment } from '../../../interfaces/shipment';
 
-
-export type StatusShipment = boolean;
+export type CreateShipment = (shipment: Shipment) => Promise<{ok: boolean, msg?: string }>;
+export type AvailableShipping = () => Promise<boolean>;
 
 
 type ShipmentContextProps = {
-    status: StatusShipment;
-    shipment: Shipment | null;
-    onCreateShipment: (shipment: Shipment) => Promise<void>;
+    status: boolean;
+    shipment: CreatedShipment | null;
+    onCreateShipment: CreateShipment;
+    availableShipping: AvailableShipping;
 }
 
 export const ShipmentContext = createContext({} as ShipmentContextProps);

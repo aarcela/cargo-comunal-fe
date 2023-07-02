@@ -99,6 +99,12 @@ export const OriginAndDestination = ({
                 <GoogleAutocomplete
                     show={show}
                     type={type}
+                    place_id={
+                        type == 'origin' && origin != null ? origin.place_id :
+                        type == 'origin' && origin == null ? '' :
+                        type == 'destination' && destination != null ? destination.place_id :
+                        type == 'destination' && destination == null ? '' : ''
+                    }
                     value={
                         type == 'origin' && origin != null ? origin.description :
                         type == 'origin' && origin == null ? '' :

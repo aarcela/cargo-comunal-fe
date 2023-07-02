@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { 
@@ -98,6 +98,17 @@ export const GenerateShipment = ({
 
   return (
     <Grid container paddingTop={40} bgColor='white'>
+      <Alert 
+        isVisible={msgError !== undefined}
+        isAnimated
+        position='top'
+        children={msgError}
+        typeBg='error'
+        isTypeIcon='error'
+        delayAutomatic={6000}
+        mh={15}
+        useStateOpacity={() => setMsgError(undefined)}
+      />
       <LoadIndicatorModal 
         visible={isLazy}
         bgColorModal='white'
@@ -122,16 +133,6 @@ export const GenerateShipment = ({
       {
         !isLazy && active &&
         <Grid display='flex' flex={1} justifyContent='space-between' paddingVertical={20} flexDirection='column'>
-        <Alert 
-          isVisible={msgError !== undefined}
-          isAnimated
-          position='top'
-          children={msgError}
-          typeBg='error'
-          isTypeIcon='error'
-          delayAutomatic={6000}
-          useStateOpacity={() => setMsgError(undefined)}
-        />
         <Formik
           initialValues={{ route: routeShipment, weightLoad: weightLoadShipment }}
           onSubmit={values => onNext(values)}
@@ -162,9 +163,9 @@ export const GenerateShipment = ({
                       value: values.route.value,
                       placeholder:{ label: 'Seleciona una ruta', value: '' },
                       items: [
-                        { label: 'Football', value: 'football' },
-                        { label: 'Baseball', value: 'baseball' },
-                        { label: 'Hockey', value: 'hockey' },
+                        { label: 'Ruta 1', value: 0 },
+                        { label: 'Ruta 2', value: 1 },
+                        { label: 'Ruta 3', value: 2 },
                       ]
                     }}
                     isError={ errors.route?.value ? true : false}
@@ -178,6 +179,9 @@ export const GenerateShipment = ({
                     labelText='Ingresa el peso de la carga'
                     isError={ errors.weightLoad ? true : false}
                     messageError={errors.weightLoad}
+                    inputProps={{
+                      keyboardType: 'numeric'
+                    }}
                   />
               </Grid>
               <Button

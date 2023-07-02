@@ -1,34 +1,26 @@
-import { CreatedShipment, Shipment } from '../../../interfaces/shipment/index';
-import { StatusShipment } from './ShipmentContext';
+import { CreatedShipment } from '../../../interfaces/shipment';
 
 
-type StateShipment<Bstate = true> = Bstate extends true ? {
-    status: true;
-    shipment: CreatedShipment;
-} : {
-    status: false,
-    shipment: Shipment | null
-}
+
 
 export interface ShipmentState {
-    status: StatusShipment;
-    shipment: Shipment | null;
+    status: boolean;
+    shipment: CreatedShipment | null;
 };
 
 type ShipmentAction = 
-    | { type: 'creating', payload: Shipment }
+    | { type: 'created', payload: CreatedShipment }
 
     // generaEstado
 export const ShipmentReducer = ( state: ShipmentState, action: ShipmentAction ): ShipmentState => {
     switch ( action.type ) {        
-        case 'creating':
+        case 'created':
             return {
                 ...state,
                 status: true,
                 shipment: action.payload
             }
-
-
+     
         default:
             return state;
     }

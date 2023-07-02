@@ -18,7 +18,7 @@ import { Colors, IoniconsName } from '../styles';
 
 export interface SideNavProps{
   drawerContent: DrawerContentComponentProps;
-  routes: RouteNavigation<DrawerNavigationOptions>[];
+  routes: RouteNavigation<DrawerNavigationOptions, any, any>[];
   splitSection?: boolean;
   showSection?: number;
   showHrDivOnLogout?: boolean;

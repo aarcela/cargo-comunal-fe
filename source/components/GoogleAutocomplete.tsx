@@ -37,10 +37,23 @@ interface GoogleAutocompleteProps extends GoogleAutocompleteModal{
   placeholder: string;
   onSendData: (type: GoogleAutocompleteModalType, data: DataLocationGooglePlace | null) => void;
   value: string;
+  place_id?: string;
 }
 
 
 const heigthStatusBar = StatusBar.currentHeight;
+
+
+const checkValueAndFormater = (value: string) => {
+  let val: string = value;
+
+  if( val.includes(',') ){
+    const arraSplit = val.split(',');
+    val = arraSplit[0];
+  }
+
+  return val;
+}
 
 export const GoogleAutocomplete = ({
   show,
@@ -48,7 +61,8 @@ export const GoogleAutocomplete = ({
   onClose,
   onSendData,
   placeholder,
-  value
+  value,
+  place_id
 }: GoogleAutocompleteProps) => {
   const { width } = useWindowDimensions();
 
@@ -66,15 +80,26 @@ export const GoogleAutocomplete = ({
 
   useEffect(() => {
     setValueInput(value);
-  }, [value])
+    setResultSearch([]);
+    setPlaceId('');
+
+    if( value !== '' ){
+      setValueInput(checkValueAndFormater(value));
+      searchPlaceAutocomplete(checkValueAndFormater(value));
+      if( place_id && place_id != ''  ){
+        setPlaceId(place_id);
+      }
+      
+    }
+  }, [show])
   
   const searchPlaceAutocomplete  = async(text: string) => {
     let results: ResultSearchGoogleAutocomplete[] = [];
     
     setLoanding(true);
     setMsgError(undefined);
-    setPlaceId('');
-    setDataSend(null); 
+    //setPlaceId('');
+    
 
     if( text == '' ){
       setTimeout(() => {
@@ -114,6 +139,7 @@ export const GoogleAutocomplete = ({
 
     if( place_id === placeId ) return;
     
+    setDataSend(null); 
     setLoandingLocation(true);
     setMsgError(undefined);
 

@@ -4,7 +4,7 @@ import { Colors } from '../styles';
 import { Icon } from './Icon';
 import { Typography } from './Typography';
 
-type AlertType = 'error' | 'warning' | 'info' | 'success';
+export type AlertType = 'error' | 'warning' | 'info' | 'success';
 type AlertProps = {
     position?: 'top' | 'bottom' | 'relative';
     typeBg?: AlertType | 'default';
@@ -60,7 +60,7 @@ export const Alert = ({
     durationFadeIn = 1000,
     translateYAnimate = true,
     mh = 0,
-    top = 0,
+    top = StatusBar.currentHeight,
     bottom = 0
 }: AlertProps) => {
     const opacity = useRef(new Animated.Value(0)).current;
