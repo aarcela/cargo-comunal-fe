@@ -9,6 +9,7 @@ type ShipmentContextProps = {
     status: boolean;
     shipment: CreatedShipment | null;
     onCreateShipment: CreateShipment;
+    onDestrontyShipment: () => void;
     availableShipping: AvailableShipping;
 }
 

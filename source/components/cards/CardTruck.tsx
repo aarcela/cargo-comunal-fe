@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
-import { Image, ImageProps } from 'react-native';
+import { Image, 
+    ImageProps,
+    Platform,
+    UIManager,
+    LayoutAnimation 
+} from 'react-native';
 import { Button } from '../Button';
 import { Grid } from '../Grid';
 import { Typography } from '../Typography';
@@ -13,7 +18,7 @@ interface CardTruckProps {
         check: boolean,
         val: any,
         onChangeValue: (val:any) => void;
-    }
+    },
 }
 
 export const CardTruck = ({
@@ -34,7 +39,7 @@ export const CardTruck = ({
             paddingHorizontal: 10,
             borderRadius: 4,
             borderBottomWidth:1,
-            borderBottomColor:'#C8C8C8'
+            borderBottomColor:'#C8C8C8',
         }}
         onPress={() => checked?.onChangeValue ? checked.onChangeValue(checked.val) : null}
     >

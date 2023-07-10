@@ -6,6 +6,7 @@ type AuthContextProps = {
     status: 'checking' | 'authenticated' | 'not-authenticated';
     signIn: (email: string, password: string) => Promise<{ok: Boolean;message?: string;}>;
     logout: () => void;
+    testSignIn: (user: User) => void;
 };
 
 

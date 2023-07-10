@@ -11,10 +11,10 @@ interface FabIconProps{
   icon?: IconProps;
   size?: 'md' | 'lg' | 'default' | number;
   position?: {
-    left?: number;
-    right?: number;
-    top?: number;
-    bottom?: number;
+    left?: number | string;
+    right?: number | string;
+    top?: number | string;
+    bottom?: number | string;
     postion?: 'absolute' | 'relative'
   },
   shadow?: boolean;

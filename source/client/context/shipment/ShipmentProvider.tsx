@@ -38,7 +38,10 @@ export const ShipmentProvider = ( { children }: any ) => {
         }
     };
 
-
+    const  onDestrontyShipment = () => {
+        dispatch({ type: 'destroy'});
+        AsyncStorage.removeItem('shipment-applicant');
+    }
 
 
     return (
@@ -46,7 +49,8 @@ export const ShipmentProvider = ( { children }: any ) => {
             value={{
                 ...state,
                 onCreateShipment,
-                availableShipping
+                availableShipping,
+                onDestrontyShipment
             }}
         >
             { children }

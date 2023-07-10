@@ -18,7 +18,7 @@ import { NavBottomTab } from './NavBottomTab';
  * Imports screns stack 
  * 
 */
-import { CreateShipment, Shipment } from '../screens/shipment';
+import { CreateShipment, Shipment, Invoice } from '../screens/shipment';
 
 /**
  * Import state global shipment 
@@ -70,6 +70,7 @@ export const MainRouter = () => {
       <Stack.Screen name="NavBottomTab" options={{headerShown: false}} component={NavBottomTab} />
       <Stack.Screen name="CreateShipment"  options={{headerShown: false}} component={CreateShipment} />
       <Stack.Screen name="Shipment" options={{headerShown: false}} component={Shipment} />
+      <Stack.Screen name="InvoiceShipment" options={{headerShown: false}} component={Invoice} />
     </Stack.Navigator>
   )
 }

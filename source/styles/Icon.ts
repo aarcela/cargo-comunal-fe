@@ -33,5 +33,7 @@ export const IoniconsName = {
     radioButtonOnOutline: "radio-button-on-outline",
     chevronForwardOutline: "chevron-forward-outline",
     closeOutline: "close-outline",
-    globeOutline: "globe-outline"
+    globeOutline: "globe-outline",
+    chatbubbles: "chatbubbles",
+    refresh: "refresh"
 }

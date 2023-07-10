@@ -10,6 +10,7 @@ export interface ShipmentState {
 
 type ShipmentAction = 
     | { type: 'created', payload: CreatedShipment }
+    | { type: 'destroy' }
 
     // generaEstado
 export const ShipmentReducer = ( state: ShipmentState, action: ShipmentAction ): ShipmentState => {
@@ -20,7 +21,12 @@ export const ShipmentReducer = ( state: ShipmentState, action: ShipmentAction ):
                 status: true,
                 shipment: action.payload
             }
-     
+        case 'destroy':
+            return {
+                ...state,
+                status: false,
+                shipment: null
+            }
         default:
             return state;
     }
