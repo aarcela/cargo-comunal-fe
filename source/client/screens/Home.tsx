@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 import { GPSPermissionsContext } from '../../context/gps';
 import { 
   Grid, 
@@ -14,18 +15,16 @@ import {
 interface HomeProps extends BottomTabScreenProps<any, any>{};
 
 export const Home = ({ navigation }: HomeProps) => {
-  const { permissions, askLocationPermission, changeAttempt, geolocation } = useContext( GPSPermissionsContext );
+  const { geolocation, checkLocationPermission } = useContext( GPSPermissionsContext );
 
 
+  useEffect(() => {
+    checkLocationPermission();
+  }, [])
   
  
   return (
     <Grid flex={1} >
-      <PermissionLocation 
-        visible={permissions.attempt} 
-        onCancel={() => changeAttempt(false)} 
-        onAccept={() => askLocationPermission()}
-      />
       <Grid position='absolute' width='100%' zIndex={1024} paddingHorizontal={15} bottom={40} right={0}>
         <Button
           typeStyle='btn-primary'

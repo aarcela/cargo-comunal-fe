@@ -9,7 +9,7 @@ type AuthAction =
     | { type: 'login', payload: User }
     | { type: 'notAuthenticated' }
     | { type: 'logout' }
-    | { type: 'checking' }
+    | { type: 'status', payload: 'checking' | 'authenticated' | 'not-authenticated'  }
 
 
 // generaEstado
@@ -21,10 +21,10 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 status: 'authenticated',
                 user: action.payload
             }
-        case 'checking':
+        case 'status':
             return {
                 ...state,
-                status: 'checking',
+                status: action.payload,
             }
         case 'logout':
         case 'notAuthenticated':

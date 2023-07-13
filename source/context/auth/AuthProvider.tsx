@@ -35,20 +35,22 @@ export const AuthProvider = ( { children }: any ) => {
 
         }
         
-        dispatch({ type: 'login', payload: user});
-        AsyncStorage.setItem('token', '0123456789');
-        /*const verifyToken = await AsyncStorage.getItem('token');
+        /*dispatch({ type: 'login', payload: user});
+        AsyncStorage.setItem('token', '0123456789');*/
+        const verifyToken = await AsyncStorage.getItem('token');
         
         // No token, no autenticado
-        if ( verifyToken ) return;
+        if ( verifyToken == null ) {
+            dispatch({type: 'status', payload: 'not-authenticated'}); 
+            return;
+        };
     
-        await AsyncStorage.removeItem('token');
-        dispatch({type: 'logout'});  */
+        dispatch({ type: 'login', payload: user});
 
     }
 
     const testSignIn = (user: User) => {
-        dispatch({ type: 'checking'});
+        dispatch({ type: 'status', payload: 'checking'});
 
         setTimeout(() => {
             dispatch({ type: 'login', payload: user});

@@ -41,10 +41,11 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
             permissionStatus = await check( PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION );
         }
 
+        console.log(permissionStatus, 'permision')
         if( permissionStatus == 'granted' ){
-            const geo = await getCurrentLocation();
-
-            if( 'coords' in geo ){
+            const { err, geo } = await getCurrentLocation();
+            console.log(geo, 'geo')
+            if( geo ){
                 const { coords: {latitude, longitude} } = geo;
                 setGelocation({latitude, longitude});
             }
@@ -73,11 +74,11 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
         })
     }
 
-    const  getCurrentLocation = () : Promise<GeolocationResponse | GeolocationError> => {
+    const  getCurrentLocation = () : Promise<{geo?: GeolocationResponse, err?: GeolocationError}> => {
         return new Promise((resolve, reject) => {
             Geolocation.getCurrentPosition(
                 (success) => {
-                    resolve(success)
+                    resolve({geo: success})
                 },
                 (err) => reject({err}),
             );
