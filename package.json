@@ -65,5 +65,10 @@
     "assets": [
       "./source/assets"
     ]
+  },
+  "overrides": {
+    "react-native-picker-select": {
+      "@react-native-picker/picker": "$@react-native-picker/picker"
+    }
   }
 }

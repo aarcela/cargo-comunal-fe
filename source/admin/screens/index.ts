@@ -1,3 +1,4 @@
+export * from './CreateUser';
 export * from './EditProfile';
 export * from './Home';
 export * from './Petitions';

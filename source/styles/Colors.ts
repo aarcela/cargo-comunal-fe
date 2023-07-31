@@ -30,5 +30,6 @@ export const Colors = {
     transparent: "transparent",
     dodgerBlue: "#2D68FE",
     nobel: "#B4B1B1",
-    royalBlue: "#5356DC"
+    royalBlue: "#5356DC",
+    silverTwho: "#C8C8C8"
 };

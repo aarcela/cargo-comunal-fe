@@ -4,7 +4,7 @@ import { API_URL } from "@env";
 
 
 const axiosRequest = axios.create({
-    baseURL: API_URL || 'https://cargocomunal-app.ga/api'
+    baseURL: API_URL || 'https://sharp-wiles.24-199-101-164.plesk.page/api'
 });
 
 axiosRequest.interceptors.request.use(

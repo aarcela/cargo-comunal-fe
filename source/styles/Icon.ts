@@ -35,5 +35,8 @@ export const IoniconsName = {
     closeOutline: "close-outline",
     globeOutline: "globe-outline",
     chatbubbles: "chatbubbles",
-    refresh: "refresh"
+    addSharp: "add-sharp",
+    refresh: "refresh",
+    filterSharp: "filter-sharp",
+    cardOutline: "card-outline"
 }

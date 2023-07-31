@@ -13,7 +13,7 @@ import {
    Users
 } from './screens';
 
-export const routes: RouteNavigation<DrawerNavigationOptions>[] = [
+export const routes: RouteNavigation<DrawerNavigationOptions, any, any>[] = [
     {
         name: 'Home',
         options:{

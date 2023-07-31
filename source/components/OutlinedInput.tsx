@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView
 } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Typography } from './Typography';
 import { Grid } from './Grid';
 import { Colors } from '../styles';

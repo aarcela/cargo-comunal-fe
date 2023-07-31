@@ -4,8 +4,8 @@ import { Grid } from './Grid';
 import { Typography, TypographyProps } from './Typography';
 
 interface AvatarProps {
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
   radius: number;
   typeAvatar?: 'txt' | 'img';
   labelAvatar: string;

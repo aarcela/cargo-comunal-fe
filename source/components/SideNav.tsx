@@ -75,19 +75,17 @@ export const SideNav = ({ drawerContent: { navigation, state }, routes, showSect
           routes.map(({name, icon, options, labelStyle}, index) => {
             const showHr = showSection && routes.length - showSection === index + 1 ? true : false;
             return (
-              <>
-                <DrawerItem
-                  onPress={() => navigation.navigate(name)}
-                  key={index}
-                  focused={index === state.index} 
-                  label={{
-                    title: options?.title ? options.title : name,
-                    color: labelStyle?.color
-                  }}
-                  icon={icon}
-                  showHr={splitSection && showHr}
-                />
-              </>
+              <DrawerItem
+                onPress={() => navigation.navigate(name)}
+                key={index}
+                focused={index === state.index} 
+                label={{
+                  title: options?.title ? options.title : name,
+                  color: labelStyle?.color
+                }}
+                icon={icon}
+                showHr={splitSection && showHr}
+              />
             )
           })
         }

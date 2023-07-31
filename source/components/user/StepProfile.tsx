@@ -38,7 +38,7 @@ export const StepProfile = ({isAnalist, objUser, setObjUser, next}: StepProfileP
                     isSelect={ objUser.role == 'analista' ? true : false } 
                 /> 
             }
-            <BtnTabBar onNext={() => objUser.role != '' && next('personal')} /> 
+            <BtnTabBar onNext={() => objUser.role != 'administrador' && next('personal')} /> 
         </Grid>
   )
 }

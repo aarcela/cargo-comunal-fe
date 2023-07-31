@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AlertResp, CreateUser } from '../../components/user/CreateUser';
-import { UserEntity } from '../../interfaces';
+import { CreateUser  as UserCreate, AlertResp } from '../../components/user/CreateUser';
+import { UserEntity } from '../../interfaces/user';
 import { FetchApi } from '../../utils';
+import { AuthContext } from '../../context';
 
-export const Register = ({navigation}: StackScreenProps<any, any>) => {
 
+export const CreateUser = ({navigation}: StackScreenProps<any, any>) => {
+  const { user } = useContext(AuthContext)
   const [loanding, setLoanding] = useState(false);
   const [respFetch, setrespFetch] = useState<AlertResp>({
     show: false,
@@ -17,7 +19,7 @@ export const Register = ({navigation}: StackScreenProps<any, any>) => {
     setLoanding(true)
     console.log(' user ', user)
 
-    const { ok, message, data }  = await FetchApi<{message: string}>('post', '/register', user);
+    const { ok, message, data }  = await FetchApi<{message: string}>('post', '/users', user);
     
     setLoanding(false)
     
@@ -25,7 +27,7 @@ export const Register = ({navigation}: StackScreenProps<any, any>) => {
     if( ok && data ){
       setrespFetch(values => ({...values, show: true, type: 'success', text: data.message}));
       setTimeout(() => {
-        navigation.navigate('InitApp')
+        navigation.navigate('NavDrawer')
       }, 3000);
 
       return;
@@ -41,7 +43,8 @@ export const Register = ({navigation}: StackScreenProps<any, any>) => {
 
 
   return (
-    <CreateUser 
+    <UserCreate 
+      activeAnalist={ user != null && user.role == 'administrador' ? true: false }
       onRegister={onSubmit}
       onLoanding={loanding}
       alert={{

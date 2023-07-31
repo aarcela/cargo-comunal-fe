@@ -9,7 +9,9 @@ import {
     Button, 
     Typography, 
     TextField, 
-    Icon 
+    Icon, 
+    AlertType,
+    LoadIndicatorModal
 } from '../../components';
 import { AuthContext } from '../../context';
 
@@ -25,45 +27,51 @@ const SigninSchema = Yup.object().shape({
 
 export const Login = () => {
     const [securePass, setSecurePass] = useState(true);
-    const [msgReq, setMsgReq] = useState<string | undefined>();
+    const [loanding, setLoanding] = useState(false);
+    const [respReq, setrespReq] = useState<{show: boolean, type: AlertType, text: string}>({
+        show: false,
+        type: 'error',
+        text: ''
+    });
 
-    const { testSignIn }  = useContext(AuthContext)
+    const { signIn }  = useContext(AuthContext)
 
-    const onLogin = () => {
-        const user: User = {
-            email: 'solicitante@email.com', 
-            password: '123456',
-            fecha_nc: '09-04-1998',
-            first_name: 'Test Name',
-            first_surname: 'Test Surname',
-            id_user: '1',
-            phone: '+584125153163',
-            ci: '7348735',
-            username: 'test',
-            role: 'solicitante'
-
-        }
-
-        setMsgReq('Ha iniciado session correctamente, redirigiendo...');
-
-        setTimeout(() => {
-            testSignIn(user);
-        }, 3000);
+    const onLogin = async(values: { email: string, password: string }) => {
+        setLoanding(true)
+        console.log('values', values)
+        const { ok, message } = await signIn(values.email, values.password);
+        console.log(ok, message);
+        setrespReq(values => ({
+                ...values, 
+                show: true, 
+                type: ok ? 'success' : 'error', 
+                text: ok ? 'Ha iniciado sesion, redireccionando...' : message!
+            })
+        )
+        setLoanding(false)
     }
 
     return (
         <Grid container isKeyboardAvoidingView KeyboardAvoidingViewProps={{behavior: 'padding'}} bgColor='zircon' justifyContent='center'>
+            <LoadIndicatorModal 
+                visible={loanding}
+                isText={true}
+                text='Iniciando sesión...'
+                loadIndicatorProps={{
+                color: "#fff"
+                }}
+            />
             <Alert 
-                isVisible={msgReq !== undefined}
+                isVisible={respReq.show}
                 isAnimated
                 position='top'
                 top={20}
-                typeBg='success'
-                isTypeIcon='success'
-                children={msgReq}
+                typeBg={respReq.type}
+                isTypeIcon={respReq.type}
+                children={respReq.text}
                 mh={15}
                 delayAutomatic={4000}
-                useStateOpacity={() => setMsgReq(undefined)}
+                useStateOpacity={() => setrespReq(values => ({...values, show: false}))}
             />
             <Grid alignItems='center' justifyContent='center' marginBottom={40}>
                 <Grid height={120} marginBottom={20}>
@@ -79,8 +87,8 @@ export const Login = () => {
                 <Typography size='md' fontFamily='Poppins-Regular' color='tundora' styles={{marginBottom: 10, paddingHorizontal: 5, textAlign: 'center'}}>Para disfrutar de nuestros servicios, debe estar verificado.</Typography>
             </Grid>
             <Formik
-            initialValues={{ email: 'solicitante@email.com', password: '123456' }}
-            onSubmit={values => onLogin()}
+            initialValues={{ email: '', password: '' }}
+            onSubmit={onLogin}
             validationSchema={SigninSchema}
             >
             {({ handleChange, handleSubmit, values, errors }) => (

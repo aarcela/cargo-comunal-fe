@@ -21,65 +21,50 @@ export const AuthProvider = ( { children }: any ) => {
     }, [])
     
     const checkToken = async() => {
-        const user: User = {
-            email: 'solicitante@email.com', 
-            password: '123456',
-            fecha_nc: '09-04-1998',
-            first_name: 'Test Name',
-            first_surname: 'Test Surname',
-            id_user: '1',
-            phone: '+584125153163',
-            ci: '7348735',
-            username: 'test',
-            role: 'solicitante'
-
-        }
-        
-        /*dispatch({ type: 'login', payload: user});
-        AsyncStorage.setItem('token', '0123456789');*/
+  
         const verifyToken = await AsyncStorage.getItem('token');
+        const verifyUser =  await AsyncStorage.getItem('user');
         
         // No token, no autenticado
-        if ( verifyToken == null ) {
+        if ( verifyToken == null  || verifyUser == null) {
             dispatch({type: 'status', payload: 'not-authenticated'}); 
             return;
         };
+
+        const user = JSON.parse(verifyUser);
     
         dispatch({ type: 'login', payload: user});
 
     }
 
-    const testSignIn = (user: User) => {
-        dispatch({ type: 'status', payload: 'checking'});
-
-        setTimeout(() => {
-            dispatch({ type: 'login', payload: user});
-            AsyncStorage.setItem('token', '0123456789');
-        }, 1000);
-    }
-
 
     const signIn = async(email: string, password: string) => {
-        const { ok, message, data }  = await FetchApi<LoginResponse>('post', '/login', {data: {email, password}});
+        const { ok, message, data }  = await FetchApi<LoginResponse>('post', '/login', {email, password});
 
-        if(!ok){
+        if(ok && data){
+            setTimeout(async() => {
+                dispatch({ type: 'login', payload: data!.user});
+                await AsyncStorage.setItem('token', data!.access_token);
+                await AsyncStorage.setItem('user', JSON.stringify(data!.user));
+            }, 3000);
+
             return {
-                ok,
-                message
+                ok
             };
         }
 
-        dispatch({ type: 'login', payload: data!.user});
-        await AsyncStorage.setItem('token', data!.access_token);
+        
 
         return {
-            ok
+            ok,
+            message
         }
     };
 
     const logout = async() => {
         await FetchApi('delete', '/logout');
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user');
         dispatch({type: 'logout'});
     };
   
@@ -89,7 +74,6 @@ export const AuthProvider = ( { children }: any ) => {
                 ...state,
                 signIn,
                 logout,
-                testSignIn
             }}
         >
             {children}

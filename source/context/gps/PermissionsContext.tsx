@@ -6,6 +6,7 @@ import { Location } from '../../interfaces';
 export interface GPSPersmissions{
     avilitated: boolean;
     attempt: boolean;
+    gpsActive: boolean;
 }
 
 type GPSPermissionsContextProps = {
@@ -14,6 +15,7 @@ type GPSPermissionsContextProps = {
     checkLocationPermission: () => void;
     changeAttempt: (val: boolean) => void;
     geolocation?: Location;
+    checkGpsActive: () => void;
 }
 
 export const GPSPermissionsContext = createContext({} as GPSPermissionsContextProps ); 

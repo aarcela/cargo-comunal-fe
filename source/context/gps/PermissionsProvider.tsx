@@ -13,7 +13,8 @@ import { Location } from '../../interfaces/location';
 
 export const gpsPermissionInitState: GPSPersmissions = {
     avilitated: false,
-    attempt: false
+    attempt: false,
+    gpsActive: false
 }
 
 
@@ -41,22 +42,38 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
             permissionStatus = await check( PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION );
         }
 
-        console.log(permissionStatus, 'permision')
-        if( permissionStatus == 'granted' ){
-            const { err, geo } = await getCurrentLocation();
-            console.log(geo, 'geo')
-            if( geo ){
-                const { coords: {latitude, longitude} } = geo;
-                setGelocation({latitude, longitude});
-            }
-            
-        }
+        
         
         setGpsPermissions({
             ...gpsPermissions,
             avilitated: permissionStatus === 'granted',
-            attempt: permissionStatus != 'granted' && !gpsPermissions.attempt ? true : false
+            attempt: permissionStatus != 'granted' && !gpsPermissions.attempt ? true : false,
+            gpsActive: false
         });
+
+
+        if( permissionStatus == 'granted' ){
+            getCurrentLocation()
+            .then(location => {
+
+                const { geo } = location;
+                
+                if( geo ){
+                    const { coords: {latitude, longitude} } = geo;
+                    setGelocation({latitude, longitude});
+                }
+
+            }).catch(error  => {
+                const { err } = error
+                if( err.message == 'No location provider available.'  ){
+                    setGpsPermissions(values => ({...values, gpsActive: true}));
+                }
+            })
+        }
+    }
+
+    const checkGpsActive = async() => {
+       await checkLocationPermission();
     }
 
     const askLocationPermission = async() => {
@@ -74,6 +91,7 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
         })
     }
 
+
     const  getCurrentLocation = () : Promise<{geo?: GeolocationResponse, err?: GeolocationError}> => {
         return new Promise((resolve, reject) => {
             Geolocation.getCurrentPosition(
@@ -81,6 +99,9 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
                     resolve({geo: success})
                 },
                 (err) => reject({err}),
+                {
+                    enableHighAccuracy: true
+                }
             );
         })
     }
@@ -93,6 +114,7 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
                 checkLocationPermission,
                 askLocationPermission,
                 changeAttempt,
+                checkGpsActive
                 
             }}
         >

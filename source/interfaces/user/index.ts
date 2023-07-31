@@ -10,12 +10,14 @@ export interface UserEntity {
     fecha_nc:           string;
     email:              string;
     username:           string;
-    role:               'conductor' | 'solicitante' | 'administrador' | 'analista' | '';
+    role:               RoleUser;
     password?:          string;
 }
 
 export interface User extends UserEntity{
     id_user:        string;
+    estado:         StateUser;
+    fecha_creado:  string;
 }
 
 export interface LoginResponse {
@@ -39,3 +41,7 @@ export interface UserDriver extends User{
 export interface UserApplicant extends User{
     role: 'solicitante'
 }
+
+
+export type RoleUser =  'conductor' | 'solicitante' | 'administrador' | 'analista';
+export type StateUser = 'pendiente' | 'aprobado' | 'cancelado';

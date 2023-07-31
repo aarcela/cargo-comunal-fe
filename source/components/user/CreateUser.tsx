@@ -5,17 +5,31 @@ import { Grid } from '../Grid'
 import { UserEntity } from '../../interfaces';
 import { Sleep } from '../Sleep';
 import { StepProfile, StepPersonal, StepExtra } from './';
+import { Alert,  AlertType } from '../Alert';
+import { LoadIndicatorModal } from '../LoadIndicatorModal';
 
 
 type CreateUserProps = {
     activeAnalist?: boolean;
+    onRegister: (values: UserEntity) => void;
+    onLoanding:boolean;
+    alert?: AlertResp & {
+        onClose: () => void;
+    }
 }
+
+export type AlertResp = {
+    show: boolean;
+    type: AlertType;
+    text: string;
+} 
 
 interface renderSceneProps extends SceneRendererProps{
     route: Route;
+   
 } 
 
-export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
+export const CreateUser = ({ activeAnalist = false, onRegister, alert, onLoanding }: CreateUserProps) => {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -34,7 +48,7 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
         fecha_nc: '',
         email: '',
         username: '',
-        role: '',
+        role: 'administrador',
         password: ''
     });
 
@@ -45,6 +59,7 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
         console.log('aqui data user', objUser);
 
         console.log('completed user data', {...objUser, ...val})
+        onRegister({...objUser, ...val});
     }
 
     const renderScene = ({route, jumpTo}: renderSceneProps) => {
@@ -62,6 +77,25 @@ export const CreateUser = ({ activeAnalist = false }: CreateUserProps) => {
 
     return (
         <Grid flex={1} bgColor='zircon'>
+            <LoadIndicatorModal 
+                visible={onLoanding}
+                isText={true}
+                text='Creando la cuenta...'
+                loadIndicatorProps={{
+                color: "#fff"
+                }}
+            />
+            <Alert 
+                isVisible={alert?.show}
+                isTypeIcon={alert?.type}
+                typeBg={alert?.type}
+                isAnimated
+                children={alert?.text}
+                mh={15}
+                top={10}
+                useStateOpacity={alert?.onClose}
+            
+            />
             <TabView 
                 renderTabBar={(props) => <TabBar {...props} />}
                 navigationState={{ index, routes }}

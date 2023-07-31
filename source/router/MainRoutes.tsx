@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { NavigationInit } from '../initApp';
 import { NavigationAdmin } from '../admin';
-import { AppClient as NavigationClient  } from '../client'
+import { AppClient as NavigationClient  } from '../client';
+import { AppDriver as NavigationDriver } from '../driver/AppDriver';
 import { AuthContext } from '../context';
 import { LoadIndicatorModal } from '../components';
 
@@ -28,6 +29,8 @@ export const MainRoutes = () => {
     switch (user!.role) {
       case 'solicitante':
         return <NavigationClient />    
+      case 'conductor':
+        return <NavigationDriver />
       default:
         return <NavigationAdmin />
     }

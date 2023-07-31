@@ -36,5 +36,15 @@ export const StylesGlobal = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    shadow01: {
+        shadowColor: 'rgb(0,0,0, 0.45)',
+        shadowOffset: {
+        width: 20,
+        height: 25,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+        elevation: 8,
     }
 });

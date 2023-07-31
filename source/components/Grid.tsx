@@ -3,7 +3,7 @@ import { View, ViewProps, ViewStyle, KeyboardAvoidingView, KeyboardAvoidingViewP
 import { Colors, StylesGlobal } from '../styles';
 
 
-interface GridProps extends ViewStyle{
+export interface GridProps extends ViewStyle{
   container?: boolean;
   bgColor?: keyof typeof Colors;
   children?: React.ReactNode;

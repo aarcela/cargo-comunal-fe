@@ -6,7 +6,7 @@ type MethodReq = 'post' | 'get' | 'put' | 'delete';
 export const FetchApi = async<T = any>(
         method: MethodReq, 
         url: string,
-        config?: AxiosRequestConfig
+        config?: AxiosRequestConfig | any
     ) : Promise<{ok: Boolean, message?: string, data?: T}> => {
         
         const req = getMethod(method);
@@ -21,10 +21,10 @@ export const FetchApi = async<T = any>(
                 data
             }
         } catch (error: unknown) {
-            
+            console.log('sds ', error, error instanceof AxiosError && error.response?.data || msg)
             return{
                 ok: false, 
-                message: error instanceof AxiosError && error.message || msg
+                message: error instanceof AxiosError &&  error.response?.data?.message || msg
             }
         }
 }

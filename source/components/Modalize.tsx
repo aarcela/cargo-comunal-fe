@@ -73,7 +73,7 @@ export const Modalize = ({
             const pHeight = HeightModalize(heightModalize);
             scrollTo(-height * pHeight);
         }
-    }, [active || heightModalize])
+    }, [active])
 
     const gesture = Gesture.Pan()
     .onStart(() => {
