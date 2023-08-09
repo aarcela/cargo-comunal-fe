@@ -22,6 +22,7 @@ const NavDrawer = () => {
         <Drawer 
             screenOptions={{
                 header: (props) => <ToolBar props={props} showMenu={true} />,
+                headerShown: true
             }}
             routes={routes}
             drawerContent={(props) => <SideNav onLogout={logout} drawerContent={props} routes={routes} splitSection showSection={1} />}

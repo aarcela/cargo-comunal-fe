@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { View, StatusBar, StyleSheet, Dimensions, TouchableOpacity as Button } from 'react-native';
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { DrawerHeaderProps } from '@react-navigation/drawer';
 import { getHeaderTitle } from '@react-navigation/elements';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
-import { Button } from './Button';
 import { Typography } from './Typography';
 import { Icon } from './Icon';
 
@@ -18,6 +17,8 @@ interface ToolBarProps {
     props: StackHeaderProps | DrawerHeaderProps | BottomTabHeaderProps;
     showMenu?: boolean;
 };
+
+
 
 export const ToolBar = ({ props, showMenu = false }: ToolBarProps) => {
     const [title, setTitle] = useState('');
@@ -35,12 +36,10 @@ export const ToolBar = ({ props, showMenu = false }: ToolBarProps) => {
     }, [props]);
     
     return (
-        <View style={[styleToolBar.containerTop]}>
+        <View style={[styleToolBar.containerTop]} >
             <View style={[styleToolBar.wrapperNavbar]}>
                 { isBottomBack &&
                     <Button 
-                        typeStyle='default'
-                        size='default'
                         onPress={() => props.navigation.goBack()}
                         style={[styleToolBar.contentIcon]}
                     >
@@ -55,20 +54,22 @@ export const ToolBar = ({ props, showMenu = false }: ToolBarProps) => {
                     }} 
                     color='mineShaft'
                     styles={{
-                        width: showMenu ? 'auto' : '100%' ,
-                        lineHeight: 22
+                        width:  showMenu ? 'auto' : '100%',
+                        lineHeight: 22,
+                        paddingLeft: isBottomBack ? 5 : 15
                     }}
                 >
                     {title}
                 </Typography>
                 {
                     showMenu &&
+                    
                     <Button
-                        typeStyle='default'
-                        size='default'
                         onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())}
                         style={[styleToolBar.contentIcon, {justifyContent: 'flex-end'}]}
+                        activeOpacity={0.65}
                     >
+      
                         <Icon name='menuOutline' size={26} color='mineShaft' />
                     </Button>
                 }
@@ -80,7 +81,6 @@ export const ToolBar = ({ props, showMenu = false }: ToolBarProps) => {
 const styleToolBar = StyleSheet.create({
     containerTop: {
         paddingTop: heigthStatusBar,
-        paddingHorizontal: 15,
         backgroundColor: '#fff',
     },
     wrapperNavbar: {
@@ -88,13 +88,13 @@ const styleToolBar = StyleSheet.create({
         backgroundColor: 'transparent',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     contentIcon: {
         height: '100%',
-        width: 50,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'flex-start',
+        paddingHorizontal: 15
     }
 })

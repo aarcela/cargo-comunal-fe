@@ -36,7 +36,7 @@ const HeightModalize = (val: HeightModalizeType) => {
         case '70%':
             return 0.70;
         case '100%':
-            return 1;
+            return 0.90;
     }
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { User } from '../../interfaces/user/index';
+import { StackScreenProps } from '@react-navigation/stack';
 import { 
     Alert,
     Grid, 
@@ -15,6 +15,7 @@ import {
 } from '../../components';
 import { AuthContext } from '../../context';
 
+
 const SigninSchema = Yup.object().shape({
     email: Yup.string()
     .email('correo electrónico no valido')
@@ -25,7 +26,7 @@ const SigninSchema = Yup.object().shape({
     .required('Contraseña requerido')
 });
 
-export const Login = () => {
+export const Login = ({navigation}: StackScreenProps<any, any>) => {
     const [securePass, setSecurePass] = useState(true);
     const [loanding, setLoanding] = useState(false);
     const [respReq, setrespReq] = useState<{show: boolean, type: AlertType, text: string}>({
@@ -130,6 +131,7 @@ export const Login = () => {
                     size='sm'
                     typeStyle='default'
                     style={{marginTop: 25}}
+                    onPress={() => navigation.navigate('PasswordReset')}
                 >
                     <Typography size='md' fontFamily='Poppins-Medium' color='rhino' styles={{textAlign: 'center', lineHeight: 25}}>Olvidé mi clave</Typography>
                 </Button>

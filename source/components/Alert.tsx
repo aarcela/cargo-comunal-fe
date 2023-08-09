@@ -126,7 +126,7 @@ export const Alert = ({
                             {
                                 position: position == 'relative' ? 'relative' : 'absolute',
                                 marginHorizontal: mh,
-                                zIndex: 1,
+                                zIndex: isVisible ? 1 : 0,
                                 left: 0,
                                 width: position != 'relative' ? width - 30 : '100%'
                             },

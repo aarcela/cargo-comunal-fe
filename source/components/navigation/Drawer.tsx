@@ -28,7 +28,7 @@ export const Drawer = ({ initialRouteName, screenOptions, drawerContent, routes 
         ...screenOptions,
         drawerType: (width >= 768 ) ? 'permanent' : 'front',
         drawerStyle: {
-            width: '100%'
+          width: '100%'
         }
       }}
       drawerContent={drawerContent}

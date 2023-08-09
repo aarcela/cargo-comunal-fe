@@ -1,9 +1,10 @@
 import React from 'react'
-import { Grid, Typography } from '../../components';
+import { FabIcon, Grid, Typography } from '../../components';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
-export const Home = () => {
+export const Home = ({ navigation }: DrawerScreenProps<any>) => {
   return (
-    <Grid container bgColor='zircon' flexDirection='column' justifyContent='center' spacing={2} >
+    <Grid container bgColor='zircon' justifyContent='center' alignItems='center' spacing={2} >
         <Typography size='md' >Hola dashboard</Typography>
     </Grid>
   )
