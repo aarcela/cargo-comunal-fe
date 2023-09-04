@@ -17,12 +17,12 @@ export interface UserEntity {
 export interface User extends UserEntity{
     id_user:        string;
     estado:         StateUser;
-    fecha_creado:  string;
+    fecha_creado: string;
+    token: string;
 }
 
 export interface LoginResponse {
-    user:         User;
-    access_token: string;
+    data:         User;
     token_type:   string;
 }
 

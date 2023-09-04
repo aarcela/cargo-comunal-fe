@@ -26,11 +26,9 @@ export const Users = ({ navigation }: DrawerScreenProps<any>) => {
   const [user, setuser] = useState<User>();
   const [loandig, setLoandig] = useState(false);
 
-  const { loandingFetch, data, getNextData, filter, onRefresh } = useFetchDataTable<User>('/users', {query: JSON.stringify(formFilterInitValue)});
+  const { loandingFetch, data, getNextData, filter, onRefresh } = useFetchDataTable<User>('/users', { query: JSON.stringify(formFilterInitValue) });
   
-
   const onSelectUser = (user: User) => {
-    console.log(user)
     setLoandig(true);
     setTimeout(() => {
       setLoandig(false)
@@ -42,7 +40,7 @@ export const Users = ({ navigation }: DrawerScreenProps<any>) => {
   return (
     <LayoutList 
       bottomAdd={() => navigation.navigate('CreateUser')}
-      bottomFilter={() => setShowFilter(true)}
+      //bottomFilter={() => setShowFilter(true)}
     >
       <LoadIndicatorModal 
           visible={loandig}

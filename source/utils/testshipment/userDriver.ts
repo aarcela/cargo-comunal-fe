@@ -8,9 +8,9 @@ export const userDriver: UserDriver = {
         name: 'Ruta 1'
     },
     transport: {
-        nro_plate: 'AK 145 JL',
-        nro_carnet: 18681668125,
-        brand: 'Toyota',
+        nro_placa: 'AK 145 JL',
+        carnet_circulacion: 18681668125,
+        marca: 'Toyota',
         model: 'AD MED',
         status: 'approved',
         state: true,

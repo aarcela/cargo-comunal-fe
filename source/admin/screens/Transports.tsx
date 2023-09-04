@@ -25,20 +25,22 @@ export const Transports = () => {
   const [loandig, setLoandig] = useState(false);
 
   const { loandingFetch, data, getNextData, filter, onRefresh } = useFetchDataTable<UserTransport>('/transports', {query: JSON.stringify(formFilterInitValue)});
+  console.log("transporter data::", data)
 
-  const onSelectUser = (user: UserTransport) => {
+
+  const onSelectUser = (user: any) => {
     console.log(user)
-    setLoandig(true);
-    setTimeout(() => {
-      setLoandig(false)
-      setuser(values => ({...values, ...user}));
-    }, 1500);
+    // setLoandig(true);
+    // setTimeout(() => {
+    //   setLoandig(false)
+    //   setuser(values => ({...values, ...user}));
+    // }, 1500);
   }
 
 
   return (
     <LayoutList 
-      bottomFilter={() => setShowFilter(true)}
+      //bottomFilter={() => setShowFilter(true)}
     >
       <LoadIndicatorModal 
           visible={loandig}
@@ -53,27 +55,27 @@ export const Transports = () => {
         <Typography styles={{textAlign: 'center'}}>No se encontraron resultados</Typography>
       }      
 
-      <FlatList 
+       <FlatList 
         data={data}
-        keyExtractor={(item) => item.id_user}
+        keyExtractor={(item) => item.id}
         renderItem={({item}) => (
           <CardUser
-            onPress={() => onSelectUser(item)}
+            onPress={() => onSelectUser(item.user)}
             avatar={{
               type: 'text',
-              text: `${item.first_name.charAt(0)}${item.first_surname.charAt(0)}`
+              text: `${item.user.first_name.charAt(0)}${item.user.first_surname.charAt(0)}`
             }}
             label={{
-              title: `${item.first_name} ${item.first_surname}`,
+              title: `${item.user.first_name} ${item.user.first_surname}`,
               subTitle: `Carnet: ${item.carnet_circulacion}`,
-              date: item.fecha_creado,
+              date: item.created_at,
               tag: item.nro_placa
             }}
           />
         )}
         onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}
         onEndReachedThreshold={0.5}
-      />
+      /> 
 
       {
         loandingFetch &&

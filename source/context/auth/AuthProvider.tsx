@@ -37,28 +37,30 @@ export const AuthProvider = ( { children }: any ) => {
 
     }
 
+    const signIn = async (email: string, password: string) => {
+        const { ok, message, data } = await FetchApi<LoginResponse>('post', '/login', { email, password });
+    
+        if (ok && data) {
+            const user = data.data;
 
-    const signIn = async(email: string, password: string) => {
-        const { ok, message, data }  = await FetchApi<LoginResponse>('post', '/login', {email, password});
-
-        if(ok && data){
-            setTimeout(async() => {
-                dispatch({ type: 'login', payload: data!.user});
-                await AsyncStorage.setItem('token', data!.access_token);
-                await AsyncStorage.setItem('user', JSON.stringify(data!.user));
-            }, 3000);
-
+            if (data.data.token) {
+                await AsyncStorage.setItem('token', data.data.token);
+            }
+    
+            if (user) {
+                dispatch({ type: 'login', payload: user });
+                await AsyncStorage.setItem('user', JSON.stringify(user));
+            }
+    
             return {
                 ok
             };
         }
-
-        
-
+    
         return {
             ok,
             message
-        }
+        };
     };
 
     const logout = async() => {

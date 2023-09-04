@@ -27,9 +27,7 @@ export const useFetchDataTable= <T extends any>(url: string, params?: object) =>
 
     const fetchGet = async(params?: object) => {
         setLoandingFetch(true);
-
         let urlFetch = urlApi.current;
-
         /*if( params != undefined ){
             urlFetch = urlFetch + '?';
            
@@ -43,15 +41,13 @@ export const useFetchDataTable= <T extends any>(url: string, params?: object) =>
             
         }*/
 
-        const { ok, message, data  } = await FetchApi<{data: T[], pagination: Pagination }>('get', urlFetch, {params: params});
-        console.log(data)
-
+        const { ok, message, data } = await FetchApi<{ data: T[], pagination: Pagination }>('get', urlFetch, { params: params });
         if( ok && data ){   
             const { pagination:{ numPage, resultPage, totalResult } } = data;
 
             setCurrentPage(numPage);
             setNextPage(calcNextPage(totalResult, resultPage));
-
+                
             setData(values => ([...values, ...data.data]));
 
         }
@@ -59,7 +55,6 @@ export const useFetchDataTable= <T extends any>(url: string, params?: object) =>
         setLoandingFetch(false);
 
         if( !ok && message ){
-            console.log('dsid idns', ok, message)
             setMsgError(message);
         }
 
@@ -67,7 +62,6 @@ export const useFetchDataTable= <T extends any>(url: string, params?: object) =>
 
     const filter = (params: object) => {
         setData([]);
-        console.log(params)
         fetchGet(params);
     }
 

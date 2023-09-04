@@ -154,7 +154,7 @@ export const Shipment = ({ navigation }: StackScreenProps<any, any>) => {
 
 
   const changeLocationDriver = () => {
-
+/*
     
     setCount(setInterval(() =>{
     
@@ -186,7 +186,7 @@ export const Shipment = ({ navigation }: StackScreenProps<any, any>) => {
         }
       }
     }, 5000) )
-
+      */
     
   }
 
