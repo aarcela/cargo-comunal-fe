@@ -17,9 +17,9 @@ export const CreateUser = ({navigation}: StackScreenProps<any, any>) => {
 
   const onSubmit = async(user: UserEntity) => {
     setLoanding(true)
-    console.log(' user ', user)
 
-    const { ok, message, data }  = await FetchApi<{message: string}>('post', '/users', user);
+    user.fecha_nc = formatDate(user.fecha_nc);
+    const { ok, message, data }  = await FetchApi<{message: string}>('post', '/register', user);
     
     setLoanding(false)
     
@@ -41,6 +41,22 @@ export const CreateUser = ({navigation}: StackScreenProps<any, any>) => {
 
   }
 
+  const formatDate = (originalDate: any) => {
+    // Analizar la fecha original en el formato "DD-MM-YYYY"
+    const parts = originalDate.split("-");
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+  
+    // Crear una nueva fecha con la hora, los minutos y los segundos establecidos en 00:00:00
+    const formattedDate = new Date(year, month - 1, day, 0, 0, 0);
+  
+    // Formatear la nueva fecha en el formato deseado "YYYY-MM-DD 00:00:00"
+    const formattedString = formattedDate.toISOString().split("T")[0] + " 00:00:00";
+  
+    return formattedString;
+  };
+  
 
   return (
     <UserCreate 
