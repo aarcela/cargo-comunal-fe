@@ -22,16 +22,13 @@ export const FetchApi = async<T = any>(
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 const axiosError = error as AxiosError;
-                console.log("Axios Error:", axiosError.message);
-                console.log("Axios Error Response:", axiosError.response);
-                console.log("Axios Error Request Config:", axiosError.config);
             } else {
                 console.log("Unknown Error:", error);
             }
 
             return{
                 ok: false, 
-                message: error instanceof AxiosError &&  error.response?.data?.message || msg
+                message: error instanceof AxiosError &&  error.response?.data?.data?.username || msg
             }
         }
 }

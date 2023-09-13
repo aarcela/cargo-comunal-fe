@@ -8,7 +8,8 @@ interface Pagination{
     totalResult: number;
 }
 
-export const useFetchDataTable= <T extends any>(url: string, params?: object) => {
+export const useFetchDataTable = <T extends any>(url: string, params?: object) => {
+    //console.log(params)
     const urlApi = useRef(url)
     const [data, setData] = useState<T[]>([]);
     const [loandingFetch, setLoandingFetch] = useState(false);
@@ -17,39 +18,31 @@ export const useFetchDataTable= <T extends any>(url: string, params?: object) =>
     const [nextPage, setNextPage] = useState(1);
 
     useEffect(() => {
-      
         fetchGet(params);
 
     }, [])
 
-
-    
-
     const fetchGet = async(params?: object) => {
         setLoandingFetch(true);
         let urlFetch = urlApi.current;
-        /*if( params != undefined ){
-            urlFetch = urlFetch + '?';
-           
-            for (const key in params) {
-                if (Object.prototype.hasOwnProperty.call(params, key)) {
-                    urlFetch = urlFetch + `${key}=${params}`;
-                }
-                
-            }
-
+            /*if( params != undefined ){    
+                urlFetch = urlFetch + '?';
             
-        }*/
+                for (const key in params) {
+                    if (Object.prototype.hasOwnProperty.call(params, key)) {
+                        urlFetch = urlFetch + `${key}=${params}`;
+                    }
+                    
+                }
 
-        const { ok, message, data } = await FetchApi<{ data: T[], pagination: Pagination }>('get', urlFetch, { params: params });
+                
+            }*/
+        const { ok, message, data } = await FetchApi<{ data: T[], pagination: Pagination }>('get', urlFetch);
         if( ok && data ){   
             const { pagination:{ numPage, resultPage, totalResult } } = data;
-
             setCurrentPage(numPage);
-            setNextPage(calcNextPage(totalResult, resultPage));
-                
+            setNextPage(calcNextPage(totalResult, resultPage));         
             setData(values => ([...values, ...data.data]));
-
         }
 
         setLoandingFetch(false);

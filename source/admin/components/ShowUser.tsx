@@ -23,6 +23,7 @@ export const ShowUser = ({
     showAction = true
 }: ShowUserProps) => {
     const [loandig, setLoandig] = useState(false);
+    console.log("useer::",user)
     const [alert, setAlert] = useState<{show: boolean, type: AlertType, text: string}>({
         show: false,
         type: 'error',
@@ -31,7 +32,7 @@ export const ShowUser = ({
 
     const userUpdate = async(value: StateUser) => {
         setLoandig(true);
-        const url = `/users/${user!.id_user}`;
+        const url = `/users/${user!.id}`;
         const { ok, message, data } = await FetchApi<{message: string}>('put', url,{estado: value});
 
         if( !ok ){
@@ -64,7 +65,9 @@ export const ShowUser = ({
 
         setLoandig(false);
     }
-    
+    const colors = {
+    primary: 'grey'
+    };
   return (
     <Modalize
         active={show}
@@ -99,27 +102,29 @@ export const ShowUser = ({
                 width={80}
                 height={80}
                 radius={80}
-                labelAvatar={`${user!.first_name.charAt(0)}${user!.first_surname.charAt(0)}`}
-                labelProps={{size: 'lg'}}
+                labelAvatar={ user.first_name && user.first_surname ? `${user.first_name.charAt(0)}${user.first_surname.charAt(0)}` : 'NN'}
                 stylesAvatar={{marginBottom: 20}}
-            />
-            <Typography styles={{marginRight: 10}} fontFamily='Poppins-SemiBold'>{user!.role}</Typography>
-            <Typography styles={{marginRight: 10, marginBottom: 15}} fontFamily='Poppins-Medium'>{`${user!.first_name} ${user!.first_surname}`}</Typography>
+                      />
+                      
+            <Typography styles={{ marginRight: 10, color: colors.primary }} fontFamily='Poppins-SemiBold'>{user!.role}</Typography>
+        
+            <Typography styles={{marginRight: 10, marginBottom: 15, color: colors.primary }} fontFamily='Poppins-Medium'>{`${user!.first_name} ${user!.first_surname}`}</Typography>
+     
             <Grid display='flex' flexDirection='row' width='100%'>
-                <Typography styles={{marginRight: 10}}>Cédula:</Typography>
-                <Typography fontFamily='Poppins-Medium'>{user!.ci}</Typography>
+                <Typography styles={{marginRight: 10, color: colors.primary }}>Cédula:</Typography>
+                <Typography styles={{ color: colors.primary }}fontFamily='Poppins-Medium'>{user!.ci}</Typography>
             </Grid>
             <Grid display='flex' flexDirection='row' width='100%'>
-                <Typography styles={{marginRight: 10}}>Télefono:</Typography>
-                <Typography fontFamily='Poppins-Medium'>{user!.phone}</Typography>
+                <Typography styles={{marginRight: 10,  color: colors.primary}}>Télefono:</Typography>
+                <Typography fontFamily='Poppins-Medium'styles={{ color: colors.primary }} >{user!.phone}</Typography>
             </Grid>
             <Grid display='flex' flexDirection='row' width='100%'>
-                <Typography styles={{marginRight: 10}}>Email:</Typography>
-                <Typography fontFamily='Poppins-Medium'>{user!.email}</Typography>
+                <Typography styles={{marginRight: 10, color: colors.primary}}>Email:</Typography>
+                <Typography fontFamily='Poppins-Medium' styles={{ color: colors.primary }}>{user!.email}</Typography>
             </Grid>
             <Grid display='flex' flexDirection='row' width='100%'>
-                <Typography styles={{marginRight: 10}}>Fecha Nacimiento:</Typography>
-                <Typography fontFamily='Poppins-Medium'>{user!.fecha_nc}</Typography>
+                <Typography styles={{marginRight: 10,  color: colors.primary}}>Fecha Nacimiento:</Typography>
+                <Typography fontFamily='Poppins-Medium' styles={{ color: colors.primary }}>{user!.fecha_nc}</Typography>
             </Grid>
 
             {
@@ -187,7 +192,7 @@ export const ShowUser = ({
                     </Grid>
                 </Grid>
             }
-         </Grid>
+            </Grid>
         }
         
     </Modalize>

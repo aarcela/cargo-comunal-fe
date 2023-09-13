@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import {  ActivityIndicator, FlatList } from 'react-native';
+import {  ActivityIndicator, FlatList, PanResponder } from 'react-native';
 import { 
   CardUser, 
   LayoutList,
@@ -12,11 +12,11 @@ import { useFetchDataTable } from '../../hooks';
 import { User } from '../../interfaces/user';
 
 
-const formFilterInitValue : FormFilterUsers = {
+const formFilterInitValue  : FormFilterUsers = {
   dateFrom: '',
   dateTo: '',
   rol: 'conductor',
-  estado: 'pendiente'
+  estado: 'aprobado'
 }
 
 
@@ -27,7 +27,7 @@ export const Users = ({ navigation }: DrawerScreenProps<any>) => {
   const [loandig, setLoandig] = useState(false);
 
   const { loandingFetch, data, getNextData, filter, onRefresh } = useFetchDataTable<User>('/users', { query: JSON.stringify(formFilterInitValue) });
-  
+
   const onSelectUser = (user: User) => {
     setLoandig(true);
     setTimeout(() => {
@@ -54,22 +54,24 @@ export const Users = ({ navigation }: DrawerScreenProps<any>) => {
         !loandingFetch && data.length == 0 &&
         <Typography styles={{textAlign: 'center'}}>No se encontraron resultados</Typography>
       }
+      
       <FlatList 
         data={data}
-        keyExtractor={(item) => item.id_user}
-        renderItem={({item}) => (
-          <CardUser
-            onPress={() => onSelectUser(item)}
-            avatar={{
-              type: 'text',
-              text: `${item.first_name.charAt(0)}${item.first_surname.charAt(0)}`
-            }}
-            label={{
-              title: `${item.first_name} ${item.first_surname}`,
-              subTitle: item.email,
-              date: item.fecha_creado,
-              tag: item.role
-            }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+           <CardUser
+             onPress={() => onSelectUser(item)}
+             avatar={{
+               type: 'text',
+               text: item.first_name && item.first_surname ? `${item.first_name.charAt(0)}${item.first_surname.charAt(0)}` : 'NN'
+
+             }}
+             label={{
+               title: `${item.first_name} ${item.first_surname}`,
+               subTitle: item.email,
+               date: item.fecha_creado,
+               tag: item.role
+             }}
           />
         )}
         onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}

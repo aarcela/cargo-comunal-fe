@@ -27,7 +27,7 @@ export const Transports = () => {
     useFetchDataTable<UserTransport>('/transports', {
       query: JSON.stringify(formFilterInitValue),
     });
-  console.log('transporter data::', data);
+  //console.log('transporter data::', data);
 
   const onSelectUser = (user: UserTransport) => {
     console.log("on select user",user);
@@ -105,7 +105,7 @@ export const Transports = () => {
         }}
       />
 
-     <ShowUser
+     {/* <ShowUser
         show={user !== undefined}
         close={() => setuser(undefined)}
         user={user}
@@ -117,7 +117,7 @@ export const Transports = () => {
         showAction={
           user && user.estado_transporte == 'pendiente' ? true : false
         }
-      /> 
+      />  */}
     </LayoutList>
   );
 };

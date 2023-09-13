@@ -4,7 +4,7 @@ import { API_URL } from "@env";
 
 
 const axiosRequest = axios.create({
-    baseURL: API_URL || 'https://cargo-comunal.demo.gonavi.dev/api'
+    baseURL:  'https://cargo-comunal.demo.gonavi.dev/api'
 });
 
 axiosRequest.interceptors.request.use(

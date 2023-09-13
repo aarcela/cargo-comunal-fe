@@ -15,7 +15,7 @@ export interface UserEntity {
 }
 
 export interface User extends UserEntity{
-    id_user:        string;
+    id: string;
     estado:         StateUser;
     fecha_creado: string;
     token: string;

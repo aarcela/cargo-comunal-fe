@@ -23,7 +23,6 @@ export const CreateUser = ({navigation}: StackScreenProps<any, any>) => {
     
     setLoanding(false)
     
-    console.log(data, 'ss');
     if( ok && data ){
       setrespFetch(values => ({...values, show: true, type: 'success', text: data.message}));
       setTimeout(() => {
