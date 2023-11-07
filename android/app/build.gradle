@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-
+apply plugin: 'com.google.gms.google-services' // <- Add this line
 project.ext.vectoricons = [
     iconFontNames: [ 'Ionicons.ttf' ] // Name of the font files you want to copy
 ]
@@ -99,9 +99,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.appcargocomunal"
+    namespace "com.cargo.comunal"
     defaultConfig {
-        applicationId "com.appcargocomunal"
+        applicationId "com.cargo.comunal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -181,5 +181,4 @@ dependencies {
         implementation jscFlavor
     }
 }
-
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

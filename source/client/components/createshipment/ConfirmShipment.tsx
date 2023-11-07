@@ -127,8 +127,6 @@ export const ConfirmShipment = ({
   
   }, [active])
   
-
-
   const renderItem = (item: ItemData) => {
     return (
       <CardTruck
@@ -159,7 +157,7 @@ export const ConfirmShipment = ({
       methodPayment: methodPayment,
       total: '120.00'
     }
-
+    
     const { ok, msg } = await createShipment(data);
 
     if( ok ){

@@ -7,7 +7,7 @@ interface SelectInputPros extends OutlinedInputProps{
     select: {
         value: any;
         items: Item[];
-        placeholder?: Item;
+        placeholder?: Item | undefined;
         style?: PickerStyle;
     }
 }
@@ -32,18 +32,24 @@ export const SelectInput = ({
     <RNPickerSelect
       onValueChange={(value) => {
         const items = select.items;
-        const item = items.filter(val => value === val.value)[0];
-        
-        onChangeText({label: item.label, value: item.value});
+        const item = items.find(val => value === val.value);
+      
+        if (item) {
+          onChangeText({ label: item.label, value: item.value });
+        } else {
+          // Aquí puedes manejar el caso en el que no se encontró un elemento con el valor especificado.
+        }
       }}
       value={select.value}
-      placeholder={{
-        label: select.placeholder?.label,
-        value: select.placeholder?.value,
-        color: select.placeholder?.color || '#C6C6C6',
-        inputLabel: select.placeholder?.inputLabel,
-        key: select.placeholder?.key
-      }}
+      placeholder={
+        select.placeholder ? {
+          label: select.placeholder.label,
+          value: select.placeholder.value,
+          color: select.placeholder.color || '#C6C6C6',
+          inputLabel: select.placeholder.inputLabel,
+          key: select.placeholder.key
+        } : undefined
+      }
       style={{
         
       }}

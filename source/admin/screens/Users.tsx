@@ -74,7 +74,7 @@ export const Users = ({ navigation }: DrawerScreenProps<any>) => {
              }}
           />
         )}
-        onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}
+       // onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}
         onEndReachedThreshold={0.5}
       />
 

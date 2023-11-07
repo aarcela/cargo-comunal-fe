@@ -7,17 +7,18 @@ export const FetchApi = async<T = any>(
         method: MethodReq, 
         url: string,
         config?: AxiosRequestConfig | any
-    ) : Promise<{ok: Boolean, message?: string, data?: T}> => {
+    ) : Promise<{
+        ok: Boolean, message?: string, data?: T
+}> => {
         const req = getMethod(method);
         const msg = 'Ha ocurrido un error, por favor intente más tarde';
 
         try {
             
             const { data } = await req<T>(url, config);
-
             return{
                 ok: true,
-                data
+                data,
             }
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {

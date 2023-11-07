@@ -1,4 +1,4 @@
-package com.appcargocomunal;
+package com.cargo.comunal;
 
 import android.os.Bundle; // and make sure to add the following import statement at the top of this file below your package statement:
 import com.facebook.react.ReactActivity;

@@ -1,4 +1,4 @@
-package com.appcargocomunal;
+package com.cargo.comunal;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

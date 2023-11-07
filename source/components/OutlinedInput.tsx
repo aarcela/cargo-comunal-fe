@@ -132,5 +132,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '100%',
     justifyContent: 'flex-start',
+   color: 'black'
   }
 })

@@ -181,7 +181,8 @@ export const GoogleAutocomplete = ({
       style={{
         flex: 1,
       }}
-    >
+    >           
+      
       <KeyboardAvoidingView
         style={{
           flex: 1,
@@ -232,7 +233,7 @@ export const GoogleAutocomplete = ({
               inputStyle={{
                   borderRadius:0,
                   paddingLeft: 0,
-                  height: 45,
+                height: 45,
                   paddingTop: 10,
               }}
               iconRight={
@@ -263,6 +264,7 @@ export const GoogleAutocomplete = ({
                       setValueInput(main_text)
                       setPlaceId(place_id)
                       searchPlaceDetails(place_id)
+                      onClose();
                     }}
                     style={{
                       display: 'flex',
@@ -276,7 +278,7 @@ export const GoogleAutocomplete = ({
                     <Icon name='locationOutline' size={32} style={{color: 'rgba(180,177,177, 0.75)', marginRight: 15}}  />
                     <Grid>
                       <Typography size={13} color='abbey'>{main_text}</Typography>
-                      <Typography size={11} >{secondary_text}</Typography>
+                      <Typography size={11} color='abbey'>{secondary_text}</Typography>
                     </Grid>
                 </Button>
 

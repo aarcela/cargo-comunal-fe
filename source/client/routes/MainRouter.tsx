@@ -18,12 +18,13 @@ import { NavBottomTab } from './NavBottomTab';
  * Imports screns stack 
  * 
 */
-import { CreateShipment, Shipment, Invoice } from '../screens/shipment';
+import { CreateShipment, Shipment, Invoice, WaitDriver } from '../screens/shipment';
 
 /**
  * Import state global shipment 
 */
 import { ShipmentContext } from '../context/shipment';
+
 import { LoadIndicatorModal } from '../../components';
 
 const Stack = createStackNavigator();
@@ -69,7 +70,8 @@ export const MainRouter = () => {
     >
       <Stack.Screen name="NavBottomTab" options={{headerShown: false}} component={NavBottomTab} />
       <Stack.Screen name="CreateShipment"  options={{headerShown: false}} component={CreateShipment} />
-      <Stack.Screen name="Shipment" options={{headerShown: false}} component={Shipment} />
+      <Stack.Screen name="Shipment" options={{ headerShown: false }} component = {Shipment} />
+      <Stack.Screen name="WaitDriver" options={{headerShown: false}} component = {WaitDriver} initialParams={{ id_viaje: null }} />
       <Stack.Screen name="InvoiceShipment" options={{headerShown: false}} component={Invoice} />
     </Stack.Navigator>
   )

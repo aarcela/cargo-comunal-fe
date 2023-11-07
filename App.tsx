@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React  from 'react';
-import { AuthProvider, GPSPermissionsProvider } from './source/context';
+import { AuthProvider, GPSPermissionsProvider, NotificationPermissionsProvider } from './source/context';
 import { AppModule } from './source/AppModule';
 
 
@@ -19,7 +19,9 @@ const AppState = ( {children}: any ) => {
   return (
     <AuthProvider>
       <GPSPermissionsProvider>
-      { children }
+        <NotificationPermissionsProvider>
+        { children }
+        </NotificationPermissionsProvider>
       </GPSPermissionsProvider>
     </AuthProvider>
   );

@@ -35,13 +35,17 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
         text: ''
     });
 
-    const { signIn }  = useContext(AuthContext)
+    const { signIn, FCM, saveTokenFCM }  = useContext(AuthContext)
 
-    const onLogin = async(values: { email: string, password: string }) => {
+    const onLogin = async (values: { email: string, password: string }) => {
+        
         setLoanding(true)
-        console.log('values', values)
-        const { ok, message } = await signIn(values.email, values.password);
-        console.log(ok, message);
+        console.log('values:', values)
+        const { ok, message, id_user } = await signIn(values.email, values.password);
+            
+        
+         const {status} = await saveTokenFCM(id_user, FCM)
+
         setrespReq(values => ({
                 ...values, 
                 show: true, 
@@ -85,7 +89,18 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
                     }}
                     />
                 </Grid>
-                <Typography size='md' fontFamily='Poppins-Regular' color='tundora' styles={{marginBottom: 10, paddingHorizontal: 5, textAlign: 'center'}}>Para disfrutar de nuestros servicios, debe estar verificado.</Typography>
+                <Typography size='md' fontFamily='Poppins-Regular' color='tundora' styles={{ marginBottom: 10, paddingHorizontal: 5, textAlign: 'center' }}>Para disfrutar de nuestros servicios, debe estar verificado.</Typography>
+                <TextField 
+                    labelText='TOKEN'
+                    value={FCM}
+                    onChangeText={()=>{}}
+                    inputProps={{
+                        keyboardType: 'email-address'
+                    }}
+                    
+                    
+                    iconRight={<Icon name='mailOutline' size='lg' color='rollingStone' />} 
+                />
             </Grid>
             <Formik
             initialValues={{ email: '', password: '' }}
@@ -93,7 +108,7 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
             validationSchema={SigninSchema}
             >
             {({ handleChange, handleSubmit, values, errors }) => (
-                <>
+                    <>
                 <TextField 
                     labelText='Correo electrónico'
                     value={values.email}

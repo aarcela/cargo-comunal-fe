@@ -13,8 +13,12 @@ export interface UserEntity {
     role:               RoleUser;
     password?:          string;
 }
-
+export interface UserFCM {
+    user_id: number;
+    user_device_key: string;
+}
 export interface User extends UserEntity{
+    id_user: any;
     id: string;
     estado:         StateUser;
     fecha_creado: string;

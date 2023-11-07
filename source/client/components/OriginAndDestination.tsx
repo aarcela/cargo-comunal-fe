@@ -30,6 +30,7 @@ export const OriginAndDestination = ({
     const [type, setType] = useState<GoogleAutocompleteModalType>('origin');
     const [show, setShow] = useState<boolean>(false);
 
+    //console.log("origen:",origin,"destino:",destination)
     return (
         <SafeAreaView >
             <Grid 
@@ -47,11 +48,11 @@ export const OriginAndDestination = ({
                 }}
                 elevation={bg == 'white' ? 14 : 0}
             >
-                <Grid paddingHorizontal={10} alignItems='center' justifyContent='center'>
+                <Grid paddingHorizontal={10} alignItems='center' justifyContent='center' >
                     <Grid height={20} width={20} marginBottom={-1} display='flex' alignItems='center' justifyContent='center' bgColor='royalBlue' borderRadius={15}>
                     <Grid height={5} width={5} borderRadius={5} bgColor='white' />
                     </Grid>
-                    <Grid height={35} width={3}  bgColor='gray' opacity={0.5} borderRadius={4} />
+                    <Grid height={35} width={3}  bgColor='abbey' opacity={0.5} borderRadius={4} />
                     <Grid height={20} width={20} marginTop={-1} display='flex' alignItems='center' justifyContent='center' bgColor='treePoppy' borderRadius={15}>
                     <Grid height={5} width={5} borderRadius={5} bgColor='white' />
                     </Grid>

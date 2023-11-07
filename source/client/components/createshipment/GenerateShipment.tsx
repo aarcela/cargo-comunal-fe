@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import {FetchApi} from '../../../utils/fetch';
 import { 
   RouteShipment, 
   UbicationDestination, 
@@ -55,11 +56,13 @@ export const GenerateShipment = ({
   const [ubiDestination,setUbiDestination] = useState<UbicationDestination | null>(null);
   const [routeShipment, setRouteShipment] = useState<RouteShipment>({ name: '', value: '' });
   const [weightLoadShipment, setWeightLoadShipment] = useState<WeightLoadShipment>('');
-  
+  const [routes, setRoutes] = useState<any[]>([]); 
+  const [isLoading, setIsLoading] = useState(true);
   const [isLazy, setIsLazy] = useState(true);
 
   useEffect(() => { 
     
+    getRoutes()
     if( active ){
       setIsLazy(true);
       setTimeout(() => {
@@ -71,7 +74,23 @@ export const GenerateShipment = ({
   
   }, [active])
   
-
+  const getRoutes = async () => {
+    setIsLoading(true)
+    try {
+      const response = await FetchApi('get', '/routes');
+      if (response.ok) {
+        const data = response.data.data
+        setRoutes(data)
+      } else {
+        console.error("Error al obtener las rutas. Mensaje de error:", response.message);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
+    finally {
+      setIsLoading(false)
+    }
+  }
   const onNext = ({route, weightLoad}: { route: RouteShipment, weightLoad: WeightLoadShipment }) => {
     if( ubiOrigin == null || ubiDestination == null   ){
       setMsgError(`Debe ingresar la ${ubiOrigin == null ? 'ubicación origen' : 'ubicación destino'} para continuar`);
@@ -92,7 +111,7 @@ export const GenerateShipment = ({
       weightLoad,
       ubication: ubication
     }; 
-
+    //console.log("data::",data) 
     next(data);
   }
 
@@ -162,11 +181,8 @@ export const GenerateShipment = ({
                     select={{
                       value: values.route.value,
                       placeholder:{ label: 'Seleciona una ruta', value: '' },
-                      items: [
-                        { label: 'Ruta 1', value: 0 },
-                        { label: 'Ruta 2', value: 1 },
-                        { label: 'Ruta 3', value: 2 },
-                      ]
+                      items:   isLoading       ? [{label: 'text', value: 'text'}] 
+                      : routes.map(route => ({ label: route.nombre, value: route.nombre }))
                     }}
                     isError={ errors.route?.value ? true : false}
                     messageError={errors.route?.value}

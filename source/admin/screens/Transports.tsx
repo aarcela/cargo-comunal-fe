@@ -27,10 +27,10 @@ export const Transports = () => {
     useFetchDataTable<UserTransport>('/transports', {
       query: JSON.stringify(formFilterInitValue),
     });
-  //console.log('transporter data::', data);
+   console.log('transporter data::', data);
 
   const onSelectUser = (user: UserTransport) => {
-    console.log("on select user",user);
+    //console.log("on select user",user);
     setLoandig(true);
     setTimeout(() => {
       setLoandig(false);
@@ -64,9 +64,7 @@ export const Transports = () => {
             onPress={() => onSelectUser(item)}
             avatar={{
               type: 'text',
-              text: `${item.user.first_name.charAt(
-                0,
-              )}${item.user.first_surname.charAt(0)}`,
+              text: item.user.first_name && item.user.first_surname ? `${item.user.first_name.charAt(0)}${item.user.first_surname.charAt(0)}` : 'NN'
             }}
             label={{
               title: `${item.user.first_name} ${item.user.first_surname}`,
@@ -76,7 +74,7 @@ export const Transports = () => {
             }}
           />
         )}
-        onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}
+        //onEndReached={() => getNextData({query: JSON.stringify(formFilter)})}
         onEndReachedThreshold={0.5}
       />
 
@@ -105,10 +103,10 @@ export const Transports = () => {
         }}
       />
 
-     {/* <ShowUser
+     <ShowUser
         show={user !== undefined}
         close={() => setuser(undefined)}
-        user={user}
+        user={user?.user}
         transport={user}
         onSave={() => {
           setuser(undefined);
@@ -117,7 +115,7 @@ export const Transports = () => {
         showAction={
           user && user.estado_transporte == 'pendiente' ? true : false
         }
-      />  */}
+      /> 
     </LayoutList>
   );
 };

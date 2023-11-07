@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "642587841777",
+    "project_id": "cargo-comunal",
+    "storage_bucket": "cargo-comunal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642587841777:android:85ef627553b4df3f998550",
+        "android_client_info": {
+          "package_name": "com.cargo.comunal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642587841777-cc8vv2f17ej49jdbgmpjbpl04tok4tvk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDh32qD-uApebXDZn8GSMlMTfuE1sgUtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642587841777-cc8vv2f17ej49jdbgmpjbpl04tok4tvk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

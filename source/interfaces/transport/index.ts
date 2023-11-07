@@ -14,10 +14,10 @@ export interface TransportDriver{
     marca: string;
     modelo: string;
     carga_maxima: string | number;
-    id: string;
+    user_id: string;
     estado_transporte?: TransportStateDriver;
     created_at: string;
-    user: User;
+    user: User | undefined;
 }
 
 export type UserTransport  = TransportUserDriver & User & {

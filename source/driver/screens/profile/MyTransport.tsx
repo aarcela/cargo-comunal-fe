@@ -14,7 +14,9 @@ const value : TransportObject = {
   marca: '',
   modelo: '',
   carga_maxima: '',
-  id_user: ''
+  user_id: '',
+  created_at: '',
+  user: undefined
 }
 
 export const MyTransport = () => {
@@ -29,7 +31,7 @@ export const MyTransport = () => {
     type: 'error',
     msg: ''
   })
-
+  console.log("user data:::",user)
   useEffect(() => {
     
     getTransportUser();
@@ -37,7 +39,7 @@ export const MyTransport = () => {
   }, [])
   
   const dta = (data: TransportUserDriver) => {
-    const { id_user, nro_placa, carnet_circulacion, marca, modelo, carga_maxima, estado_transporte } = data;
+    const { user_id, nro_placa, carnet_circulacion, marca, modelo, carga_maxima, estado_transporte } = data;
 
     if( estado_transporte == 'pendiente' ){
       setmessageEstado('El transporte, se encuentra en estado de verificación');
@@ -60,16 +62,17 @@ export const MyTransport = () => {
       carnet_circulacion,
       marca,
       modelo,
-      id_user,
+      user_id,
       estado_transporte
     }))
   }
 
   const getTransportUser = async() => {
-    const url = `/transports/${user!.id_user}`;
+    const url = `/transports/${user!.id}`;
 
-    const { ok, data } = await FetchApi<{data: UserTransport}>('get', url);
-    console.log(data)
+   // console.log("data:",data)
+    const { ok, data } = await FetchApi<{data: UserTransport}>('post', url);
+    //console.log("create transport",data)
 
     if( ok ){
       if(  data && data.data != null ){
@@ -84,14 +87,15 @@ export const MyTransport = () => {
    
     setLoandingFetch(true);
 
-    if( transport.id_user == '' ){
-      transport.id_user = user!.id_user;
+    if( transport.user_id == '' ){
+      transport.user_id = user!.id;
     }
  
     setAlert(values => ({...values, show: true, type: 'success', msg: 'sn ksndsk'}))
 
-    const { ok, message, data } = await FetchApi<{message: string, data: TransportUserDriver}>('post', '/transports', transport);
-    console.log(data)
+    const { ok, message, data } = await FetchApi<{ message: string, data: TransportUserDriver }>('post', '/transports', transport);
+    console.log("transporter data::",transport)
+    console.log("response:::",data)
 
     if( ok && data ){
       setAlert(values => ({...values, show: true, type: 'success', msg: data.message}))

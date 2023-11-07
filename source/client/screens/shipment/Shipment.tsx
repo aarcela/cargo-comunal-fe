@@ -69,7 +69,7 @@ const driver: MapMarker = {
     latitude: locationDriver.location.lat,
     longitude: locationDriver.location.lng
   },
-  anchor: {x:1,y:1}
+  anchor: {x:1,y:5}
 }
 
 const destination: MapMarker = {

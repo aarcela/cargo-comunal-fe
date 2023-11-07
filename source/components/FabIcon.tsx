@@ -81,7 +81,7 @@ export const FabIcon = ({
         style
       ]}
     >
-      <Icon name={nameIcon} color={icon?.color} size={icon?.size} style={icon?.style} />
+      <Icon name={nameIcon} color={"abbey"} size={icon?.size} style={icon?.style} />
     </Button>
   )
 }

@@ -40,13 +40,13 @@ export interface PlaceAutocompleteResp{
 
 export const PlaceAutocomplete = async(text:string) : Promise<PlaceAutocompleteResp> =>  {
     const msg = 'Posible error de conexión, compruebe que tenga acceso a internet';
-
+        
     try {
         const { data } = await axios.get<PlaceAutocompleteResponse>('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
             params: {
                 key: 'AIzaSyBUZ03r1DEZFngHDNz6aIQTO1dFXP7rPaQ',
                 input: text,
-                region: 'es'
+                region: 'VE'
             }
         });
 
@@ -78,5 +78,5 @@ export const PlaceAutocomplete = async(text:string) : Promise<PlaceAutocompleteR
 
 const filterCountry = (data: Prediction[] ,country: string = 'Venezuela') => {
    
-    return data.filter(item => item.description.includes(country));
+    return data;
 }
