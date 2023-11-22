@@ -87,15 +87,25 @@ export const MyTransport = () => {
    
     setLoandingFetch(true);
 
-    if( transport.user_id == '' ){
+    if( transport.user_id == '' || transport.user_id == undefined ){
       transport.user_id = user!.id;
     }
- 
+
+    const CreateTransport = {
+      user_id: transport.user_id,
+      nro_placa: transport.nro_placa,
+      marca: transport.marca,
+      modelo: transport.modelo,
+      carnet_circulacion: transport.carnet_circulacion,
+      carga_maxima: transport.carga_maxima,
+      tipo: "test"
+    }
+
     setAlert(values => ({...values, show: true, type: 'success', msg: 'sn ksndsk'}))
 
-    const { ok, message, data } = await FetchApi<{ message: string, data: TransportUserDriver }>('post', '/transports', transport);
-    console.log("transporter data::",transport)
-    console.log("response:::",data)
+    const { ok, message, data } = await FetchApi<{ message: string, data: TransportUserDriver }>
+      
+      ('post', '/transports', CreateTransport);
 
     if( ok && data ){
       setAlert(values => ({...values, show: true, type: 'success', msg: data.message}))

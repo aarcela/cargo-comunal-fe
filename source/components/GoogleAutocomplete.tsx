@@ -22,6 +22,7 @@ import {
   PlaceDetails,
   GetPostalPlace 
 } from '../utils/googlePlaceApi';
+import { Map  } from '../components';
 import { DataLocationGooglePlace, ResultSearchGoogleAutocomplete } from '../interfaces/googleMap';
 
 export type GoogleAutocompleteModalType = 'origin' | 'destination'
@@ -288,13 +289,17 @@ export const GoogleAutocomplete = ({
           }
           {
           resultSearch.length == 0 && !loanding &&
-            <Grid
-              flex={1}
-              alignItems='center'
-              justifyContent='center'
-            >
-              <Icon name='globeOutline' size={38} style={{opacity: 0.35}} />
-            </Grid>
+ 
+                <Grid height={'100%'}>
+                    <Map
+                      region={{
+                        latitude : 10.48801,
+                        longitude: -66.87919,
+                        latitudeDelta: 0.010,
+                        longitudeDelta: 0.015,
+                      }}
+                    />
+                  </Grid>
           }
           {
             loanding && 

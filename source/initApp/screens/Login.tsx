@@ -90,7 +90,7 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
                     />
                 </Grid>
                 <Typography size='md' fontFamily='Poppins-Regular' color='tundora' styles={{ marginBottom: 10, paddingHorizontal: 5, textAlign: 'center' }}>Para disfrutar de nuestros servicios, debe estar verificado.</Typography>
-                <TextField 
+               {/* <TextField 
                     labelText='TOKEN'
                     value={FCM}
                     onChangeText={()=>{}}
@@ -100,7 +100,7 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
                     
                     
                     iconRight={<Icon name='mailOutline' size='lg' color='rollingStone' />} 
-                />
+                /> */}
             </Grid>
             <Formik
             initialValues={{ email: '', password: '' }}
