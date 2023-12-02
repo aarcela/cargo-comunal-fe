@@ -146,10 +146,6 @@ export const Shipment = ({ navigation }: StackScreenProps<any, any>) => {
   useEffect(() => {
     //setUbiOrigin(driver);
     setMapMakers([origin, driver]);
-    
-    
-
-
   }, []);
 
 

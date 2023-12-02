@@ -74,7 +74,7 @@ export const OriginAndDestination = ({
                                 height: 45,
                                 paddingTop: 10,
                             }}
-                            iconRight={<Icon name='locationOutline' size='lg' color='warning' />}
+                            iconRight={<Icon name='locationOutline' size='lg' color='abbey' />}
                             inputProps={{
                                 inputMode: 'text',
                             }}
