@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Formik } from 'formik';
+import { Formik, getIn } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '../Grid';
 import { TitleParagraph } from './TitleParagraph';
@@ -57,7 +57,7 @@ export const StepExtra = ({objUser, setObjUser,onSubmit, prev}: StepExtraProps) 
             <ScrollView style={{width: '100%', marginTop: 20, marginBottom: 30}}>
               <TextField 
                 labelText='Nombre de usuario'
-                value={values.username}
+                value={getIn(values.username, 'username')}
                 onChangeText={handleChange('username')}
                 inputProps={{
                     keyboardType: 'default'
@@ -67,7 +67,7 @@ export const StepExtra = ({objUser, setObjUser,onSubmit, prev}: StepExtraProps) 
               />
               <TextField 
                 labelText='Correo electrónico'
-                value={values.email}
+                value={getIn(values.email, 'email')}
                 onChangeText={handleChange('email')}
                 inputProps={{
                   keyboardType: 'email-address'
@@ -78,7 +78,7 @@ export const StepExtra = ({objUser, setObjUser,onSubmit, prev}: StepExtraProps) 
               />
               <TextField 
                 labelText='Teléfono'
-                value={values.phone}
+                value={getIn(values.phone, 'phone')}
                 onChangeText={handleChange('phone')}
                 inputProps={{
                   keyboardType: 'numeric'
@@ -89,7 +89,7 @@ export const StepExtra = ({objUser, setObjUser,onSubmit, prev}: StepExtraProps) 
               />
               <TextField 
                 labelText='Contraseña'
-                value={values.password}
+                value={getIn(values.password, 'password')}
                 onChangeText={handleChange('password')}
                 isError={ errors.password ? true : false}
                 messageError={errors.password}

@@ -13,6 +13,7 @@ import { Typography } from './Typography';
 import { Avatar } from './Avatar';
 import { Hr } from './Hr';
 import { Colors, IoniconsName } from '../styles';
+import { User } from '../interfaces';
 
 
 
@@ -50,7 +51,7 @@ export const SideNav = ({ drawerContent: { navigation, state }, routes, showSect
           height={80}
           width={80} 
           radius={80}
-          labelAvatar='AL'
+          labelAvatar='CC'
           labelProps={{
             size: 'xl'
           }}
@@ -61,12 +62,12 @@ export const SideNav = ({ drawerContent: { navigation, state }, routes, showSect
           color='mineShaft'
           styles={{marginTop: 10}}
         >
-          Abraham Freitez
+          {/* Abraham Freitez */}
         </Typography>
         <Typography
           size='sm'
         >
-          Administrador
+          {/* Administrador */}
         </Typography>
       </Grid>
       <Hr mt={15} />

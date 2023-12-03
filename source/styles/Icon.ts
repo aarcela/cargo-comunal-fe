@@ -38,5 +38,6 @@ export const IoniconsName = {
     addSharp: "add-sharp",
     refresh: "refresh",
     filterSharp: "filter-sharp",
-    cardOutline: "card-outline"
+    cardOutline: "card-outline",
+    manOutline: "man-outline"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Formik } from 'formik';
+import { Formik, getIn } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '../Grid';
 import { TitleParagraph } from './TitleParagraph';
@@ -46,7 +46,7 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
             <ScrollView style={{width: '100%', marginTop: 20, marginBottom: 30}}>
               <TextField 
                 labelText='Primer nombre'
-                value={values.first_name}
+                value={getIn(values.first_name, 'first_name')}
                 onChangeText={handleChange('first_name')}
                 inputProps={{
                     keyboardType: 'default'
@@ -56,7 +56,7 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
               />
               <TextField 
                 labelText='Segundo nombre'
-                value={values.second_name}
+                value={getIn(values.second_name, 'second_name')}
                 onChangeText={handleChange('second_name')}
                 inputProps={{
                     keyboardType: 'default'
@@ -66,7 +66,7 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
               />
               <TextField 
                 labelText='Primer apellido'
-                value={values.first_surname}
+                value={getIn(values.first_surname, 'first_surname')}
                 onChangeText={handleChange('first_surname')}
                 inputProps={{
                     keyboardType: 'default'
@@ -76,7 +76,7 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
               />
               <TextField 
                 labelText='Segundo apellido'
-                value={values.second_surname}
+                value={getIn(values.second_surname, 'second_surname')}
                 onChangeText={handleChange('second_surname')}
                 inputProps={{
                     keyboardType: 'default'
@@ -86,7 +86,7 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
               />
               <TextField 
                 labelText='Cédula de identidad'
-                value={values.ci}
+                value={getIn(values.ci, 'ci')}
                 onChangeText={handleChange('ci')}
                 inputProps={{
                     keyboardType: 'numeric'
@@ -95,7 +95,8 @@ export const StepPersonal = ({objUser, setObjUser, next, prev}:InterfaceStepUser
                 messageError={errors.ci }
               />
               <TextField
-                isDate 
+                isDate
+
                 labelText='Fecha de nacimiento'
                 value={values.fecha_nc}
                 onChangeText={value => setFieldValue('fecha_nc', value)}
