@@ -32,16 +32,16 @@ const routes : RouteNavigation<BottomTabNavigationOptions, any, any>[] = [
       },
       component: Travel
   },
-  {
-    name: 'Payment',
-    icon: {
-        name: 'cardOutline'
-    },
-    options: {
-        title: 'Pagos'
-    },
-    component: Travel
-  },
+//   {
+//     name: 'Payment',
+//     icon: {
+//         name: 'cardOutline'
+//     },
+//     options: {
+//         title: 'Pagos'
+//     },
+//     component: Travel
+//   },
   {
       name: 'Profile',
       options:{

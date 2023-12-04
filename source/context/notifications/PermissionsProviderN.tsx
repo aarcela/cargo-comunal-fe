@@ -6,12 +6,14 @@ import {
   PermissionStatus,
   request,
   openSettings,
+  RESULTS,
 } from 'react-native-permissions';
 import { NotificationPermissionsContext, NotificationPermissions } from './PermissionsContextN';
 
 export const NotificationPermissionsState: NotificationPermissions = {
   active: false,
-  attempt: false
+  attempt: false,
+  avilitated: false
 }
 
 export const NotificationPermissionsProvider = ({ children }: any) => {
@@ -28,12 +30,14 @@ export const NotificationPermissionsProvider = ({ children }: any) => {
     let permissionStatus: PermissionStatus;
 
     permissionStatus = await check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
-
+    console.log('STATUS PERMISOS NOT: ',permissionStatus)
     setNotificationPermissions({
       ...notificationPermissions,
+      avilitated: permissionStatus === 'granted' || permissionStatus === 'unavailable',
       active: false,
       attempt: permissionStatus !== 'granted' && !notificationPermissions.attempt ? true : false,
     });
+    return permissionStatus
   };
 
   const requestNotificationPermission = async (): Promise<boolean> => {
@@ -45,6 +49,7 @@ export const NotificationPermissionsProvider = ({ children }: any) => {
       ...notificationPermissions,
       active: permissionStatus === 'granted',
       attempt: true,
+      avilitated: permissionStatus === 'granted',
     });
 
     return permissionStatus === 'granted'; // Devuelve true o false
@@ -65,8 +70,11 @@ export const NotificationPermissionsProvider = ({ children }: any) => {
   };
 
 
+  const checkNotificationActive = async() => {
+    await checkNotificationPermission();
+ }
+
   const askNotificationPermission = async () => {
-    console.log("Ask for permissions");
     openSettings();
     setNotificationPermissions({
       ...notificationPermissions,

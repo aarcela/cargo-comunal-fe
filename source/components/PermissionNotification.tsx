@@ -73,7 +73,7 @@ export const PermissionNotification = ({
                             }}
                         >
                             <Typography size={14} styles={{marginBottom: 10}}>
-                                Tu dispositivo necesitará lo siguiente:
+                         {visible}       Tu dispositivo necesitará lo siguiente:
                             </Typography>
                             <View
                                 style={[styles.item]}

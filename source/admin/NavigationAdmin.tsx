@@ -17,7 +17,7 @@ import { CreateUser } from './screens/CreateUser';
 import { AuthContext } from '../context';
 
 const NavDrawer = () => {
-    const { logout } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
     return (
         <Drawer 
             screenOptions={{

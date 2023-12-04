@@ -5,7 +5,7 @@ export const Travel = () => {
   return (
     <Grid container>
         <Typography>
-            Viajes
+            Proximamente
         </Typography>
     </Grid>
   )

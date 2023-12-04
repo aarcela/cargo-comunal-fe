@@ -18,7 +18,7 @@ const routes: RouteNavigation<DrawerNavigationOptions, any, any>[] = [
     {
       name: 'MyProfile',
       options:{
-        title: 'Mi transporte'
+        title: 'Agregar transporte'
       },
       icon: {
         name: 'carOutline'
@@ -28,7 +28,7 @@ const routes: RouteNavigation<DrawerNavigationOptions, any, any>[] = [
     {
       name: 'EditProfile',
       options:{
-        title: 'Editar perfil'
+        title: 'Ver perfil'
       },
       icon: {
         name: 'personOutline'

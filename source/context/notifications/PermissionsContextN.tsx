@@ -4,6 +4,7 @@ import {createContext} from 'react';
 export interface NotificationPermissions {
   active: boolean;
   attempt: boolean;
+  avilitated: boolean
 }
 
 // Definir el contexto y sus funciones

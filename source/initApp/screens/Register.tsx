@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AlertResp, CreateUser } from '../../components/user/CreateUser';
 import { UserEntity } from '../../interfaces';
-import { FetchApi } from '../../utils';
+import { FetchApi, postApiRegister } from '../../utils';
 
 export const Register = ({navigation}: StackScreenProps<any, any>) => {
 
@@ -15,13 +15,12 @@ export const Register = ({navigation}: StackScreenProps<any, any>) => {
 
   const onSubmit = async(user: UserEntity) => {
     setLoanding(true)
-    console.log(' user ', user)
+    const oldDate = user.fecha_nc;
+    user.fecha_nc = new Date(oldDate).toISOString().slice(0, 19).replace('T', ' ')
 
-    const { ok, message, data }  = await FetchApi<{message: string}>('post', '/register', user);
-    
+    const { ok, message, data }  = await postApiRegister('/register', user);
     setLoanding(false)
-    
-    console.log(data, 'ss');
+
     if( ok && data ){
       setrespFetch(values => ({...values, show: true, type: 'success', text: data.message}));
       setTimeout(() => {

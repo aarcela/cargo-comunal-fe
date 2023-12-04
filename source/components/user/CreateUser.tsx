@@ -54,11 +54,6 @@ export const CreateUser = ({ activeAnalist = false, onRegister, alert, onLoandin
 
 
     const onSubmit = (val: any) => {
-        console.log('values extras', val)
-
-        console.log('aqui data user', objUser);
-
-        console.log('completed user data', {...objUser, ...val})
         onRegister({...objUser, ...val});
     }
 
