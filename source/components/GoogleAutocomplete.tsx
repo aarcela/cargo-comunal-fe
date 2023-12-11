@@ -51,7 +51,8 @@ const origin: MapMarker = {
     latitude: locationOrigin.location.lat,
     longitude: locationOrigin.location.lng,
   },
-  anchor: {x: 0.8, y: 0.8},
+  anchor: { x: 0.8, y: 0.8 },
+
 };
 
 function CloseLocation() {}

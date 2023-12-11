@@ -8,23 +8,29 @@ interface MapProps {
     markers?: MapMarkerProps[];
     region?: Region;
     mapDirections?: MapViewDirectionsProps;
-    mapViewProps?: MapViewProps;
+  mapViewProps?: MapViewProps;
+  onMarkerDragEnd?: (directions: any) => void; // Nueva prop para manejar el evento de drag
 }
 
 export const Map = ({
     markers,
     region,
     mapDirections,
-    mapViewProps
+  mapViewProps,
+    onMarkerDragEnd,
 }: MapProps) => {
     const [mapMarkers, setMapMarkers] = useState<MapMarkerProps[]>();
-    
+    const [directon, setDirection] = useState<any[]>();
     useEffect(() => {
       setMapMarkers(markers);
-      
     }, [markers])
-    
-    
+    const handleMarkerDragEnd = (coordinate: any) => {
+      setDirection(coordinate);
+      if (onMarkerDragEnd) {
+        onMarkerDragEnd(coordinate); // Llama a la función proporcionada por el padre
+      }
+    };
+    console.log("direcctions::",directon)
   return (
     <MapView
         {...mapViewProps}
@@ -33,10 +39,14 @@ export const Map = ({
     >
         {
             mapMarkers &&            
-            mapMarkers.map((item, index) => (
+              mapMarkers.map((item, index) => (
+                
                 <Marker 
                     key={index}
                     {...item}
+                      draggable
+                      onDragEnd={(e) => handleMarkerDragEnd(e.nativeEvent.coordinate)}
+
                 />
             ))
         }
