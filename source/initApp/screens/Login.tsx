@@ -46,7 +46,7 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
     const {ok, message, id_user} = await signIn(values.email, values.password);
 
     const {status} = await saveTokenFCM(id_user, FCM);
-
+    //console.log("token::",FCM)
     setrespReq(values => ({
       ...values,
       show: true,
