@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {ToolBar} from '../../components/ToolBar';
 import {Confirm} from '../screens';
+import { Travel } from '../screens';
 
 /**
  * Import nav bottom tab
@@ -30,6 +31,12 @@ export const NavRouter = ({route}: any) => {
         name="Confirm"
         options={{headerShown: false}}
         component={Confirm}
+        initialParams={route && route.params ? route.params : undefined}
+      />
+      <Stack.Screen
+        name="Travel"
+        options={{headerShown: false}}
+        component={Travel}
         initialParams={route && route.params ? route.params : undefined}
       />
     </Stack.Navigator>
