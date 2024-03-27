@@ -115,7 +115,7 @@ export const Login = ({navigation}: StackScreenProps<any, any>) => {
                     
                     
                     iconRight={<Icon name='mailOutline' size='lg' color='rollingStone' />} 
-                /> }
+                  /> }
       </Grid>
       <Formik
         initialValues={{email: '', password: ''}}

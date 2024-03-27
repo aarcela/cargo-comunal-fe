@@ -220,6 +220,10 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
         }}
         style={{zIndex: 1024}}
       />
+           
+           <Typography fontFamily="Poppins-Medium" size="lg" color='abbey'>
+              Counter: {counter}
+            </Typography>
       {shipment !== null && (
         <Grid
           position="absolute"
@@ -228,10 +232,7 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
           width="100%"
           bottom={15}
           zIndex={1024}>
-     
-            <Typography fontFamily="Poppins-Medium" size="lg" color='abbey'>
-              Counter: {counter}
-            </Typography>
+
           
           <CardDriver
             text={{

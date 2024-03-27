@@ -163,6 +163,7 @@ export const GoogleAutocomplete = ({
     setMsgError(undefined);
 
     let dataSend: DataLocationGooglePlace | null = null;
+    // VER AQUI!!, SE USA PLACE DETAILS PARA OBTENER EL NOMBRE DEL LUGAR::
 
     const {ok, data, message} = await PlaceDetails(place_id);
 
@@ -290,6 +291,7 @@ export const GoogleAutocomplete = ({
         <Grid flex={1} bgColor="white" paddingVertical={20}>
           {!hideLocatios && resultSearch.length !== 0 && !loanding && (
             <ScrollView>
+                
               {resultSearch.map(
                 ({main_text, secondary_text, place_id}, index) => (
                   <Button

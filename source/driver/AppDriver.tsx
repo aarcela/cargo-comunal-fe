@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NavRouter } from './routes/NavRouter';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ShipmentProvider } from './context';
 
 export const AppDriver = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -33,5 +34,9 @@ export const AppDriver = () => {
     return unsubscribe;
   }, [navigation]);
 
-  return <NavRouter />;
+  return (
+    <ShipmentProvider>
+      <NavRouter />
+    </ShipmentProvider>  
+  );
 };

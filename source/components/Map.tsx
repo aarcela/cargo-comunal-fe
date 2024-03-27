@@ -30,7 +30,6 @@ export const Map = ({
         onMarkerDragEnd(coordinate); // Llama a la función proporcionada por el padre
       }
     };
-    console.log("direcctions::",directon)
   return (
     <MapView
         {...mapViewProps}
