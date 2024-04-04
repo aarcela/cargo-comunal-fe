@@ -26,8 +26,8 @@ export const ShipmentProvider = ({ children }: any) => {
   const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
   const [trackingInterval, setTrackingInterval] = useState<NodeJS.Timeout | null>(null);
   const [counter, setCounter] = useState(0);
-
-  useEffect(() => {
+   // Método para iniciar el seguimiento
+   const startTracking = () => {
     // Función para obtener la posición y actualizarla
     const fetchAndUpdateLocation = () => {
       Geolocation.getCurrentPosition(
@@ -40,13 +40,8 @@ export const ShipmentProvider = ({ children }: any) => {
     };
 
     // Iniciar el seguimiento cada 20 segundos
-    const startTracking = () => {
-      const intervalId = setInterval(fetchAndUpdateLocation, 20000);
-      setTrackingInterval(intervalId);
-    };
-
-    // Iniciar el seguimiento al montar el componente
-    startTracking();
+    const intervalId = setInterval(fetchAndUpdateLocation, 20000);
+    setTrackingInterval(intervalId);
 
     // Limpia el intervalo al desmontar el componente
     return () => {
@@ -54,6 +49,9 @@ export const ShipmentProvider = ({ children }: any) => {
         clearInterval(trackingInterval);
       }
     };
+  };
+  useEffect(() => {
+    startTracking();
   }, []);
 
   // Método para iniciar el contador

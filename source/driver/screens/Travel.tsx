@@ -135,7 +135,7 @@ type HistoryDriverCycle =
   | 'point-destination';
 
 export const Travel = ({navigation}: StackScreenProps<any, any>) => {
-  const {shipment, counter, startCounter } = useContext(ShipmentContext);
+  const {shipment, counter, startCounter, startTracking, location } = useContext(ShipmentContext);
   const [mapMakers, setMapMakers] = useState<MapMarker[]>();
   const [ubiOrigin, setUbiOrigin] = useState<MapMarker>();
   const [ubiDestination, setUbiDestination] = useState(origin);
@@ -151,9 +151,9 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
 
   useEffect(() => {
     //setUbiOrigin(driver);
-    startCounter()
+    startTracking()
     setMapMakers([origin, driver]);
-    console.log(counter)
+    console.log(location)
   }, []);
 
   const changeLocationDriver = () => {
@@ -222,7 +222,8 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
       />
            
            <Typography fontFamily="Poppins-Medium" size="lg" color='abbey'>
-              Counter: {counter}
+              latitude: {location?.latitude}
+              longitude: {location?.longitude}
             </Typography>
       {shipment !== null && (
         <Grid
