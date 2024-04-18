@@ -8,12 +8,12 @@ import {
   CardDriver,
   Button,
   Typography,
+  CardOrigin,
 } from '../../components';
 import {ShipmentContext} from '../context/shipment';
 import {UbicationOrigin} from '../../interfaces/shipment';
 import {DataLocationGooglePlace} from '../../interfaces/googleMap';
 import {StackScreenProps} from '@react-navigation/stack';
-
 function getRegion(origin: any, destination: any, zoom: number) {
   const oLat = Math.abs(origin.latitude);
   const oLng = Math.abs(origin.longitude);
@@ -134,12 +134,33 @@ type HistoryDriverCycle =
   | 'exit-origin'
   | 'point-destination';
 
+let longitud: string;
+let latitude: string;
+
 export const Travel = ({navigation}: StackScreenProps<any, any>) => {
-  const {shipment, counter, startCounter, startTracking, location } = useContext(ShipmentContext);
+  const {shipment, counter, startCounter, startTracking, location} =
+    useContext(ShipmentContext);
   const [mapMakers, setMapMakers] = useState<MapMarker[]>();
   const [ubiOrigin, setUbiOrigin] = useState<MapMarker>();
   const [ubiDestination, setUbiDestination] = useState(origin);
   const [count, setCount] = useState<number>();
+
+
+
+
+  if (location && location.longitude !== undefined) {
+    longitud = location.longitude.toString();
+  } else {
+    // Manejo del caso donde location o location.longitude es undefined
+    longitud = 'valor_predeterminado'; // O algún otro valor predeterminado que desees
+  }
+
+  if (location && location.latitude !== undefined) {
+    longitud = location.latitude.toString();
+  } else {
+    // Manejo del caso donde location o location.longitude es undefined
+    latitude = 'valor_predeterminado'; // O algún otro valor predeterminado que desees
+  }
 
   const [showMessageDriver, setShowMessageDriver] = useState(false);
   const [historyCycleDriver, setHistoryCycleDriver] =
@@ -149,11 +170,14 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
     Array<{latitude: number; longitude: number}>
   >(locationsDriverOrigin);
 
+  useEffect(()=>{
+    console.log("location change",location)
+  },[location])
   useEffect(() => {
     //setUbiOrigin(driver);
-    startTracking()
+    startTracking();
     setMapMakers([origin, driver]);
-    console.log(location)
+    console.log(location);
   }, []);
 
   const changeLocationDriver = () => {
@@ -198,7 +222,7 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
     }
   };
   return (
-    <Grid bgColor="white" flex={1}>
+    <Grid bgColor="white" flex={1} >
       <FabIcon
         onPress={() => {
           if (historyCycleDriver == 'point-origin') {
@@ -220,12 +244,8 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
         }}
         style={{zIndex: 1024}}
       />
-           
-           <Typography fontFamily="Poppins-Medium" size="lg" color='abbey'>
-              latitude: {location?.latitude}
-              longitude: {location?.longitude}
-            </Typography>
-      {shipment !== null && (
+
+
         <Grid
           position="absolute"
           paddingHorizontal={15}
@@ -233,8 +253,15 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
           width="100%"
           bottom={15}
           zIndex={1024}>
+<CardOrigin
 
-          
+image={{source: require('../../assets/images/marker-origin-x2.png')}}
+origen={longitud}
+destino={latitude}
+/>
+{shipment !== null && ( 
+    <div>
+
           <CardDriver
             text={{
               title:
@@ -313,8 +340,11 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
               borderBottomRightRadius: 5,
             }}
           />
+    </div>
+
+                )}
         </Grid>
-      )}
+
       <Map
         region={getRegion(driver.coordinate, origin.coordinate, 0.008)}
         markers={mapMakers}

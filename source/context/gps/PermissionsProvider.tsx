@@ -114,7 +114,8 @@ export const GPSPermissionsProvider = ({ children }: any ) => {
                 checkLocationPermission,
                 askLocationPermission,
                 changeAttempt,
-                checkGpsActive
+                checkGpsActive,
+                getCurrentLocation
                 
             }}
         >

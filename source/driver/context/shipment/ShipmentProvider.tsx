@@ -1,9 +1,11 @@
-import React, { useReducer, useEffect, useRef, useState } from 'react';
+import React, { useReducer, useEffect, useRef, useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AvailableShipping, CreateShipment, ShipmentContext } from './ShipmentContext';
 import { ShipmentReducer, ShipmentState } from './ShipmentReducer';
 import { Shipment } from '../../../interfaces';
 import Geolocation from '@react-native-community/geolocation';
+import { GPSPermissionsProvider }  from '../../../context/gps/PermissionsProvider';
+import { GPSPermissionsContext } from '../../../context';
 
 // Definición de GeolocationCoordinates si no está definida ya
 interface GeolocationCoordinates {
@@ -23,24 +25,30 @@ const ShipmentInitState: ShipmentState = {
 
 export const ShipmentProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(ShipmentReducer, ShipmentInitState);
-  const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
+  const [location, setLocation] = useState<any>(null);
   const [trackingInterval, setTrackingInterval] = useState<NodeJS.Timeout | null>(null);
   const [counter, setCounter] = useState(0);
+  const { permissions, getCurrentLocation } = useContext(GPSPermissionsContext)
    // Método para iniciar el seguimiento
    const startTracking = () => {
     // Función para obtener la posición y actualizarla
     const fetchAndUpdateLocation = () => {
-      Geolocation.getCurrentPosition(
-        position => {
-          setLocation(position.coords);
-        },
-        error => console.log('Error al obtener la posición: ', error),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      );
+      getCurrentLocation() 
+        .then((location : any) => {
+          const { geo } = location;
+          if (geo) {
+            const { coords: { latitude, longitude } } = geo;
+            setLocation({ latitude, longitude });
+            console.log("here?",location)
+          }
+        })
+        .catch(error => {
+          console.log('Error al obtener la posición: ', error);
+        });
     };
 
     // Iniciar el seguimiento cada 20 segundos
-    const intervalId = setInterval(fetchAndUpdateLocation, 20000);
+    const intervalId = setInterval(fetchAndUpdateLocation, 60000);
     setTrackingInterval(intervalId);
 
     // Limpia el intervalo al desmontar el componente
@@ -88,18 +96,21 @@ export const ShipmentProvider = ({ children }: any) => {
   };
 
   return (
-    <ShipmentContext.Provider
-      value={{
-        ...state,
-        onCreateShipment,
-        availableShipping,
-        onDestrontyShipment,
-        location,
-        counter,
-        startCounter,
-        startTracking
-      }}>
-      {children}
-    </ShipmentContext.Provider>
+    <GPSPermissionsProvider>
+        <ShipmentContext.Provider
+        value={{
+          ...state,
+          onCreateShipment,
+          availableShipping,
+          onDestrontyShipment,
+          location,
+          counter,
+          startCounter,
+          startTracking
+        }}>
+        {children}
+      </ShipmentContext.Provider>
+    </GPSPermissionsProvider>
+    
   );
 };
