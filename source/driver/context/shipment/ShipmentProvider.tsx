@@ -39,7 +39,6 @@ export const ShipmentProvider = ({ children }: any) => {
           if (geo) {
             const { coords: { latitude, longitude } } = geo;
             setLocation({ latitude, longitude });
-            console.log("here?",location)
           }
         })
         .catch(error => {

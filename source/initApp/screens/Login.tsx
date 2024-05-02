@@ -21,7 +21,7 @@ const SigninSchema = Yup.object().shape({
     .required('correo electrónico'),
   password: Yup.string()
     .min(6, 'Minimo 6 caracteres')
-    .max(10, 'Maximo, 12 caracteres')
+    .max(20, 'Maximo, 20 caracteres')
     .required('Contraseña requerido'),
 });
 

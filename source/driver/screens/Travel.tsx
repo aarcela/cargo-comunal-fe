@@ -145,9 +145,6 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
   const [ubiDestination, setUbiDestination] = useState(origin);
   const [count, setCount] = useState<number>();
 
-
-
-
   if (location && location.longitude !== undefined) {
     longitud = location.longitude.toString();
   } else {
@@ -156,7 +153,7 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
   }
 
   if (location && location.latitude !== undefined) {
-    longitud = location.latitude.toString();
+    latitude = location.latitude.toString();
   } else {
     // Manejo del caso donde location o location.longitude es undefined
     latitude = 'valor_predeterminado'; // O algún otro valor predeterminado que desees
@@ -170,14 +167,13 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
     Array<{latitude: number; longitude: number}>
   >(locationsDriverOrigin);
 
-  useEffect(()=>{
-    console.log("location change",location)
-  },[location])
+  useEffect(() => {
+    console.log('location change', location);
+  }, [location]);
   useEffect(() => {
     //setUbiOrigin(driver);
     startTracking();
     setMapMakers([origin, driver]);
-    console.log(location);
   }, []);
 
   const changeLocationDriver = () => {
@@ -187,8 +183,7 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
     
       if( mapMakers ){
         let indexCurrent = locationsDriver.findIndex(item => item.latitude == mapMakers![mapMakers!.length - 1].coordinate.latitude);
-        console.log(indexCurrent, locationsDriver, locationsDriver.length - 1)
-  
+
         if( indexCurrent !== locationsDriver.length - 1 ){
           let valuesCurrent = mapMakers!;
           valuesCurrent[mapMakers!.length - 1].coordinate = locationsDriver[indexCurrent + 1];
@@ -222,7 +217,7 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
     }
   };
   return (
-    <Grid bgColor="white" flex={1} >
+    <Grid bgColor="white" flex={1}>
       <FabIcon
         onPress={() => {
           if (historyCycleDriver == 'point-origin') {
@@ -245,105 +240,103 @@ export const Travel = ({navigation}: StackScreenProps<any, any>) => {
         style={{zIndex: 1024}}
       />
 
+      <Grid
+        position="absolute"
+        paddingHorizontal={15}
+        left={0}
+        width="100%"
+        bottom={15}
+        zIndex={1024}>
+          
+        <CardOrigin
+          image={{source: require('../../assets/images/marker-origin-x2.png')}}
+          origen={longitud}
+          destino={latitude}
+        />
 
-        <Grid
-          position="absolute"
-          paddingHorizontal={15}
-          left={0}
-          width="100%"
-          bottom={15}
-          zIndex={1024}>
-<CardOrigin
-
-image={{source: require('../../assets/images/marker-origin-x2.png')}}
-origen={longitud}
-destino={latitude}
-/>
-{shipment !== null && ( 
-    <div>
-
-          <CardDriver
-            text={{
-              title:
-                '${shipment!.driver.first_name} ${shipment!.driver.first_surname}',
-              subTitle: 'shipment!.driver.email',
-            }}
-            image={{
-              source: require('../../assets/images/avatar-x2.png'),
-            }}
-            styleCardBody={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}
-            styleAccordBody={{paddingHorizontal: 15, paddingBottom: 20}}
-            expanded={showMessageDriver}>
-            <Grid display="flex" alignItems="center">
-              <Typography
-                fontFamily="Poppins-Medium"
-                size="lg"
-                styles={{
-                  textAlign: 'center',
-                  lineHeight: 25,
-                  marginBottom: 20,
-                }}>
-                {historyCycleDriver == 'point-origin' &&
-                  'El conductor ha llegado a el punto de origen'}
-                {historyCycleDriver == 'exit-origin' &&
-                  'El conductor está saliendo del punto de origen al destino.'}
-                {historyCycleDriver == 'point-destination' &&
-                  'El conductor llego a el punto destino'}
-              </Typography>
-              <Button
-                onPress={() => {
-                  if (historyCycleDriver == 'point-origin') {
-                    clearChangeLocation();
-                    setLocationsDriver([]);
-                    setLocationsDriver(locationsDriverDestination);
-                  }
-
-                  if (historyCycleDriver == 'point-destination') {
-                    clearChangeLocation();
-                    setTimeout(() => {
-                      console.log('hereeeee!!!!');
-                      //navigation.navigate('InvoiceShipment');
-                    }, 1000);
-                  }
-
-                  setShowMessageDriver(false);
-                }}
-                bgColor="curiousBlue"
-                style={{paddingVertical: 10, paddingHorizontal: 15}}>
+        {shipment !== null && (
+          <div>
+            <CardDriver
+              text={{
+                title:
+                  '${shipment!.driver.first_name} ${shipment!.driver.first_surname}',
+                subTitle: 'shipment!.driver.email',
+              }}
+              image={{
+                source: require('../../assets/images/avatar-x2.png'),
+              }}
+              styleCardBody={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}
+              styleAccordBody={{paddingHorizontal: 15, paddingBottom: 20}}
+              expanded={showMessageDriver}>
+              <Grid display="flex" alignItems="center">
                 <Typography
-                  color="white"
                   fontFamily="Poppins-Medium"
-                  size="md"
-                  styles={{textAlign: 'center', lineHeight: 25}}>
-                  {historyCycleDriver == 'point-origin' ||
-                  historyCycleDriver == 'exit-origin'
-                    ? 'Aceptar'
-                    : 'Cerrar viaje'}
+                  size="lg"
+                  styles={{
+                    textAlign: 'center',
+                    lineHeight: 25,
+                    marginBottom: 20,
+                  }}>
+                  {historyCycleDriver == 'point-origin' &&
+                    'El conductor ha llegado a el punto de origen'}
+                  {historyCycleDriver == 'exit-origin' &&
+                    'El conductor está saliendo del punto de origen al destino.'}
+                  {historyCycleDriver == 'point-destination' &&
+                    'El conductor llego a el punto destino'}
                 </Typography>
-              </Button>
-            </Grid>
-          </CardDriver>
-          <CardDriver
-            text={{
-              title: 'Ford F-50',
-              subTitle: 'Peso máximo: 1 tn',
-            }}
-            textsecondary={{
-              title: 'Placa: A49AY1L',
-              subTitle: 'Color gris',
-            }}
-            image={{
-              source: require('../../assets/images/icon-truck.png'),
-            }}
-            styleCardBody={{
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
-            }}
-          />
-    </div>
+                <Button
+                  onPress={() => {
+                    if (historyCycleDriver == 'point-origin') {
+                      clearChangeLocation();
+                      setLocationsDriver([]);
+                      setLocationsDriver(locationsDriverDestination);
+                    }
 
-                )}
-        </Grid>
+                    if (historyCycleDriver == 'point-destination') {
+                      clearChangeLocation();
+                      setTimeout(() => {
+                        console.log('hereeeee!!!!');
+                        //navigation.navigate('InvoiceShipment');
+                      }, 1000);
+                    }
+
+                    setShowMessageDriver(false);
+                  }}
+                  bgColor="curiousBlue"
+                  style={{paddingVertical: 10, paddingHorizontal: 15}}>
+                  <Typography
+                    color="white"
+                    fontFamily="Poppins-Medium"
+                    size="md"
+                    styles={{textAlign: 'center', lineHeight: 25}}>
+                    {historyCycleDriver == 'point-origin' ||
+                    historyCycleDriver == 'exit-origin'
+                      ? 'Aceptar'
+                      : 'Cerrar viaje'}
+                  </Typography>
+                </Button>
+              </Grid>
+            </CardDriver>
+            <CardDriver
+              text={{
+                title: 'Ford F-50',
+                subTitle: 'Peso máximo: 1 tn',
+              }}
+              textsecondary={{
+                title: 'Placa: A49AY1L',
+                subTitle: 'Color gris',
+              }}
+              image={{
+                source: require('../../assets/images/icon-truck.png'),
+              }}
+              styleCardBody={{
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+              }}
+            />
+          </div>
+        )}
+      </Grid>
 
       <Map
         region={getRegion(driver.coordinate, origin.coordinate, 0.008)}

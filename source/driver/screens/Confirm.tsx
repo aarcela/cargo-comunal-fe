@@ -10,10 +10,32 @@ import {
   CardOrigin,
 } from '../../components';
 import {StackScreenProps} from '@react-navigation/stack';
+import { FetchApi } from '../../utils';
 
 export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
-  console.log('router info:', route.params?.notificationData);
+  console.log('router info:', route.params);
+  const goTravel = async() => {
+    let ok: boolean = false
+    let msg: string = ''
+    let id_viaje: number 
+    console.log('here!!', route.params)
+  /*  try {
+      const response = await FetchApi('patch', '/viajes', route.params);
+      if (response.ok) {
+        ok = true
+        msg = response.data.message
+        id_viaje = response.data.data[0].id
+        console.log("on create shipment",response.data)
+        
+      } else {
+        console.error("Error. Mensaje de error:", response.message);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    } */
 
+    await navigation.navigate('Travel');
+  }
   return (
     <Grid flex={1} paddingLeft={5} paddingRight={5}>
       {/* Grid para mostrar la información en la parte superior */}
@@ -81,7 +103,7 @@ export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
           <Button
             typeStyle="btn-primary"
             size="sm"
-            onPress={() => navigation.navigate('Travel')}
+            onPress={()=>goTravel()}
             activeOpacity={0.9}
             style={styles.button}>
             <Typography

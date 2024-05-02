@@ -1,7 +1,7 @@
 import axios, {AxiosError, AxiosRequestConfig} from 'axios';
 import axiosRequest from './configAxios';
 
-type MethodReq = 'post' | 'get' | 'put' | 'delete';
+type MethodReq = 'post' | 'get' | 'put' | 'delete' | 'patch';
 
 export const FetchApi = async <T = any>(
   method: MethodReq,
@@ -80,6 +80,8 @@ const getMethod = (method: MethodReq) => {
       return axiosRequest.put;
     case 'delete':
       return axiosRequest.delete;
+    case 'patch':
+      return axiosRequest.patch;  
     default:
       return axiosRequest.get;
   }
