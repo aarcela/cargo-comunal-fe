@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {
   Button,
@@ -11,8 +11,10 @@ import {
 } from '../../components';
 import {StackScreenProps} from '@react-navigation/stack';
 import { FetchApi } from '../../utils';
+import { AuthContext } from '../../context';
 
 export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
+  const { id_user } = useContext(AuthContext)
   console.log('router info:', route.params);
   const goTravel = async() => {
     let ok: boolean = false
