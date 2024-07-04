@@ -15,18 +15,29 @@ import { AuthContext } from '../../context';
 
 export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
   const { id_user } = useContext(AuthContext)
-  console.log('router info:', route.params);
+  console.warn('router info:', route.params?.notificationData.product);
+
+  const data = route.params?.notificationData.product;
+
+  console.log("data:::",data.id)
+
   const goTravel = async() => {
     let ok: boolean = false
     let msg: string = ''
-    let id_viaje: number 
-    console.log('here!!', route.params)
+    let id_viaje: any =  route.params?.notificationData.product.id;
+     
+  console.log('here!!!', route.params?.notificationData.product);
+
+  console.log("viaje", id_viaje)
+
+  console.log("user id", id_user) 
+  const url = `/viajes/${id_viaje}`;
+
   /*  try {
       const response = await FetchApi('patch', '/viajes', route.params);
       if (response.ok) {
         ok = true
         msg = response.data.message
-        id_viaje = response.data.data[0].id
         console.log("on create shipment",response.data)
         
       } else {
@@ -36,7 +47,8 @@ export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
       console.error("Error en la solicitud:", error);
     } */
 
-    await navigation.navigate('Travel');
+
+   // await navigation.navigate('Travel');
   }
   return (
     <Grid flex={1} paddingLeft={5} paddingRight={5}>
@@ -50,8 +62,8 @@ export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
         top={30}
         paddingVertical={10}>
         <CardTravelDetail
-          fechaSalida={route.params?.notificationData.tiempo}
-          tipoCarga={route.params?.notificationData.peso}
+          fechaSalida={route.params?.notificationData.product.tiempo}
+          tipoCarga={route.params?.notificationData.product.peso}
         />
       </Grid>
 
@@ -75,8 +87,8 @@ export const Confirm = ({navigation, route}: StackScreenProps<any, any>) => {
         {/* Las dos primeras Typography para "Fecha de salida" y "Tipo de carga" */}
         <CardOrigin
           image={{source: require('../../assets/images/marker-origin-x2.png')}}
-          origen={route.params?.notificationData.latitud_origen}
-          destino={route.params?.notificationData.latitud_destino}
+          origen={route.params?.notificationData.product.nombre_origen}
+          destino={route.params?.notificationData.product.nombre_origen}
         />
       </Grid>
       {/* Grid para los botones de aceptar y rechazar */}
